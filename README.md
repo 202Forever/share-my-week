@@ -12,7 +12,7 @@ Metadata directories have been added to .gitignore
 
 #### Front-end Guide
 
->It is requried that all JavaScript libraries for development are imported using [NPM]. The only exception is if the library is not in NPM. In that case download and add it to js/lib/
+>It is required that all JavaScript libraries for development are imported using [NPM]. The only exception is if the library is not in NPM. In that case download and add it to js/lib/
 
 1. Download and install latest v5 [Node.js]
 2. To install an package, start Node.js bash and cd into (repository)/src/main/resources/static/js
@@ -28,14 +28,14 @@ $ npm list
 
 Then commit and push package.json
 
->Use the JavaScript libraries only in .js files. Do not add script tags into the HTML files. 
+>Use the JavaScript libraries only in .js files. Do not add script tags into the HTML files. Each HTML file should have only one script tag for the corresponding bundle.
 You can use a library by adding [require] statements in any .js file:
 
 ```javascript
 $ var packageName = require('package-name');
 ```
 
-> All JavaScript sources is bundled together into a single file with its dependencies. Project utilizes a [Frontend Maven plugin] and [Webpack] to build JavaScript sources.
+> All JavaScript sources is bundled together into a single file with its dependencies. The Maven Project utilizes a [Frontend Maven plugin] and [Webpack] to build and bundle JavaScript sources.
 
 #### Building
 
