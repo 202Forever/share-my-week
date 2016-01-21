@@ -89,7 +89,7 @@
 							<goal>install-node-and-npm</goal>
 						</goals>
 						<configuration>
-							<nodeVersion>latest-v5.x</nodeVersion>
+							<nodeVersion>v5.4.1</nodeVersion>
 							<npmVersion>3.5.3</npmVersion>
 						</configuration>
 					</execution>
