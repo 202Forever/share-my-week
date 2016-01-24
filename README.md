@@ -13,17 +13,20 @@ Metadata directories have been added to .gitignore
 > The Project relies on Lombok in order to automatically generate sources from Java class with getters and setters. For Eclipse, you'll need to download and run [lombok.jar] to install the plugin.
 
 
+#### Template Design Guide
+
+Templates should be saved in the src/design folder. To start off designing, you may use [pinguendo].
 
 #### Front-end Guide
 
 >It is required that all JavaScript libraries for development are imported using [NPM]. The only exception is if the library is not in NPM. In that case download and add it to js/lib/
 
 1. Download and install latest [Node.js]
-2. To install an package, start Node.js bash and cd into (repository)/src/main/resources/static/js
+2. To install an package, start an terminal and cd into (repository)/src/main/resources/static/js
 
 Enter the following:
 ```sh
-$ npm install <package-name>
+$ npm install --save <package-name>
 ```
 To see current list of installed packages
 ```sh
@@ -74,6 +77,7 @@ Soon.
 [Atom]: https://atom.io/
 [Eclipse]: http://eclipse.org
 [Intellij]: https://www.jetbrains.com/idea/
+[pinguendo]: http://pingendo.com/
 [NPM]: https://www.npmjs.com/
 [Node.js]: https://nodejs.org/
 [require]: http://requirejs.org/

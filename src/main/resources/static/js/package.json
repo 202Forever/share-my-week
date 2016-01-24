@@ -1,7 +1,7 @@
 {
-  "name": "ShareMyWeek",
-  "version": "1.0.0",
-  "description": "",
+  "name": "share-my-week",
+  "version": "0.0.1",
+  "description": "An friendly web app for picking events based on everyone's availability and budget",
   "author": "",
   "dependencies": {
     "babel-core": "^6.4.0",
@@ -15,5 +15,18 @@
     "sockjs-client": "^1.0.3",
     "stompjs": "^2.3.3",
     "webpack": "^1.12.11"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/202forever/share-my-week.git"
+  },
+  "keywords": [
+    "calendar"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/202forever/share-my-week/issues"
+  },
+  "homepage": "https://github.com/202forever/share-my-week"
 }
