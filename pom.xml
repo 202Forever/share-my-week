@@ -109,10 +109,13 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>webpack build</id>
+						<id>npm run build-client-deploy</id>
 						<goals>
-							<goal>webpack</goal>
+							<goal>npm</goal>
 						</goals>
+						<configuration>
+							<arguments>run build-client-deploy</arguments>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

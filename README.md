@@ -15,7 +15,7 @@ Metadata directories have been added to .gitignore
 
 #### Template Design Guide
 
-Templates should be saved in the src/design folder. To start off designing, you may use [pinguendo].
+Templates should be saved in the src/design folder. To start off designing, you may use [pinguendo]. All templates should share the same stylesheet (app.less).
 
 #### Front-end Guide
 
