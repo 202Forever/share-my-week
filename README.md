@@ -15,11 +15,13 @@ Metadata directories have been added to .gitignore
 
 #### Template Design Guide
 
-- Templates should be pushed in the src/design folder. Consider using [Bootstrap] look and feel as default.
+- Templates should be pushed in the src/design folder. 
+- Consider using [Bootstrap] look and feel as default.
 - To start off designing, you may use the Bootstrap designer [pinguendo].
-- All templates should share the same stylesheet (app.less).
+- All templates should share the same stylesheet.
 > Pinguendo uses the .less file. On saving the template, the file is compiled into .css. Therefore modification of style should go into the less file. [less] extends the css body language.
 
+After pushing changes of the template to git: Copy app.css to src/main/resources/static/js/src/client/assets/css
 
 #### Creating React components for an Template
 
@@ -51,7 +53,7 @@ Please refer to Structor's folder structure guide to see how and where code is o
 
 #### Adding Front-end libraries
 
->It is required that all JavaScript libraries for development are imported using [NPM]. The only exception is if the library is not in NPM. In that case download and add it to js/lib/
+>It is required that all JavaScript libraries for development are imported using [NPM]. The only exception is if the library is not in NPM. In that case download and add it to static/js/src/client/js/
 
 1. Download and install latest [Node.js]
 2. To install an package, start an terminal and cd into (repository)/src/main/resources/static/js
@@ -72,10 +74,12 @@ You can use a library by adding [require] or ES6 [import] statements in any .js 
 
 ```javascript
 var packageName = require('package-name');
+var libName = require('$relativePath/lib/name');
 ```
 
 ```javascript
 import {packageName} from 'library'
+import {libName} from '$relativePath/lib/name'
 ```
 
 
@@ -93,9 +97,10 @@ If the JavaScript file is the initial script for an HTML page, then you need to 
 
 > Run Maven install when pom.xml changes
 
+
 #### Building JavaScript Client
 
-If the .jsx files are modified (by you or Structor), you'll need to rebuild the scripts:
+If the .jsx files are modified (by you or Structor), you'll need to rebuild the scripts using package.json in resources/static/js/:
 
 ```sh
 $ npm run build-client
@@ -103,10 +108,17 @@ $ npm run build-client
 
 Then refresh the js/ directory to ensure it is reloaded by the Spring instance.
 
+> This build command can stout compiling issues it finds.
+
+
 #### Running the application
 
 The preferred way is setting up an launch configuration in the IDE, so you can enable debug mode. You'll need to install [MongoDB]. By default the application will access mongodb://localhost/test.
 Please follow the official documentation for an install guide. You can set it as a service, if you like.
+
+#### Debugging
+
+Soon.
 
 #### Testing
 
