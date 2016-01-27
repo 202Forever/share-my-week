@@ -5,6 +5,7 @@ import { Navbar } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
 import FeatureList from '../components/ShareMyWeek/FeatureList.jsx';
+import CreateWeekInput from '../components/ShareMyWeek/CreateWeekInput.jsx';
 
 
 class App extends Component {
@@ -56,20 +57,7 @@ class App extends Component {
                         <div className="row" params={ this.props.params }>
                             <div className="col-md-offset-3 col-md-6" params={ this.props.params }>
                                 <h4 className="text-center" params={ this.props.params }><span params={ this.props.params }>Get a Week planner for you and your friends.</span></h4>
-                                <form role="form" params={ this.props.params }>
-                                    <div className="form-group" params={ this.props.params }>
-                                        <div className="input-group" params={ this.props.params }>
-                                            <input type="text"
-                                                   className="form-control"
-                                                   placeholder="joe@yourmail.com sally@yourmail.com devin@yourmail.com"
-                                                   params={ this.props.params }></input><span className="input-group-btn " params={ this.props.params }><a href="#"
-                                                                                                                                                                                                                                                                     className="btn btn-success"
-                                                                                                                                                                                                                                                                     type="submit"
-                                                                                                                                                                                                                                                                     params={ this.props.params }><span params={ this.props.params }>Go</span></a>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </form>
+                                <CreateWeekInput role="form" params={ this.props.params }></CreateWeekInput>
                             </div>
                         </div>
                     </div>

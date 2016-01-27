@@ -219,66 +219,11 @@
                         },
                         {
                           "variantName": "Unsaved variant",
-                          "type": "form",
+                          "type": "CreateWeekInput",
                           "props": {
                             "role": "form"
                           },
-                          "children": [
-                            {
-                              "variantName": "Unsaved variant",
-                              "type": "div",
-                              "props": {
-                                "className": "form-group"
-                              },
-                              "children": [
-                                {
-                                  "variantName": "Unsaved variant",
-                                  "type": "div",
-                                  "props": {
-                                    "className": "input-group"
-                                  },
-                                  "children": [
-                                    {
-                                      "variantName": "Unsaved variant",
-                                      "type": "input",
-                                      "props": {
-                                        "type": "text",
-                                        "className": "form-control",
-                                        "placeholder": "joe@yourmail.com sally@yourmail.com devin@yourmail.com"
-                                      }
-                                    },
-                                    {
-                                      "variantName": "Unsaved variant",
-                                      "type": "span",
-                                      "props": {
-                                        "className": "input-group-btn "
-                                      },
-                                      "children": [
-                                        {
-                                          "variantName": "Unsaved variant",
-                                          "type": "a",
-                                          "props": {
-                                            "href": "#",
-                                            "className": "btn btn-success",
-                                            "type": "submit"
-                                          },
-                                          "children": [
-                                            {
-                                              "variantName": "Unsaved variant",
-                                              "type": "span",
-                                              "props": {},
-                                              "text": "Go"
-                                            }
-                                          ]
-                                        }
-                                      ],
-                                      "text": "Text"
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
+                          "children": []
                         }
                       ]
                     }
