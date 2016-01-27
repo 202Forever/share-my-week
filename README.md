@@ -15,10 +15,11 @@ Metadata directories have been added to .gitignore
 
 #### Template Design Guide
 
-- Templates should be pushed in the src/design folder. 
+- Templates should be pushed in the src/design folder.
 - Consider using [Bootstrap] look and feel as default.
 - To start off designing, you may use the Bootstrap designer [pinguendo].
 - All templates should share the same stylesheet.
+
 > Pinguendo uses the .less file. On saving the template, the file is compiled into .css. Therefore modification of style should go into the less file. [less] extends the css body language.
 
 After pushing changes of the template to git: Copy app.css to src/main/resources/static/js/src/client/assets/css
@@ -33,22 +34,20 @@ To install Structor:
 2. You'll need to install [python 2.7.11] because some of the scripts need to be built using it
 3. Set an environment variable PYTHON to the python binary file
 4. Install npm package:
-```sh
-$ npm install -g structor
-```
+    ```sh
+    $ npm install -g structor
+    ```
 >You can ignore ERROR on optional dependencies
-
 5. To start Structor, cd into $project_folder/src/main/resources/static/js. Then,
-```sh
-$ structor
-```
-
+    ```sh
+    $ structor
+    ```
 6. Go to http://localhost:2222/structor to launch the application. It will take a few seconds for the existing pages to be built
 7. Modify or create a new page.
 
 > If you click on the current route selection you can modify the Route script name located in js/src/client/routes. This is where the components of the page are linked and provide routing mechanism [React-router] for Single Page apps.
 
-Please refer to Structor's folder structure guide to see how and where code is organized.
+Please refer to Structor's Wiki to see how and where code is organized.
 
 
 #### Adding Front-end libraries
@@ -57,15 +56,14 @@ Please refer to Structor's folder structure guide to see how and where code is o
 
 1. Download and install latest [Node.js]
 2. To install an package, start an terminal and cd into (repository)/src/main/resources/static/js
-
-Enter the following:
-```sh
-$ npm install --save <package-name>
-```
-To see current list of installed packages
-```sh
-$ npm list
-```
+3. Enter the following:
+    ```sh
+    $ npm install --save <package-name>
+    ```
+    To see current list of installed packages
+    ```sh
+    $ npm list
+    ```
 
 Then commit and push package.json
 
@@ -128,6 +126,7 @@ Soon.
 
 Soon.
 
+[Bootstrap]: http://getbootstrap.com/
 [React-router]: https://github.com/rackt/react-router
 [less]: http://lesscss.org
 [import]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import

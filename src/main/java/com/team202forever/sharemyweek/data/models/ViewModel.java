@@ -10,7 +10,7 @@ import org.springframework.hateoas.ResourceSupport;
 import java.io.Serializable;
 
 @Data
-public abstract class ViewModel extends ResourceSupport {
+public abstract class ViewModel {
 
     @Id
     protected HashId hashId = new HashId();
