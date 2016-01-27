@@ -78,6 +78,14 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
@@ -109,12 +117,12 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>npm run build-client-deploy</id>
+						<id>npm run build-client-maven</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run build-client-deploy</arguments>
+							<arguments>run --production build-client-maven</arguments>
 						</configuration>
 					</execution>
 				</executions>

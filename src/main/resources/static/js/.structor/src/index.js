@@ -2,6 +2,7 @@ require('../../src/client/assets/css/react-widgets.css');
 require('../../src/client/assets/css/bootstrap.css');
 require('../../src/client/assets/css/font-awesome.css');
 require('../../src/client/assets/css/app.css');
+require('../../../less/app.less');
 require('../../src/client/assets/js/bootstrap.js');
 var Moment = require('moment');
 var momentLocalizer = require('react-widgets/lib/localizers/moment');

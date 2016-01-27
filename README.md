@@ -18,7 +18,7 @@ Metadata directories have been added to .gitignore
 - Templates should be pushed in the src/design folder.
 - Consider using [Bootstrap] look and feel as default.
 - To start off designing, you may use the Bootstrap designer [pinguendo].
-- All templates should share the same stylesheet.
+- All templates should share the same stylesheet to uphold an consistent design
 
 > Pinguendo uses the .less file. On saving the template, the file is compiled into .css. Therefore modification of style should go into the less file. [less] extends the css body language.
 
@@ -44,6 +44,11 @@ To install Structor:
 > If you click on the current route selection you can modify the Route script name located in js/src/client/routes. This is where the components of the page are linked and provide routing mechanism [React-router] for Single Page apps.
 
 Please refer to Structor's Wiki to see how and where code is organized.
+
+#### Adding your own Styles
+
+Under resources/static/less directory, there is an app.less file for adding custom styles. This file gets appended last, so if you want to override an existing style you may.
+Unfortunately, Structor won't recognize changes until you restart it.
 
 
 #### Adding Front-end libraries
@@ -86,12 +91,12 @@ If the JavaScript file is the initial script for an HTML page, then you need to 
 > Run Maven install when pom.xml changes
 
 
-#### Building JavaScript Client
+#### Building LESS/JavaScript
 
 If the .jsx files are modified (by you or Structor), you'll need to rebuild the scripts using package.json in resources/static/js/:
 
 ```sh
-$ npm run build-client
+npm run build-client
 ```
 
 Then refresh the js/ directory to ensure it is reloaded by the Spring instance.

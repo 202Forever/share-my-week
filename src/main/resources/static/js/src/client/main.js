@@ -3,6 +3,7 @@ import './assets/css/react-widgets.css';
 import './assets/css/bootstrap.css';
 import './assets/css/font-awesome.css';
 import './assets/css/app.css';
+import '../../../less/app.less';
 import './assets/js/bootstrap.js';
 
 import Moment from 'moment';

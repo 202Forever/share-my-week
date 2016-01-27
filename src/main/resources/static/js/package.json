@@ -8,7 +8,7 @@
     "test": "test",
     "build-client": "webpack --config ./build-conf/webpack.config.js --progress --colors",
     "build-client-dev": "webpack --config ./build-conf/webpack-dev.config.js --progress --colors --watch",
-    "build-client-deploy": "webpack --config ./build-conf/webpack.config.js"
+    "build-client-maven": "webpack --config ./build-conf/webpack.config.js"
   },
   "dependencies": {
     "body-parser": "^1.14.2",
