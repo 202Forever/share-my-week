@@ -33,9 +33,11 @@ To install Structor:
 1. Make sure to install latest Node.js. See Front-end tips
 2. You'll need to install [python 2.7.11] because some of the scripts need to be built using it
 3. Set an environment variable PYTHON to the python binary file
-4. Install npm package: ```$ npm install -g structor```
+4. Install npm package: ```npm install -g structor```
+
     >You can ignore ERROR on optional dependencies
-5. To start Structor, cd into $project_folder/src/main/resources/static/js. Then, ```$ structor```
+    
+5. To start Structor, cd into $project_folder/src/main/resources/static/js. Then, ```structor```
 6. Go to http://localhost:2222/structor to launch the application. It will take a few seconds for the existing pages to be built
 7. Modify or create a new page.
 
@@ -50,14 +52,8 @@ Please refer to Structor's Wiki to see how and where code is organized.
 
 1. Download and install latest [Node.js]
 2. To install an package, start an terminal and cd into (repository)/src/main/resources/static/js
-3. Enter the following:
-    ```sh
-    $ npm install --save <package-name>
-    ```
-    To see current list of installed packages
-    ```sh
-    $ npm list
-    ```
+3. Enter the following: ```npm install --save <package-name>```
+4. To see current list of installed packages ```npm list```
 
 Then commit and push package.json
 
