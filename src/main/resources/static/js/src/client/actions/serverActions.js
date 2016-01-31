@@ -1,13 +1,13 @@
-import { readData } from '../api';
-import { createAction, handleActions } from '../reduxActionsSequence';
+import { createWeek } from '../api';
+import { createAction, handleActions } from './reduxActionsSequence';
 
-const FETCH_SERVER_DATA = 'FETCH_SERVER_DATA';
+const ADD_WEEK = 'ADD_WEEK';
 
-export const fetchServerData = createAction(FETCH_SERVER_DATA, () => {
-    return readData()
-        .then( response => {
-            return response.list;
-        });
+export const addWeek = createAction(ADD_WEEK, (entity) => {
+   return createWeek(entity)
+       .then(response => {
+          return response;
+       });
 });
 
 /**
@@ -15,42 +15,41 @@ export const fetchServerData = createAction(FETCH_SERVER_DATA, () => {
  */
 export default handleActions({
 
-    [FETCH_SERVER_DATA]: {
-        start(state, action){
-            const serverData = Object.assign({}, state.serverData, {
+    [ADD_WEEK]: {
+        start(state, action) {
+            const weekData = Object.assign({}, state.weekData, {
+                entity: {},
                 fetching: {
                     status: 'loading',
                     errorText: '',
                     error: false
-                },
-                list: []
+                }
             });
-            state = Object.assign({}, state, { serverData: serverData });
+            state = Object.assign({}, state, {weekData});
             return state;
         },
-        next(state, action){
-            const serverData = Object.assign({}, state.serverData, {
+        next(state, action) {
+            const weekData = Object.assign({}, state.weekData, {
+                entity: action.payload,
                 fetching: {
                     status: 'done',
                     errorText: '',
                     error: false
-                },
-                list: action.payload
+                }
             });
-            state = Object.assign({}, state, { serverData: serverData });
+            state = Object.assign({}, state, {weekData});
             return state;
         },
-        throw(state, action){
-            console.log('Error is obtained');
-            const serverData = Object.assign({}, state.serverData, {
+        throw(state, action) {
+            const weekData = Object.assign({}, state.weekData, {
+                entity: {},
                 fetching: {
                     status: 'done',
-                    errorText: !!action.payload.message ? action.payload.message : 'Error: no message',
+                    errorText: action.payload.message ? action.payload.message : 'Error: no message',
                     error: true
-                },
-                list: []
+                }
             });
-            state = Object.assign({}, state, { serverData: serverData });
+            state = Object.assign({}, state, {weekData});
             return state;
         }
     }

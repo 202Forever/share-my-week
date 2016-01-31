@@ -1,12 +1,12 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from '../reducers';
 import myMiddleware from '../middleware/middleware.js';
 import promiseMiddleware from '../middleware/promiseMiddleware.js';
 import initialState from './initialState.js';
 
-const createStoreWithMiddleware = applyMiddleware(
-    myMiddleware,
-    promiseMiddleware
+const createStoreWithMiddleware = compose(
+    applyMiddleware(myMiddleware, promiseMiddleware),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
 )(createStore);
 
 export default function initStore() {

@@ -5,7 +5,7 @@ import { Navbar } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
 import FeatureList from '../components/ShareMyWeek/FeatureList.jsx';
-import CreateWeekInput from '../components/ShareMyWeek/CreateWeekInput.jsx';
+import CreateWeekForm from '../components/ShareMyWeek/CreateWeekForm.jsx';
 
 
 class App extends Component {
@@ -14,9 +14,12 @@ class App extends Component {
         return (
             <div>
                 <Navbar staticTop={ true }
-                        toggleNavKey={ 0 }
-                        brand="202Forever"
                         params={ this.props.params }>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <a href="#">202Forever</a>
+                        </Navbar.Brand>
+                    </Navbar.Header>
                     <Nav pullRight={ true } params={ this.props.params }>
                         <NavItem href="#"
                                  active={ true }
@@ -57,7 +60,7 @@ class App extends Component {
                         <div className="row" params={ this.props.params }>
                             <div className="col-md-offset-3 col-md-6" params={ this.props.params }>
                                 <h4 className="text-center" params={ this.props.params }><span params={ this.props.params }>Get a Week planner for you and your friends.</span></h4>
-                                <CreateWeekInput role="form" params={ this.props.params }></CreateWeekInput>
+                                <CreateWeekForm params={ this.props.params }></CreateWeekForm>
                             </div>
                         </div>
                     </div>

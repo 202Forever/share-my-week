@@ -1,5 +1,5 @@
-import { readData } from './serverApi.js';
+import {createWeek} from './serverApi.js';
 
 export {
-    readData
+    createWeek
 }

@@ -69,6 +69,6 @@ module.exports = {
     ShareMyWeek: {
         FeatureItem: require('../../src/client/components/ShareMyWeek/FeatureItem.jsx'),
         FeatureList: require('../../src/client/components/ShareMyWeek/FeatureList.jsx'),
-        CreateWeekInput: require('../../src/client/components/ShareMyWeek/CreateWeekInput.jsx')
+        CreateWeekForm: require('../../src/client/components/ShareMyWeek/CreateWeekForm.jsx')
     }
 };

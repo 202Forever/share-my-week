@@ -22,8 +22,8 @@ class FeatureList extends Component {
         const {items} = this.props;
         let itemList = [];
         if (items && items.length > 0) {
-            itemList = items.map((item) => {
-                return (<FeatureItem item={item}/>);
+            itemList = items.map((item, index) => {
+                return (<FeatureItem key={"feature" + index} item={item}/>);
             })
         } else {
             itemList.push((<FeatureItem />));
@@ -37,7 +37,7 @@ class FeatureList extends Component {
 }
 
 function mapStateToProps(state) {
-    const {featureListData: {items}} = state;
+    const {appData: {featureListData: {items}}} = state;
     return {
         items
     };
