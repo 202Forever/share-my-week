@@ -52,6 +52,7 @@ module.exports = {
     },
     BootstrapNavigation: {
         Navbar: require('react-bootstrap').Navbar,
+        NavbarBrand: require('react-bootstrap').NavbarBrand,
         NavbarCollapsible: require('../../src/client/components/BootstrapNavigation').NavbarCollapsible,
         Nav: require('react-bootstrap').Nav,
         NavItem: require('react-bootstrap').NavItem,

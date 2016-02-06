@@ -41,7 +41,7 @@ To install Structor:
 6. Go to http://localhost:2222/structor to launch the application. It will take a few seconds for the existing pages to be built
 7. Modify or create a new page.
 
-> If you click on the current route selection you can modify the Route script name located in js/src/client/routes. This is where the components of the page are linked and provide routing mechanism [React-router] for Single Page apps.
+> If you click on the current route selection you can modify the Route script name located in js/src/client/routes. You should always leave its contents untouched. This is where the components of the page are linked and provide routing mechanism [React-router] for Single Page apps.
 
 Please refer to Structor's Wiki to see how and where code is organized.
 

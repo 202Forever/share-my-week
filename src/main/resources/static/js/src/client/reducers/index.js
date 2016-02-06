@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import { routeReducer } from 'react-router-redux'
 import reduceReducers from 'reduce-reducers';
 import serverReducer from '../actions/serverActions';
 
@@ -12,14 +13,8 @@ const rootReducer = combineReducers({
         appReducer,
         serverReducer
     ),
-    form: formReducer.plugin({
-        createWeekForm: (state, action) => {
-            if (action.type === 'STOP_SUBMIT') {
-                return state;
-            }
-            return state;
-        }
-    })
+    form: formReducer,
+    routing: routeReducer
 });
 
 export default rootReducer;

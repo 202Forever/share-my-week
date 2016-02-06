@@ -1,19 +1,17 @@
 'use strict';
 
 import React from 'react';
-import { Router, Route, IndexRoute } from 'react-router';
-import { createHistory } from 'history';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import App from './App.js';
 import Week from './Week.js';
 
 export default function() {
-    const history = createHistory();
     return (
-        <Router history={ history }>
+        <Router history={ browserHistory }>
             <Route path="/" component="div">
                 <IndexRoute component={ App } />
                 <Route path="/" component={ App } />
-                <Route path="/week/:id" component={ Week } />
+                <Route path="/weeks/:id" component={ Week } />
             </Route>
         </Router>
         );

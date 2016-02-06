@@ -1,13 +1,11 @@
 'use strict';
 
 import React from 'react';
-import { Router, Route, IndexRoute } from 'react-router';
-import { createHistory } from 'history';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 <% _.forEach(pages, function( page, index ){ %>import <%= page.pageName %> from './<%= page.pageName %>.js';<%= '\n' %><% });  %>
 export default function(){
-    const history = createHistory();
     return(
-        <Router history={history}>
+        <Router history={browserHistory}>
             <Route path="/" component="div">
                 <IndexRoute component={<%= pages[0].pageName %>} />
                 <% _.forEach(pages, function( page, index ){ %>

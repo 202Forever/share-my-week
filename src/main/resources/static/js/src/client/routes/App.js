@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { Navbar } from 'react-bootstrap';
+import { NavbarBrand } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
 import FeatureList from '../components/ShareMyWeek/FeatureList.jsx';
@@ -13,13 +14,10 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Navbar staticTop={ true }
-                        params={ this.props.params }>
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            <a href="#">202Forever</a>
-                        </Navbar.Brand>
-                    </Navbar.Header>
+                <Navbar staticTop={ true } params={ this.props.params }>
+                    <NavbarBrand params={ this.props.params }>
+                        <a href="#" params={ this.props.params }><span params={ this.props.params }>202Forever</span></a>
+                    </NavbarBrand>
                     <Nav pullRight={ true } params={ this.props.params }>
                         <NavItem href="#"
                                  active={ true }

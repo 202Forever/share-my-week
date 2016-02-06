@@ -27,7 +27,8 @@
     "react-dom": "^0.14.6",
     "react-formal": "^0.15.2",
     "react-redux": "^4.0.6",
-    "react-router": "^1.0.3",
+    "react-router": "^2.0.0-rc6",
+    "react-router-redux": "^3.0.0",
     "react-widgets": "^3.1.7",
     "reduce-reducers": "^0.1.1",
     "redux": "^3.0.5",
@@ -35,6 +36,7 @@
     "request": "^2.67.0",
     "sockjs-client": "^1.0.3",
     "stompjs": "^2.3.3",
+    "url-template": "^2.0.6",
     "yup": "^0.12.0"
   },
   "devDependencies": {

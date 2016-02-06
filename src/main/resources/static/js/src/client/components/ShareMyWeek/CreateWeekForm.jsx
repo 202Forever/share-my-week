@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { Input, Button } from 'react-bootstrap';
 
-import emailValidator from 'email-validator'
-import {addWeek} from '../../actions/serverActions'
+import emailValidator from 'email-validator';
+import { addWeek } from '../../actions/serverActions';
+import { dispatchRoute } from '../../util/helpers';
 
 class CreateWeekForm extends Component {
 
@@ -86,11 +87,12 @@ function mapDispatchToProps(dispatch) {
 
 function addWeekAndDispatch(data, dispatch) {
     var action = addWeek({
-        //users : data.emails.split(seperatorsRegEx).map(function (email) {
-        //    return {email};
-        //})
+        users : data.emails.split(seperatorsRegEx).map(function (email) {
+            return {email};
+        })
     });
     dispatch(action);
+    action.payload.then((entity) => dispatchRoute(dispatch, entity, 'self'));
     return action.payload;
 }
 

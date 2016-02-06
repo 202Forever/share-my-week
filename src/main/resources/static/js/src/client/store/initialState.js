@@ -1,4 +1,9 @@
 export default {
+    routing: {
+        location: {
+            pathname : '/'
+        }
+    },
     appData: {
         featureListData: {
             items: [{

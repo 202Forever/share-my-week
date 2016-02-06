@@ -15,7 +15,6 @@ public abstract class ViewModel {
     @Id
     protected HashId hashId = new HashId();
 
-    @Data
     public static class HashId implements Serializable {
 
         private String hashId;

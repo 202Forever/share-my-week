@@ -8,50 +8,61 @@
           "variantName": "default",
           "type": "Navbar",
           "props": {
-            "staticTop": true,
-            "toggleNavKey": 0,
-            "brand": "202Forever",
-            "data-umyid": "2"
+            "staticTop": true
           },
           "children": [
+            {
+              "variantName": "default",
+              "type": "NavbarBrand",
+              "props": {},
+              "children": [
+                {
+                  "variantName": "Default",
+                  "type": "a",
+                  "props": {
+                    "href": "#"
+                  },
+                  "children": [
+                    {
+                      "type": "span",
+                      "text": "202Forever",
+                      "props": {}
+                    }
+                  ]
+                }
+              ]
+            },
             {
               "variantName": "right",
               "type": "Nav",
               "props": {
-                "pullRight": true,
-                "data-umyid": "3"
+                "pullRight": true
               },
               "children": [
                 {
                   "type": "NavItem",
                   "props": {
                     "href": "#",
-                    "active": true,
-                    "data-umyid": "4"
+                    "active": true
                   },
                   "children": [
                     {
                       "type": "span",
                       "text": "Home",
-                      "props": {
-                        "data-umyid": "5"
-                      }
+                      "props": {}
                     }
                   ]
                 },
                 {
                   "type": "NavItem",
                   "props": {
-                    "href": "#",
-                    "data-umyid": "6"
+                    "href": "#"
                   },
                   "children": [
                     {
                       "type": "span",
                       "text": "Contact Us",
-                      "props": {
-                        "data-umyid": "7"
-                      }
+                      "props": {}
                     }
                   ]
                 }
@@ -63,47 +74,39 @@
           "variantName": "Unsaved variant",
           "type": "div",
           "props": {
-            "className": "section",
-            "data-umyid": "8"
+            "className": "section"
           },
           "children": [
             {
               "variantName": "Unsaved variant",
               "type": "div",
               "props": {
-                "className": "container",
-                "data-umyid": "9"
+                "className": "container"
               },
               "children": [
                 {
                   "variantName": "Unsaved variant",
                   "type": "div",
                   "props": {
-                    "className": "row",
-                    "data-umyid": "10"
+                    "className": "row"
                   },
                   "children": [
                     {
                       "variantName": "Unsaved variant",
                       "type": "div",
                       "props": {
-                        "className": "col-md-12 text-center",
-                        "data-umyid": "11"
+                        "className": "col-md-12 text-center"
                       },
                       "children": [
                         {
                           "variantName": "Unsaved variant",
                           "type": "h1",
-                          "props": {
-                            "data-umyid": "12"
-                          },
+                          "props": {},
                           "children": [
                             {
                               "variantName": "Unsaved variant",
                               "type": "small",
-                              "props": {
-                                "data-umyid": "13"
-                              },
+                              "props": {},
                               "text": "Start planning your week with others."
                             }
                           ]
@@ -112,16 +115,13 @@
                           "variantName": "Unsaved variant",
                           "type": "h1",
                           "props": {
-                            "className": "text-center text-primary",
-                            "data-umyid": "14"
+                            "className": "text-center text-primary"
                           },
                           "children": [
                             {
                               "type": "span",
                               "text": "ShareMyWeek",
-                              "props": {
-                                "data-umyid": "15"
-                              }
+                              "props": {}
                             }
                           ]
                         }
@@ -137,32 +137,28 @@
           "variantName": "Unsaved variant",
           "type": "div",
           "props": {
-            "className": "section",
-            "data-umyid": "16"
+            "className": "section"
           },
           "children": [
             {
               "variantName": "Unsaved variant",
               "type": "div",
               "props": {
-                "className": "container",
-                "data-umyid": "17"
+                "className": "container"
               },
               "children": [
                 {
                   "variantName": "Unsaved variant",
                   "type": "div",
                   "props": {
-                    "className": "row",
-                    "data-umyid": "18"
+                    "className": "row"
                   },
                   "children": [
                     {
                       "variantName": "Unsaved variant",
                       "type": "div",
                       "props": {
-                        "className": "col-md-6",
-                        "data-umyid": "19"
+                        "className": "col-md-6"
                       },
                       "children": [
                         {
@@ -170,8 +166,7 @@
                           "type": "img",
                           "props": {
                             "src": "http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png",
-                            "className": "hidden-sm hidden-xs img-responsive",
-                            "data-umyid": "20"
+                            "className": "hidden-sm hidden-xs img-responsive"
                           }
                         }
                       ]
@@ -180,16 +175,14 @@
                       "variantName": "Unsaved variant",
                       "type": "div",
                       "props": {
-                        "className": "col-md-6",
-                        "data-umyid": "21"
+                        "className": "col-md-6"
                       },
                       "children": [
                         {
                           "variantName": "Unsaved variant",
                           "type": "FeatureList",
                           "props": {
-                            "className": "media-list",
-                            "data-umyid": "22"
+                            "className": "media-list"
                           },
                           "children": []
                         }
@@ -205,56 +198,47 @@
           "variantName": "Unsaved variant",
           "type": "div",
           "props": {
-            "className": "section",
-            "data-umyid": "23"
+            "className": "section"
           },
           "children": [
             {
               "variantName": "Unsaved variant",
               "type": "div",
               "props": {
-                "className": "container",
-                "data-umyid": "24"
+                "className": "container"
               },
               "children": [
                 {
                   "variantName": "Unsaved variant",
                   "type": "div",
                   "props": {
-                    "className": "row",
-                    "data-umyid": "25"
+                    "className": "row"
                   },
                   "children": [
                     {
                       "variantName": "Unsaved variant",
                       "type": "div",
                       "props": {
-                        "className": "col-md-offset-3 col-md-6",
-                        "data-umyid": "26"
+                        "className": "col-md-offset-3 col-md-6"
                       },
                       "children": [
                         {
                           "variantName": "Unsaved variant",
                           "type": "h4",
                           "props": {
-                            "className": "text-center",
-                            "data-umyid": "27"
+                            "className": "text-center"
                           },
                           "children": [
                             {
                               "type": "span",
                               "text": "Get a Week planner for you and your friends.",
-                              "props": {
-                                "data-umyid": "28"
-                              }
+                              "props": {}
                             }
                           ]
                         },
                         {
                           "type": "CreateWeekForm",
-                          "props": {
-                            "data-umyid": "29"
-                          }
+                          "props": {}
                         }
                       ]
                     }
@@ -265,16 +249,14 @@
           ]
         }
       ],
-      "props": {
-        "data-umyid": "1"
-      },
+      "props": {},
       "pageTitle": "UnnamedPage",
       "pageProps": [],
       "pageScript": ""
     },
     {
       "pageName": "Week",
-      "pagePath": "/week/:id",
+      "pagePath": "/weeks/:id",
       "children": [
         {
           "type": "h3",
@@ -282,23 +264,18 @@
             "style": {
               "padding": "1em",
               "textAlign": "center"
-            },
-            "data-umyid": "31"
+            }
           },
           "children": [
             {
               "type": "span",
               "text": "This is an empty page. To add new component select needed element on left-side panel and click on an element on the page where you want to put new component, than choose action for right component's place.",
-              "props": {
-                "data-umyid": "32"
-              }
+              "props": {}
             }
           ]
         }
       ],
-      "props": {
-        "data-umyid": "30"
-      },
+      "props": {},
       "pageTitle": "UnnamedPage1",
       "pageProps": [],
       "pageScript": ""

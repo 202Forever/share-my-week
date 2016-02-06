@@ -1,7 +1,7 @@
 [
   {
     "variantName": "default",
-    "type": "NavBrand",
+    "type": "NavbarBrand",
     "props": {
       "data-umyid": "118"
     },
