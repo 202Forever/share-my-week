@@ -15,7 +15,7 @@ Metadata directories have been added to .gitignore
 
 #### Template Design Guide
 
-- Templates should be pushed in the src/design folder.
+- Templates should be pushed in the $project_dir/design/ folder.
 - Consider using [Bootstrap] look and feel as default.
 - To start off designing, you may use the Bootstrap designer [pinguendo].
 - All templates should share the same stylesheet to uphold an consistent design
