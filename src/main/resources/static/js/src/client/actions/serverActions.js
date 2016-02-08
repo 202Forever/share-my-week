@@ -4,7 +4,7 @@ import { createAction, handleActions } from './reduxActionsSequence';
 const ADD_WEEK = 'ADD_WEEK';
 
 export const addWeek = createAction(ADD_WEEK, (entity) => {
-   return createWeek(entity).then(response => response.json());
+   return createWeek(entity);
 });
 
 /**

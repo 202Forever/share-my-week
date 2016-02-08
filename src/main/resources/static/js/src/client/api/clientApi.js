@@ -28,7 +28,18 @@ export class Client {
                 'Content-Type': 'application/json'
             },
             body: body ? JSON.stringify(body) : null
-        });
+        })
+        .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+                return response;
+            } else {
+                var error = new Error(response.statusText);
+                error.response = response;
+                throw error;
+            }
+        })
+        .then(response => response.json())
+        .catch(error => error.response.json().then(json => Promise.reject({_error: json.message})));
     }
 }
 
@@ -36,12 +47,9 @@ const api = (function () {
     var apiLinks;
     return () => {
         if (apiLinks) {
-            return new Promise((resolve) => {
-                return resolve(apiLinks);
-            });
+            return new Promise(resolve => resolve(apiLinks));
         }
-        var promise = Client.get(apiPath).then((response) => response.json());
-        return promise.then((json) => {
+        return Client.get(apiPath).then((json) => {
             apiLinks = json._links;
             return apiLinks;
         });
