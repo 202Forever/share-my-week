@@ -1,6 +1,7 @@
 package com.team202forever.sharemyweek.exception;
 
 import com.team202forever.sharemyweek.exception.messages.GenericErrorMessage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +18,7 @@ public class ExceptionHandlers {
     @ExceptionHandler(EmailNotificationException.class)
     ResponseEntity<GenericErrorMessage> handle(EmailNotificationException e) {
         logger.error(e.getMessage(), e);
-        return new ResponseEntity<>(new GenericErrorMessage("We were unable to process your request. Please verify your information."), new HttpHeaders(), HttpStatus.FAILED_DEPENDENCY);
+        return new ResponseEntity<>(new GenericErrorMessage("Please verify your information is correct. If you believe your information is correct, please contant us at support@sharemyweek.com"), new HttpHeaders(), HttpStatus.FAILED_DEPENDENCY);
     }
 
     @ExceptionHandler

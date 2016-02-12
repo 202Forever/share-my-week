@@ -5,7 +5,6 @@ import lombok.Data;
 import org.bson.types.ObjectId;
 import org.hashids.Hashids;
 import org.springframework.data.annotation.Id;
-import org.springframework.hateoas.ResourceSupport;
 
 import java.io.Serializable;
 

@@ -12,10 +12,18 @@ Metadata directories have been added to .gitignore
 
 > The Project relies on Lombok in order to automatically generate sources from Java class with getters and setters. For Eclipse, you'll need to download and run [lombok.jar] to install the plugin.
 
+#### Email Design Guide
 
-#### Template Design Guide
+-Use a web app such as [mailchimp]. Then save the template in src: $project_dir/src/main/resources/templates/mail
 
-- Templates should be pushed in the $project_dir/design/ folder.
+>If you like to code in React instead, in /react-email-templates you can create your design in
+templates/(e.g mydesign-template.js). See for tips: [react-html-email]. Then add your template to index.js.
+
+>In /react-email-templates, preview template ```npm template-viewer``` and go to http://localhost:85/. Then build into src using ```npm build```. Any images should go into templates/images to be copied to src. You still can push them into git, but do not modify the files by hand.
+
+#### View Design Guide
+
+- View Design should be pushed in the $project_dir/design/ folder.
 - Consider using [Bootstrap] look and feel as default.
 - To start off designing, you may use the Bootstrap designer [pinguendo].
 - All templates should share the same stylesheet to uphold an consistent design
@@ -24,7 +32,7 @@ Metadata directories have been added to .gitignore
 
 After pushing changes of the template to git: Copy app.css to src/main/resources/static/js/src/client/assets/css
 
-#### Creating React components for an Template
+#### Creating React components for an View
 
 To start off creating React components, you can use an UI React-builder tool called [Structor]. Structor can automatically create boiler plate code using frameworks such as [React] and [Redux]. However, you can create your components manually and linking them to /.structor/index.js. By modifying generated code structure you may understand the frameworks easier. Please refer to Structor's guide for more details.
 
@@ -101,19 +109,35 @@ npm run build-client
 
 Then refresh the js/ directory to ensure it is reloaded by the Spring instance.
 
-> This build command can stout compiling issues it finds.
+> This build command can stop compiling issues it finds.
 
 
 #### Running the application
 
 The preferred way is setting up an launch configuration in the IDE, so you can enable debug mode. You'll need to install [MongoDB]. By default the application will access mongodb://localhost/test.
-Please follow the official documentation for an install guide. You can set it as a service, if you like.
+Please follow the official documentation for an install and run guide. You can set it as a service, if you like.
 
 #### Debugging
 
 Soon.
 
-#### Testing
+#### Testing Email
+
+Start the test email server:
+1. Install [smtpeshka]. $ ```npm install -g smtpeshka```
+2. cd into /smtp-test-server
+3. $ ```smtpeshka```
+4. Go to http://localhost:2580/
+
+> You can add whitelist, blacklist configuration. Add config files to config/. For example:
+1. $ ```echo .* > config/rcpt_to.access.blacklist_regex```
+2. $ ```echo test1@sharemyweek.com > rcpt_to.access.whitelist```.
+3. Restart smtpeshka.
+
+>Only test1@sharemyweek.com can recieve email from the server. See for tips: http://haraka.github.io/manual/plugins/access.html
+
+
+#### Server-side Testing
 
 Soon.
 
@@ -121,6 +145,8 @@ Soon.
 
 Soon.
 
+[mailchimp]: http://mailchimp.com
+[react-html-email]: https://github.com/chromakode/react-html-email
 [Bootstrap]: http://getbootstrap.com/
 [React-router]: https://github.com/rackt/react-router
 [less]: http://lesscss.org
@@ -142,3 +168,4 @@ Soon.
 [Webpack]: https://webpack.github.io/
 [Webpack's documentation on entry]: https://webpack.github.io/docs/configuration.html#entry
 [MongoDB]: https://www.mongodb.org/
+[smtpeshka]: https://www.npmjs.com/package/smtpeshka
