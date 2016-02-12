@@ -96,6 +96,13 @@
             <artifactId>cobertura-maven-plugin</artifactId>
             <version>2.7</version>
             <type>maven-plugin</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.fakemongo</groupId>
+            <artifactId>fongo</artifactId>
+            <version>1.5.8</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 	
