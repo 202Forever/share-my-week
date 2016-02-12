@@ -39,7 +39,7 @@ class CreateWeekForm extends Component {
             return 'Processing request...'
         }
         if (error) {
-            return 'Sorry, we are unable to process your request at the moment.';
+            return error;
         }
         if (emails.touched && emails.error) {
             return emails.error;

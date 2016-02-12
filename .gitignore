@@ -1,6 +1,14 @@
+/src/main/resources/application-dev.properties
 /src/main/resources/static/js/built
 /.idea
 *.iml
+/react-email-templates/node_modules/
+/smtp-test-server/build
+/smtp-test-server/haraka-def/config/rcpt_to.access.whitelist
+/smtp-test-server/haraka-def/config/rcpt_to.access.blacklist
+/smtp-test-server/haraka-def/config/rcpt_to.access.whitelist_regex
+/smtp-test-server/haraka-def/config/rcpt_to.access.blacklist_regex
+/smtp-test-server/sent-emails
 /target/
 /.classpath
 /.project

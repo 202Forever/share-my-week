@@ -7,14 +7,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class Week extends ViewModel {
 
     @NotEmpty
     @Valid
-    private List<User> users;
+    private Set<User> users;
 
     @JsonIgnore
     private Date creationDate;

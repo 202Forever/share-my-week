@@ -1,0 +1,28 @@
+{
+  "log": {
+    "console": {
+      "level": "debug"
+    }
+  },
+  "web": {
+    "port": 2580
+  },
+  "SMTP": {
+    "port": 2525
+  },
+  "transport": {
+    "json": {
+      "saveto": "./sent-emails"
+    }
+  },
+  "haraka": {
+    "config": {
+      "source": {
+        "dir": "./haraka-def"
+      },
+      "build": {
+        "dir": "./build"
+      }
+    }
+  }
+}
