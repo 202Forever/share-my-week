@@ -19,7 +19,7 @@ Metadata directories have been added to .gitignore
 >If you like to code in React instead, in /react-email-templates you can create your design in
 templates/(e.g mydesign-template.js). See for tips: [react-html-email]. Then add your template to index.js.
 
->In /react-email-templates, preview template ```npm template-viewer``` and go to http://localhost:85/. Then build into src using ```npm build```. Any images should go into templates/images to be copied to src. You still can push them into git, but do not modify the files by hand.
+>In /react-email-templates, preview template ```npm template-viewer``` and go to http://localhost:85/. Any images should go into templates/images to be copied to src. Then build into src using ```npm build```. Push the modified files from src into git.
 
 #### View Design Guide
 
@@ -125,16 +125,17 @@ Soon.
 
 Start the test email server:
 1. Install [smtpeshka]. $ ```npm install -g smtpeshka```
-2. cd into /smtp-test-server
+2. cd into $project_dir/smtp-test-server
 3. $ ```smtpeshka```
 4. Go to http://localhost:2580/
 
 > You can add whitelist, blacklist configuration. Add config files to config/. For example:
+
 1. $ ```echo .* > config/rcpt_to.access.blacklist_regex```
 2. $ ```echo test1@sharemyweek.com > rcpt_to.access.whitelist```.
 3. Restart smtpeshka.
 
->Only test1@sharemyweek.com can recieve email from the server. See for tips: http://haraka.github.io/manual/plugins/access.html
+As result, only test1@sharemyweek.com can recieve email from the server. See more tips: http://haraka.github.io/manual/plugins/access.html
 
 
 #### Server-side Testing
