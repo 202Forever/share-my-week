@@ -124,9 +124,10 @@ Soon.
 #### Testing Email
 
 Start the test email server:
-1. Install [smtpeshka]. $ ```npm install -g smtpeshka```
-2. cd into $project_dir/smtp-test-server
-3. $ ```smtpeshka```
+
+1. Install [smtpeshka]. $ ```npm install -g smtpeshka``` 
+2. cd into $project_dir/smtp-test-server 
+3. $ ```smtpeshka``` 
 4. Go to http://localhost:2580/
 
 > You can add whitelist, blacklist configuration. Add config files to config/. For example:
