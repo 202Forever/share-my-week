@@ -731,3 +731,88 @@ monospace;
 @import "https://raw.githubusercontent.com/Pingendo/pingendo-bootstrap/gh-pages/less/pingendo-custom.less";
 
 /* PINGENDO COMMENT DO NOT REMOVE */
+
+.week-header {
+  h1 {
+    display: inline;
+  }
+}
+
+.week-table {
+  thead th {
+    height: 40px;
+  }
+  tbody tr {
+    height: 55px;
+  }
+}
+
+.week-days-column {
+  width: 50px;
+  float: left;
+}
+
+.week-table.days {
+  border: none;
+  thead th {
+    border: none;
+  }
+  tbody tr td {
+    border: none;
+  }
+}
+
+.week-hours-container {
+  overflow: auto;
+  position: relative;
+}
+
+@week-table-border-color: lighten(@gray-base, 80.0%);
+@week-table-bg-color: lighten(@gray-base, 90.0%);
+.week-table.hours {
+  border-color: @week-table-border-color;
+  background-color: @week-table-bg-color;
+  table-layout: fixed;
+  min-width: 850px;
+  thead th {
+    border-width: 2px;
+    border-color: @week-table-border-color;
+  }
+  tbody {
+    tr {
+      &:nth-of-type(odd) {
+        background-color: darken(@week-table-bg-color, 2.0%);
+      }
+    }
+    td {
+      cursor: pointer;
+      border-top: none;
+      border-bottom: none;
+      border-color: @week-table-border-color;
+      padding: 0;
+      position: relative;
+      &.free {
+        background-color: white;
+      }
+      &.partial-avail {
+        background-color: lighten(@week-table-bg-color, 4.0%);
+      }
+      .event {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background-color: @popover-bg;
+        border: 1px solid @popover-border-color;
+        border-radius: @border-radius-large;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+      }
+      &.selected {
+        background-color: darken(@week-table-bg-color, 15.0%);
+      }
+    }
+  }
+}

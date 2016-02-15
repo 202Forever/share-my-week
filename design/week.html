@@ -1,0 +1,548 @@
+<html><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="./app.css" rel="stylesheet" type="text/css">
+    </head><body>
+        <script>
+            $(document).ready(function () {
+                        $('td').on('click', function () {
+                          $(this).toggleClass('selected');
+                          $('td').not(this).popover('hide').removeClass('selected');
+                          $('.event').popover('hide');
+                        });
+                        $('td:not(.free)').popover({
+                          container: 'body',
+                          placement: 'auto right',
+                          content: ['<form>',
+                              '<div class="form-group">',
+                              '<label>Availability</label>',
+                              '<div class="input-group">',
+                              '<input type="text" class="form-control" placeholder="Start"/>',
+                              '<span class="input-group-addon">&mdash;</span>',
+                              '<input type="text" class="form-control" placeholder="End"/>',
+                              '</div>',
+                              '</div>',
+                              '<div class="form-group">',
+                              '<button type="submit" class="btn btn-default">Add</button>',
+                              '<button type="submit" class="btn btn-default">Update</button>',
+                              '<button type="submit" class="btn btn-default">Delete</button>',
+                              '</div>',
+                              '</form>'].join(''),
+                          html: true
+                        });
+                        $('td.free').tooltip({
+                          title: 'All free',
+                          container: 'body',
+                          placement: 'auto top'
+                        }).popover({
+                          container: 'body',
+                          placement: 'auto right',
+                          content: ['<form>',
+                                    	'<div class="form-group">',
+                                        	'<input type="email" class="form-control" id="event" placeholder="Event Name">',
+                                    	'</div>',
+                                        '<div class="form-group">',
+                                            '<div class="input-group">',
+                                                '<input type="text" class="form-control" placeholder="Start"/>',
+                                                '<span class="input-group-addon">&mdash;</span>',
+                                                '<input type="text" class="form-control" placeholder="End"/>',
+                                            '</div>',
+                                        '</div>',
+                                        '<div class="form-group">',
+                                            '<textarea class="form-control" rows="4" placeholder="Description"></textarea>',
+                                        '</div>',
+                                        '<div class="form-group">',
+                                            '<button type="submit" class="btn btn-default">Submit</button>',
+                                    		'<button type="submit" class="btn btn-default">Update</button>',
+                              				'<button type="submit" class="btn btn-default">Delete</button>',
+                                        '</div>',
+                                    '</form>'].join(''),
+                          html: true
+                        });
+                        $('td.partial-avail').tooltip({
+                          title: function () {
+                            return $(this).data('emails');
+                          },
+                          container: 'body',
+                          placement: 'auto top'
+                        });
+                        $('.event').popover({
+                          container: 'body',
+                          placement: 'auto bottom',
+                          html: true
+                        }).on('click', function (e) {
+                            $('td').removeClass('selected').popover('hide');
+                        	e.stopPropagation();
+                        });
+                      });
+        </script>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><span>202Forever</span></a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">Contacts</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="pager">
+                            <li class="previous">
+                                <a href="#">←  Prev</a>
+                            </li>
+                            <li class="week-header">
+                                <h1 class="text-primary">ShareMyWeek
+                                    <small>Feburary 14 - 20, 2016</small>
+                                </h1>
+                            </li>
+                            <small>
+                                <li class="next">
+                                    <a href="#">Next  →</a>
+                                </li>
+                            </small>
+                        </ul>
+                        <div class="week-days-column">
+                            <table class="table table-bordered table-condensed table-hover table-striped week-table days">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>14 Sun</td>
+                                    </tr>
+                                    <tr>
+                                        <td>15 Mon</td>
+                                    </tr>
+                                    <tr>
+                                        <td>16 Tue</td>
+                                    </tr>
+                                    <tr>
+                                        <td>17 Wed</td>
+                                    </tr>
+                                    <tr>
+                                        <td>18 Thur</td>
+                                    </tr>
+                                    <tr>
+                                        <td>19 Fri</td>
+                                    </tr>
+                                    <tr>
+                                        <td>20 Sat</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="week-hours-container">
+                            <table class="table table-bordered table-condensed week-table hours">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">12a</th>
+                                        <th colspan="2">1a</th>
+                                        <th colspan="2">2a</th>
+                                        <th colspan="2">3a</th>
+                                        <th colspan="2">4a</th>
+                                        <th colspan="2">5a</th>
+                                        <th colspan="2">6a</th>
+                                        <th colspan="2">7a</th>
+                                        <th colspan="2">8a</th>
+                                        <th colspan="2">9a</th>
+                                        <th colspan="2">10a</th>
+                                        <th colspan="2">11a</th>
+                                        <th colspan="2">12p</th>
+                                        <th colspan="2">1p</th>
+                                        <th colspan="2">2p</th>
+                                        <th colspan="2">3p</th>
+                                        <th colspan="2">4p</th>
+                                        <th colspan="2">5p</th>
+                                        <th colspan="2">6p</th>
+                                        <th colspan="2">7p</th>
+                                        <th colspan="2">8p</th>
+                                        <th colspan="2">9p</th>
+                                        <th colspan="2">10p</th>
+                                        <th colspan="2">11p</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%" class="partial-avail" data-emails="sally@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="sally@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="sally@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="sally@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="sally@yourmail.com"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%" class="partial-avail" data-emails="sally@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="sally@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="sally@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="sally@yourmail.com"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%" class="partial-avail" data-emails="devin@yourmail.com, joe@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="devin@yourmail.com, joe@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="devin@yourmail.com, joe@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="devin@yourmail.com, joe@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="joe@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="joe@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="joe@yourmail.com"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%" class="partial-avail" data-emails="dan@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="dan@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="dan@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="dan@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="dan@yourmail.com"></td>
+                                        <td width="50%" class="partial-avail" data-emails="dan@yourmail.com"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%" class="free">
+                                            <div class="event" style="width: 416%" title="Special Event Showing (9:00a - 11:00a)" data-content="Special Event Showing by Roger Smith (magician) <br/><a href='/' target='_blank'>Event details</a>">Special Event Showing</div>
+                                        </td>
+                                        <td width="50%" class="free"></td>
+                                        <td width="50%" class="free"></td>
+                                        <td width="50%" class="free"></td>
+                                        <td width="50%" class="free"></td>
+                                        <td width="50%" class="free"></td>
+                                        <td width="50%" class="free"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                        <td width="50%"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+</body></html>

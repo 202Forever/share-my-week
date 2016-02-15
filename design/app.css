@@ -6776,3 +6776,72 @@ body {
   background-attachment: fixed;
 }
 /* PINGENDO COMMENT DO NOT REMOVE */
+.week-header h1 {
+  display: inline;
+}
+.week-table thead th {
+  height: 40px;
+}
+.week-table tbody tr {
+  height: 55px;
+}
+.week-days-column {
+  width: 50px;
+  float: left;
+}
+.week-table.days {
+  border: none;
+}
+.week-table.days thead th {
+  border: none;
+}
+.week-table.days tbody tr td {
+  border: none;
+}
+.week-hours-container {
+  overflow: auto;
+  position: relative;
+}
+.week-table.hours {
+  border-color: #cccccc;
+  background-color: #e6e6e6;
+  table-layout: fixed;
+  min-width: 850px;
+}
+.week-table.hours thead th {
+  border-width: 2px;
+  border-color: #cccccc;
+}
+.week-table.hours tbody tr:nth-of-type(odd) {
+  background-color: #e0e0e0;
+}
+.week-table.hours tbody td {
+  cursor: pointer;
+  border-top: none;
+  border-bottom: none;
+  border-color: #cccccc;
+  padding: 0;
+  position: relative;
+}
+.week-table.hours tbody td.free {
+  background-color: white;
+}
+.week-table.hours tbody td.partial-avail {
+  background-color: #f0f0f0;
+}
+.week-table.hours tbody td .event {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.week-table.hours tbody td.selected {
+  background-color: #bfbfbf;
+}
