@@ -1,6 +1,7 @@
 package com.team202forever.sharemyweek.data.mvc;
 
 import static org.junit.Assert.*;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
@@ -103,5 +104,22 @@ public class WeekApiTests extends AbstractApiTests {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
+    }
+    
+    // Deletes JSON with matching email
+    @Test
+    public void deleteUserByEmail() throws Exception {
+         ObjectMapper objectMapper = new ObjectMapper();
+         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+         Week week = new Week();
+         String json = objectMapper.writeValueAsString(week);
+         
+         MockHttpServletResponse response = mockMvc.perform(delete("/api/weeks")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(jsonPath("$.email", is("test1@sharemyweek.com")))
+                .andExpect(jsonPath("$.maxBudget", is("20.0")));
+         assertEquals(json.getEmail(), "test1@sharemyweek.com");
     }
 }
