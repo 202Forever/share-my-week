@@ -124,4 +124,22 @@ public class WeekApiTests extends AbstractApiTests {
          weeks = weekRepository.findAll();
          assertEquals(size - 1, weeks.size());
     }
+    
+  //Adds User with matching email
+  	@Test
+  	public void putUserByEmail() throws Exception {
+  		List<Week> weeks = weekRepository.findAll();
+          Week week = weeks.get(0);
+          int size = weeks.size();
+          MockHttpServletResponse response = mockMvc.perform(put("/api/weeks/" + week.getHashId().toString())
+                 .contentType(MediaType.APPLICATION_JSON)
+                 .accept(MediaType.APPLICATION_JSON))
+         		.andExpect(status().isAccepted())
+                 .andReturn()
+                 .getResponse();
+          weeks = weekRepository.findAll();
+          assertEquals(size + 1, weeks.size());
+  	}
 }
+
+	
