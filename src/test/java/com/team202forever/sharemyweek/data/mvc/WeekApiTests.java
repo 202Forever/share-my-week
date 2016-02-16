@@ -2,13 +2,16 @@ package com.team202forever.sharemyweek.data.mvc;
 
 import static org.junit.Assert.*;
 
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.sun.mail.iap.ResponseInputStream;
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.Week;
 import com.team202forever.sharemyweek.data.models.WeekCollection;
@@ -109,17 +112,16 @@ public class WeekApiTests extends AbstractApiTests {
     // Deletes JSON with matching email
     @Test
     public void deleteUserByEmail() throws Exception {
-         ObjectMapper objectMapper = new ObjectMapper();
-         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-         Week week = new Week();
-         String json = objectMapper.writeValueAsString(week);
-         
-         MockHttpServletResponse response = mockMvc.perform(delete("/api/weeks")
+         List<Week> weeks = weekRepository.findAll();
+         Week week = weeks.get(0);
+         int size = weeks.size();
+         MockHttpServletResponse response = mockMvc.perform(delete("/api/weeks/" + week.getHashId().toString())
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(json))
-                .andExpect(jsonPath("$.email", is("test1@sharemyweek.com")))
-                .andExpect(jsonPath("$.maxBudget", is("20.0")));
-         assertEquals(json.getEmail(), "test1@sharemyweek.com");
+                .accept(MediaType.APPLICATION_JSON))
+        		.andExpect(status().isNoContent())
+                .andReturn()
+                .getResponse();
+         weeks = weekRepository.findAll();
+         assertEquals(size - 1, weeks.size());
     }
 }
