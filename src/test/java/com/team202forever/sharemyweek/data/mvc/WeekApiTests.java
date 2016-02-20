@@ -107,14 +107,14 @@ public class WeekApiTests extends AbstractApiTests {
     }
 
     @Test
-    public void deleteUserNegative() throws Exception {
+    public void deleteWeekNegative() throws Exception {
         mockMvc.perform(delete("/api/weeks/fakeId")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void deleteUserPositive() throws Exception {
+    public void deleteWeekPositive() throws Exception {
          List<Week> weeks = weekRepository.findAll();
          Week week = weeks.get(0);
          int size = weeks.size();
@@ -126,7 +126,7 @@ public class WeekApiTests extends AbstractApiTests {
     }
 
     @Test
-    public void putUserNegative() throws Exception {
+    public void putWeekNegative() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
@@ -165,7 +165,7 @@ public class WeekApiTests extends AbstractApiTests {
     }
 
   	@Test
-  	public void putUserPositive() throws Exception {
+  	public void putWeekPositive() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         List<Week> weeks = weekRepository.findAll();
