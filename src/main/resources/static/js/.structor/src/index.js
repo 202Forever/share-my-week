@@ -69,7 +69,7 @@ module.exports = {
     },
     ShareMyWeek: {
         FeatureItem: require('../../src/client/components/ShareMyWeek/FeatureItem.jsx'),
-        FeatureList: require('../../src/client/components/ShareMyWeek/FeatureList.jsx'),
-        CreateWeekForm: require('../../src/client/components/ShareMyWeek/CreateWeekForm.jsx')
+        FeatureList: require('../../src/client/containers/ShareMyWeek/FeatureList.jsx'),
+        CreateWeekForm: require('../../src/client/containers/ShareMyWeek/CreateWeekForm.jsx')
     }
 };

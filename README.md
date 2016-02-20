@@ -41,7 +41,7 @@ To install Structor:
 1. Make sure to install latest Node.js. See Front-end tips
 2. You'll need to install [python 2.7.11] because some of the scripts need to be built using it
 3. Set an environment variable PYTHON to the python binary file
-4. Install npm package: ```npm install -g structor```
+4. Install npm package: ```npm install -g structor@0.2.7```
 
     >You can ignore ERROR on optional dependencies
     

@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import java.util.List;
 
 @Configuration
-class RepositoryApiConfigurer implements RepositoryRestConfigurer {
+public class RepositoryApiConfigurer implements RepositoryRestConfigurer {
 
     @Autowired
     private Validator validator;

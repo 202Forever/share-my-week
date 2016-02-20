@@ -2,16 +2,13 @@ package com.team202forever.sharemyweek.data.mvc;
 
 import static org.junit.Assert.*;
 
-import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.sun.mail.iap.ResponseInputStream;
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.Week;
 import com.team202forever.sharemyweek.data.models.WeekCollection;
@@ -108,37 +105,80 @@ public class WeekApiTests extends AbstractApiTests {
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
     }
-    
-    // Deletes JSON with matching email
+
     @Test
-    public void deleteUserByEmail() throws Exception {
+    public void deleteUserNegative() throws Exception {
+        mockMvc.perform(delete("/api/weeks/fakeId")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void deleteUserPositive() throws Exception {
          List<Week> weeks = weekRepository.findAll();
          Week week = weeks.get(0);
          int size = weeks.size();
-         MockHttpServletResponse response = mockMvc.perform(delete("/api/weeks/" + week.getHashId().toString())
-                .contentType(MediaType.APPLICATION_JSON)
+         mockMvc.perform(delete("/api/weeks/" + week.getHashId())
                 .accept(MediaType.APPLICATION_JSON))
-        		.andExpect(status().isNoContent())
-                .andReturn()
-                .getResponse();
+        		.andExpect(status().isNoContent());
          weeks = weekRepository.findAll();
          assertEquals(size - 1, weeks.size());
     }
-    
-  //Puts JSON with matching email
+
+    @Test
+    public void putUserNegative() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
+        //fake user test
+        Week fake = new Week();
+        User user = new User();
+        user.setEmail("fake@email.com");
+        fake.getUsers().add(user);
+        mockMvc.perform(put("/api/weeks/fakeId")
+                .content(objectMapper.writeValueAsString(fake))
+                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        //missing content request
+        List<Week> weeks = weekRepository.findAll();
+        Week week = weeks.get(0);
+        mockMvc.perform(put("/api/weeks/" + week.getHashId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        //empty email request
+        week.getUsers().iterator().next().setEmail("");
+        mockMvc.perform(put("/api/weeks/" + week.getHashId())
+                .content(objectMapper.writeValueAsString(week))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        //not allowed request
+        mockMvc.perform(put("/api/weeks/" + week.getHashId().toString())
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .accept(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
+                .andExpect(status().isUnsupportedMediaType());
+    }
+
   	@Test
-  	public void putUserByEmail() throws Exception {
-  		List<Week> weeks = weekRepository.findAll();
-          Week week = weeks.get(0);
-//          int size = weeks.size();
-          mockMvc.perform(put("/api/weeks/" + week.getHashId().toString())
-                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                 .accept(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
-         		.andExpect(status().is4xxClientError())
-                 .andReturn().getResponse();
-//          weeks = weekRepository.findAll();
-          //assertEquals(MockHttpServletResponse.SC_CREATED, response);
-  	}
+  	public void putUserPositive() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        List<Week> weeks = weekRepository.findAll();
+        Week week = weeks.get(0);
+        int size = weeks.size();
+        mockMvc.perform(put("/api/weeks/" + week.getHashId())
+                .content(objectMapper.writeValueAsString(week))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        weeks = weekRepository.findAll();
+        assertEquals(size, weeks.size());
+    }
 }
 
 	

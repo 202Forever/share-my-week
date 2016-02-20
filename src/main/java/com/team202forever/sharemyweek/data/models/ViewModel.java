@@ -5,6 +5,7 @@ import lombok.Data;
 import org.bson.types.ObjectId;
 import org.hashids.Hashids;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
 
@@ -16,6 +17,7 @@ public abstract class ViewModel {
 
     public static class HashId implements Serializable {
 
+        @Transient
         private String hashId;
 
         public HashId() {

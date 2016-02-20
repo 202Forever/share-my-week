@@ -5,8 +5,8 @@ import { Navbar } from 'react-bootstrap';
 import { NavbarBrand } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { NavItem } from 'react-bootstrap';
-import FeatureList from '../components/ShareMyWeek/FeatureList.jsx';
-import CreateWeekForm from '../components/ShareMyWeek/CreateWeekForm.jsx';
+import FeatureList from '../containers/ShareMyWeek/FeatureList.jsx';
+import CreateWeekForm from '../containers/ShareMyWeek/CreateWeekForm.jsx';
 
 
 class App extends Component {

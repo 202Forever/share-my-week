@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team202forever.sharemyweek.ShareMyWeekApplication;
 import com.team202forever.sharemyweek.config.FongoConfiguration;
+import com.team202forever.sharemyweek.config.RepositoryApiConfigurer;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,7 +17,7 @@ import java.io.StringReader;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {ShareMyWeekApplication.class, FongoConfiguration.class})
+@SpringApplicationConfiguration(classes = {ShareMyWeekApplication.class, RepositoryApiConfigurer.class, FongoConfiguration.class})
 public  abstract class AbstractApiTests {
 
     protected <T> T importJson(Class<T> clazz, String collection, String filename) throws IOException {

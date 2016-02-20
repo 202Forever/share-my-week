@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import FeatureItem from './FeatureItem.jsx';
+import FeatureItem from '../../components/ShareMyWeek/FeatureItem.jsx';
 
 class FeatureList extends Component {
 
