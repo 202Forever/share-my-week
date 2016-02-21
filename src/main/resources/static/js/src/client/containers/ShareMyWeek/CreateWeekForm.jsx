@@ -10,10 +10,10 @@ import { dispatchRoute } from '../../util/helpers';
 class CreateWeekForm extends Component {
 
     render() {
-        const {fields: {emails}, placeholder, submitting, handleSubmit} = this.props;
+        const {fields: {email}, placeholder, submitting, handleSubmit} = this.props;
         return (
             <form role="form" onSubmit={handleSubmit}>
-                <Input {...emails}
+                <Input {...email}
                     buttonAfter={
                         <Button
                         type="submit"
@@ -34,43 +34,36 @@ class CreateWeekForm extends Component {
     }
 
     renderHelpTooltip() {
-        const {fields: {emails}, error, submitting} = this.props;
+        const {fields: {email}, error, submitting} = this.props;
         if (submitting) {
             return 'Processing request...'
         }
         if (error) {
             return error;
         }
-        if (emails.touched && emails.error) {
-            return emails.error;
+        if (email.touched && email.error) {
+            return email.error;
         }
     }
 
     renderInputStyle() {
-        const {fields: {emails}, error, submitting} = this.props;
+        const {fields: {email}, error, submitting} = this.props;
         if (submitting) {
             return null;
         }
         if (error) {
             return 'error';
         }
-        if (emails.touched && !emails.error) {
+        if (email.touched && !email.error) {
             return 'success';
         }
     }
 }
 
-const seperatorsRegEx = new RegExp([' ', ','].join('|'), "g");
-
 function validate(values) {
     const errors = {};
-    if (!values.emails) {
-        errors.emails = 'Please enter an valid email address';
-    } else if(values.emails.split(seperatorsRegEx).find(function (email) {
-            email = email.trim();
-            return email && !emailValidator.validate(email);
-        })) {
-        errors.emails = 'One or more email addresses are invalid';
+    if (!values.email || !emailValidator.validate(values.email)) {
+        errors.email = 'Please enter an valid email address';
     }
     return errors;
 }
@@ -87,9 +80,7 @@ function mapDispatchToProps(dispatch) {
 
 function addWeekAndDispatch(data, dispatch) {
     var action = addWeek({
-        users : data.emails.split(seperatorsRegEx).map(function (email) {
-            return {email};
-        })
+        users : [{email: data.email}]
     });
     dispatch(action);
     action.payload.then((entity) => dispatchRoute(dispatch, entity, 'self'));
@@ -98,6 +89,6 @@ function addWeekAndDispatch(data, dispatch) {
 
 export default reduxForm({
     form: 'createWeekForm',
-    fields: ['emails'],
+    fields: ['email'],
     validate
 }, mapStateToProps, mapDispatchToProps)(CreateWeekForm);

@@ -30,8 +30,8 @@ export default {
     },
     form: {
         createWeekForm: {
-            emails: null,
-            placeholder: "joe@yourmail.com sally@yourmail.com devin@yourmail.com"
+            email: null,
+            placeholder: "Enter your email"
         }
     }
 };

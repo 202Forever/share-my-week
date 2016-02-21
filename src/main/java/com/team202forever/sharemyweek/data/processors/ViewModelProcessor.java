@@ -19,7 +19,9 @@ public class ViewModelProcessor implements ResourceProcessor<Resource<? extends 
     public Resource<? extends ViewModel> process(Resource<? extends ViewModel> resource) {
         ViewModel model = resource.getContent();
         if (model instanceof Week) {
-            resource.add(linkToWeek((Week) model, "page"));
+            if (model.getLink("page") == null) {
+                resource.add(linkToWeek((Week) model, "page"));
+            }
         }
         return resource;
     }

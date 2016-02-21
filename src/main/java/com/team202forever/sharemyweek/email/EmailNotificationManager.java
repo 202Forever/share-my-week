@@ -83,9 +83,10 @@ public class EmailNotificationManager {
             Context ctx = new Context();
             ctx.setVariable("publicLink", ViewModelProcessor.linkToWeek(week, "page").getHref());
             Link link = ViewModelProcessor.linkToWeek(week, user, "page");
-            HashMap<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put("userId", user.getHashId().toString());
-            ctx.setVariable("privateLink", link.expand(parameters).getHref());
+            if (providedUsers.size() == 1) {
+                week.getLinks().add(link);
+            }
+            ctx.setVariable("privateLink", link.getHref());
             String html = templateEngine.process("mail/new-week", ctx);
             try {
                 message.setText(html, true);

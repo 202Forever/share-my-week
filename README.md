@@ -138,6 +138,11 @@ Start the test email server:
 
 As result, only test1@sharemyweek.com can recieve email from the server. See more tips: http://haraka.github.io/manual/plugins/access.html
 
+#### Running Junit Tests
+
+1. Make sure that smtpeshka is __not running__ when starting the unit tests.
+2. Run the tests in your IDE or using ```mvn package```
+
 
 #### Server-side Testing
 
