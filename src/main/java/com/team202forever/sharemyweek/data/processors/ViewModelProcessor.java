@@ -23,6 +23,7 @@ public class ViewModelProcessor implements ResourceProcessor<Resource<? extends 
                 resource.add(linkToWeek((Week) model, "page"));
             }
         }
+        resource.getLinks().addAll(model.getLinks());
         return resource;
     }
     

@@ -98,12 +98,10 @@ public class WeekApiTests extends AbstractApiTests {
         json = response.getContentAsString();
         JsonNode jsonNode = objectMapper.readTree(json);
         JsonNode links = jsonNode.get("_links");
-        JsonNode link = links.get("self");
+        JsonNode link = links.get("page");
         JsonNode href = link.get("href");
-        mockMvc.perform(get(href.asText())
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn().getResponse();
+        mockMvc.perform(get(href.asText()))
+                .andExpect(status().isOk());
     }
 
     @Test
