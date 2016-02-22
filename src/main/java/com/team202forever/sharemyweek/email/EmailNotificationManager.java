@@ -2,7 +2,8 @@ package com.team202forever.sharemyweek.email;
 
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.Week;
-import com.team202forever.sharemyweek.data.processors.ViewModelProcessor;
+import com.team202forever.sharemyweek.data.processors.WeekProcessor;
+import com.team202forever.sharemyweek.data.repository.UserRepository;
 import com.team202forever.sharemyweek.data.repository.WeekRepository;
 import com.team202forever.sharemyweek.exception.EmailNotificationException;
 import org.slf4j.Logger;
@@ -22,7 +23,6 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -37,6 +37,9 @@ public class EmailNotificationManager {
 
     @Autowired
     private WeekRepository weekRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     
     @Autowired
     private SpringTemplateEngine templateEngine;
@@ -47,16 +50,16 @@ public class EmailNotificationManager {
     }
 
     @HandleAfterCreate
-    public void emailWeekLink(Week week) throws Exception {
+    public void newWeekEmail(Week week) throws Exception {
     	try {
-    		sendEmail(week);
+    		sendNewEmail(week);
     	} catch (Exception e) {
     		weekRepository.delete(week);
     		throw e;
     	}
     }
     
-    public void sendEmail(Week week) throws EmailNotificationException, MessagingException, NoSuchMethodException, SecurityException {
+    private void sendNewEmail(Week week) throws EmailNotificationException, MessagingException, NoSuchMethodException, SecurityException {
         Collection<User> providedUsers = week.getUsers();
         Set<User> failedUsers = new LinkedHashSet<>();
         for (User user : providedUsers) {
@@ -81,8 +84,8 @@ public class EmailNotificationManager {
                 throw e;
             }
             Context ctx = new Context();
-            ctx.setVariable("publicLink", ViewModelProcessor.linkToWeek(week, "page").getHref());
-            Link link = ViewModelProcessor.linkToWeek(week, user, "page");
+            ctx.setVariable("publicLink", WeekProcessor.linkToWeek(week, "page").getHref());
+            Link link = WeekProcessor.linkToWeek(week, user, "page");
             if (providedUsers.size() == 1) {
                 week.getLinks().add(link);
             }
@@ -96,6 +99,12 @@ public class EmailNotificationManager {
             }
             try {
                 this.mailSender.send(mimeMessage);
+                User stored = userRepository.findOne(user.getHashId());
+                if (stored != null) {
+                    stored.getWeeks().add(week);
+                    user = stored;
+                }
+                userRepository.save(user);
             } catch (MailSendException e) {
                 logger.error(e.getMessage(), e);
                 failedUsers.add(user);
