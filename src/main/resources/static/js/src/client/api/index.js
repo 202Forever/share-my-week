@@ -1,5 +1,6 @@
-import {createWeek} from './serverApi.js';
+import {createWeek, fetchWeekById} from './serverApi.js';
 
 export {
-    createWeek
+    createWeek,
+    fetchWeekById
 }

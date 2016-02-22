@@ -1,12 +1,9 @@
 
 import React, { Component, PropTypes } from 'react';
 
-import { Navbar } from 'react-bootstrap';
-import { NavbarBrand } from 'react-bootstrap';
-import { Nav } from 'react-bootstrap';
-import { NavItem } from 'react-bootstrap';
 import FeatureList from '../containers/ShareMyWeek/FeatureList.jsx';
 import CreateWeekForm from '../containers/ShareMyWeek/CreateWeekForm.jsx';
+import NavBar from '../components/ShareMyWeek/NavBar.jsx';
 
 
 class App extends Component {
@@ -14,22 +11,8 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Navbar staticTop={ true } params={ this.props.params }>
-                    <NavbarBrand params={ this.props.params }>
-                        <a href="#" params={ this.props.params }><span params={ this.props.params }>202Forever</span></a>
-                    </NavbarBrand>
-                    <Nav pullRight={ true } params={ this.props.params }>
-                        <NavItem href="#"
-                                 active={ true }
-                                 params={ this.props.params }>
-                            <span params={ this.props.params }>Home</span>
-                        </NavItem>
-                        <NavItem href="#" params={ this.props.params }>
-                            <span params={ this.props.params }>Contact Us</span>
-                        </NavItem>
-                    </Nav>
-                </Navbar>
-                <div className="section" params={ this.props.params }>
+                <NavBar staticTop={ true } params={ this.props.params }></NavBar>
+                <div className="section " params={ this.props.params }>
                     <div className="container" params={ this.props.params }>
                         <div className="row" params={ this.props.params }>
                             <div className="col-md-12 text-center" params={ this.props.params }>

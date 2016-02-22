@@ -1,6 +1,8 @@
 
 import React, { Component, PropTypes } from 'react';
 
+import NavBar from '../components/ShareMyWeek/NavBar.jsx';
+import WeekApp from '../containers/ShareMyWeek/WeekApp.jsx';
 
 
 class Week extends Component {
@@ -8,7 +10,8 @@ class Week extends Component {
     render() {
         return (
             <div>
-                <h3 style={ {    padding: '1em',    textAlign: 'center'} } params={ this.props.params }><span params={ this.props.params }>This is an empty page. To add new component select needed element on left-side panel and click on an element on the page where you want to put new component, than choose action for right component's place.</span></h3>
+                <NavBar staticTop={ true } params={ this.props.params }></NavBar>
+                <WeekApp fluid={ true } params={ this.props.params }></WeekApp>
             </div>
             );
     }

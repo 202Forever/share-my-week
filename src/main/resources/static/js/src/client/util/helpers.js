@@ -5,7 +5,7 @@ export function dispatchRoute(dispatch, entity) {
     dispatch(routeActions.push(getEntityPath(entity, 'page')));
 }
 
-function getEntityPath(entity, rel) {
+export function getEntityPath(entity, rel) {
     const uri = urlTemplate.parse(entity._links[rel].href);
     const url = uri.expand(entity);
     const paths = parseEntityUrl(url);

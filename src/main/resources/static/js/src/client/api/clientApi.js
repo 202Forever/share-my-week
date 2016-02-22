@@ -66,6 +66,10 @@ class ApiClient {
         return api().then(() => Client.get(entity._links.self));
     }
 
+    fetchEntityById(rel, id) {
+        return api().then((apiLinks) => Client.get(apiLinks[rel].href + '/' + id));
+    }
+
     fetchEntityList(rel) {
         return api().then((apiLinks) => Client.get(apiLinks[rel].href));
     }
