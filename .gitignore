@@ -2,6 +2,7 @@
 /src/main/resources/static/js/built
 /.idea
 *.iml
+/logs
 /react-email-templates/node_modules/
 /smtp-test-server/build
 /smtp-test-server/haraka-def/config/rcpt_to.access.whitelist
