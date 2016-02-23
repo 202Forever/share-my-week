@@ -105,6 +105,12 @@ public class WeekApiTests extends AbstractApiTests {
     }
 
     @Test
+    public void deleteWeeks() throws Exception {
+        mockMvc.perform(delete("/api/weeks"))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
     public void deleteWeekNegative() throws Exception {
         mockMvc.perform(delete("/api/weeks/fakeId")
                 .accept(MediaType.APPLICATION_JSON))

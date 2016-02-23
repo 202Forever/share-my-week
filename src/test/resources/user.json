@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "email": "test1@sharemyweek.com",
+      "maxBudget": 20.0,
+      "availDateTimeRanges": null
+    },
+    {
+      "email": "test2@sharemyweek.com",
+      "maxBudget": 25.50,
+      "availDateTimeRanges": null
+    }
+  ]
+}
