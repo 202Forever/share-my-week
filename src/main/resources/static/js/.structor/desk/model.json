@@ -209,6 +209,15 @@
           "children": []
         },
         {
+          "variantName": "Unsaved variant",
+          "type": "UserSettingsModal",
+          "props": {
+            "className": "static-modal"
+          },
+          "children": [],
+          "text": " "
+        },
+        {
           "variantName": "mini mesh",
           "type": "WeekApp",
           "props": {

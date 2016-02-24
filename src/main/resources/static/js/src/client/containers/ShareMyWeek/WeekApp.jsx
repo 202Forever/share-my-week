@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Pager, PageItem, PageHeader } from 'react-bootstrap';
 import WeekTable from '../../components/ShareMyWeek/WeekTable.jsx';
-import { getWeekById } from '../../actions/serverActions';
+import { getWeekById, getUserById } from '../../actions/serverActions';
 import { goPrevious, goNext } from '../../actions/weekAppActions';
 import moment from 'moment';
 
@@ -15,8 +15,9 @@ class WeekApp extends Component {
     }
 
     componentDidMount() {
-        const {params, dispatch} = this.props;
+        const {params, dispatch, location} = this.props;
         dispatch(getWeekById(params.id));
+        dispatch(getUserById(location.query.userId));
     }
 
     getDateRange(date) {

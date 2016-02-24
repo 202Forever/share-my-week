@@ -36,6 +36,13 @@ export default {
                 status: null,
                 statusText: null
             }
+        },
+        userData: {
+            entity: null,
+            fetching: {
+                status: null,
+                statusText: null
+            }
         }
     },
     form: {

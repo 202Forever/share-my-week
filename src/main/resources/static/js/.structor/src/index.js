@@ -76,6 +76,7 @@ module.exports = {
         WeekHourRow: require('../../src/client/components/ShareMyWeek/WeekHourRow.jsx'),
         WeekHalfHourRow: require('../../src/client/components/ShareMyWeek/WeekHalfHourRow.jsx'),
         WeekTable: require('../../src/client/components/ShareMyWeek/WeekTable.jsx'),
-        WeekApp: require('../../src/client/containers/ShareMyWeek/WeekApp.jsx')
+        WeekApp: require('../../src/client/containers/ShareMyWeek/WeekApp.jsx'),
+        UserSettingsModal: require('../../src/client/containers/ShareMyWeek/UserSettingsModal.jsx')
     }
 };

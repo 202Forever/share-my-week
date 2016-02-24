@@ -43,51 +43,55 @@ export class Client {
     }
 }
 
-const api = (function () {
-    var apiLinks;
-    return () => {
-        if (apiLinks) {
-            return new Promise(resolve => resolve(apiLinks));
-        }
-        return Client.get(apiPath).then((json) => {
-            apiLinks = json._links;
-            return apiLinks;
-        });
-    };
-})();
-
 class ApiClient {
 
+    constructor () {
+        this.resolves = [];
+    }
+
+    api() {
+        if (!this.client) {
+            this.client = Client.get(apiPath).then((json) => {
+                this.links = json._links;
+                this.resolves.forEach(resolve => resolve(this.links));
+                this.resolves = [];
+            });
+        }
+        if (this.links) {
+            return Promise.resolve(this.links);
+        } else {
+            return new Promise((resolve) => this.resolves.push(resolve));
+        }
+    }
+
     createEntity(rel, entity) {
-        return api().then((apiLinks) => Client.post(apiLinks[rel].href, entity));
+        return this.api().then((apiLinks) => Client.post(apiLinks[rel].href, entity), this.onError);
     }
 
     fetchEntity(entity) {
-        return api().then(() => Client.get(entity._links.self));
+        return this.api().then(() => Client.get(entity._links.self), this.onError);
     }
 
     fetchEntityById(rel, id) {
-        return api().then((apiLinks) => Client.get(apiLinks[rel].href + '/' + id));
+        return this.api().then((apiLinks) => Client.get(apiLinks[rel].href + '/' + id), this.onError);
     }
 
     fetchEntityList(rel) {
-        return api().then((apiLinks) => Client.get(apiLinks[rel].href));
+        return this.api().then((apiLinks) => Client.get(apiLinks[rel].href), this.onError);
     }
 
     updateEntity(entity) {
-        return api().then(() => Client.put(entity._links.self, entity));
+        return this.api().then(() => Client.put(entity._links.self, entity), this.onError);
     }
 
     removeEntity(entity) {
-        return api().then(() => Client.delete(entity._links.self, entity));
+        return this.api().then(() => Client.delete(entity._links.self, entity), this.onError);
+    }
+
+    onError(message) {
+        console.error(message);
     }
 }
 
-let client;
-export default function apiClient() {
-    if (client) {
-        return client;
-    }
-    client = new ApiClient();
-    return client;
-}
+let apiClient = new ApiClient();
+export default apiClient;
