@@ -148,7 +148,7 @@ public class WeekApiTests extends AbstractApiTests {
                 .andExpect(status().isNotFound());
 
         //missing user id
-        List<Week> weeks = weekRepository.findAll();
+        List<Week> weeks = weekRepository.findAllByOrderByCreationDateAsc();
         Week week = weeks.get(0);
         mockMvc.perform(put("/api/weeks/" + week.getHashId())
                 .content(objectMapper.writeValueAsString(week))
