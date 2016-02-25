@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.Week;
 import com.team202forever.sharemyweek.data.models.WeekCollection;
+import com.team202forever.sharemyweek.data.models.WeekUser;
 import com.team202forever.sharemyweek.data.repository.WeekRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -81,9 +82,11 @@ public class WeekApiTests extends AbstractApiTests {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         Week week = new Week();
+        WeekUser weekUser = new WeekUser();
         User user = new User();
         user.setEmail("test3@sharemyweek.com");
-        week.getUsers().add(user);
+        weekUser.setUserInfo(user);
+        week.getUsers().add(weekUser);
 
         // post
         String json = objectMapper.writeValueAsString(week);
@@ -136,9 +139,11 @@ public class WeekApiTests extends AbstractApiTests {
 
         //fake user test
         Week fake = new Week();
+        WeekUser weekUser = new WeekUser();
         User user = new User();
         user.setEmail("fake@email.com");
-        fake.getUsers().add(user);
+        weekUser.setUserInfo(user);
+        fake.getUsers().add(weekUser);
         mockMvc.perform(put("/api/weeks/fakeId")
                 .content(objectMapper.writeValueAsString(fake))
                 .contentType(MediaType.APPLICATION_JSON)
@@ -154,7 +159,7 @@ public class WeekApiTests extends AbstractApiTests {
                 .andExpect(status().isBadRequest());
 
         //empty email request
-        week.getUsers().iterator().next().setEmail("");
+        week.getUsers().iterator().next().getUserInfo().setEmail("");
         mockMvc.perform(put("/api/weeks/" + week.getHashId())
                 .content(objectMapper.writeValueAsString(week))
                 .contentType(MediaType.APPLICATION_JSON)

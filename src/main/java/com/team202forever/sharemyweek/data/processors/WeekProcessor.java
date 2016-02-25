@@ -6,7 +6,7 @@ import com.team202forever.sharemyweek.controllers.WeekController;
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.ViewModel;
 import com.team202forever.sharemyweek.data.models.Week;
-
+import com.team202forever.sharemyweek.data.models.WeekUser;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
@@ -25,12 +25,11 @@ public class WeekProcessor implements ResourceProcessor<Resource<? extends ViewM
 
     @HandleBeforeCreate
     public void preprocess(Week week) {
-        for (User user : week.getUsers()) {
-            User stored = userRepository.findByEmail(user.getEmail());
-            if (stored != null) {
-                user.setHashId(stored.getHashId());
-                user.getColors().addAll(stored.getColors());
-                user.getAvailDateTimeRanges().addAll(stored.getAvailDateTimeRanges());
+        for (WeekUser weekUser : week.getUsers()) {
+        	User userInfo = weekUser.getUserInfo();
+            User storedInfo = userRepository.findByEmail(userInfo.getEmail());
+            if (storedInfo != null) {
+            	weekUser.setUserInfo(storedInfo);
             }
         }
     }

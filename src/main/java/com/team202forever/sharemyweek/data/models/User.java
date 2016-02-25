@@ -16,15 +16,13 @@ public class User extends ViewModel {
     private String email;
 
     private String name;
-
-    private Set<UserColor> colors = new HashSet<>();
-
-    @DBRef
-    private Set<Week> weeks = new HashSet<>();
-
+    
     private float maxBudget;
-
+    
     @Valid
     private Set<DateTimeRange> availDateTimeRanges = new HashSet<>();
+    
+    @DBRef
+    private Set<Week> weeks = new HashSet<>();
 
 }

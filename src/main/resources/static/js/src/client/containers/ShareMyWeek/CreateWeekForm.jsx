@@ -80,7 +80,9 @@ function mapDispatchToProps(dispatch) {
 
 function addWeekAndDispatch(data, dispatch) {
     var action = addWeek({
-        users : [{email: data.email}]
+        users : [{
+            userInfo: {email: data.email}
+        }]
     });
     dispatch(action);
     action.payload.then((entity) => dispatchRoute(dispatch, entity, 'self'));

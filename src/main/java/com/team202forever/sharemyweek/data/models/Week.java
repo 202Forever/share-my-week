@@ -19,7 +19,7 @@ public class Week extends ViewModel {
 
     @NotEmpty
     @Valid
-    private Set<User> users = new HashSet<>();
+    private Set<WeekUser> users = new HashSet<>();
 
     @JsonIgnore
     private Date creationDate;

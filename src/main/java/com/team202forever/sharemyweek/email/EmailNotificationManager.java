@@ -2,6 +2,7 @@ package com.team202forever.sharemyweek.email;
 
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.Week;
+import com.team202forever.sharemyweek.data.models.WeekUser;
 import com.team202forever.sharemyweek.data.processors.WeekProcessor;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
 import com.team202forever.sharemyweek.data.repository.WeekRepository;
@@ -60,9 +61,10 @@ public class EmailNotificationManager {
     }
     
     private void sendNewEmail(Week week) throws EmailNotificationException, MessagingException, NoSuchMethodException, SecurityException {
-        Collection<User> providedUsers = week.getUsers();
+        Collection<WeekUser> providedUsers = week.getUsers();
         Set<User> failedUsers = new LinkedHashSet<>();
-        for (User user : providedUsers) {
+        for (WeekUser weekUser : providedUsers) {
+        	User user = weekUser.getUserInfo();
             MimeMessage mimeMessage = this.mailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "utf-8");
             try {
