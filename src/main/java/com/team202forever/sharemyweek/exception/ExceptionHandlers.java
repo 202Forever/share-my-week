@@ -13,6 +13,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.ws.rs.WebApplicationException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 
@@ -25,6 +26,13 @@ public class ExceptionHandlers {
     ResponseEntity<GenericErrorMessage> handle(EmailNotificationException e) {
         logger.error(e.getMessage(), e);
         return new ResponseEntity<>(new GenericErrorMessage("Please verify your information is correct. If you believe your information is correct, please contant us at support@sharemyweek.com"), new HttpHeaders(), HttpStatus.FAILED_DEPENDENCY);
+    }
+
+    @ExceptionHandler(WebApplicationException.class)
+    ResponseEntity<GenericErrorMessage> handle(WebApplicationException e) {
+        logger.error(e.getMessage(), e);
+        HttpStatus httpStatus = HttpStatus.valueOf(e.getResponse().getStatus());
+        return new ResponseEntity<>(new GenericErrorMessage(e.getMessage(), httpStatus), new HttpHeaders(), httpStatus);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

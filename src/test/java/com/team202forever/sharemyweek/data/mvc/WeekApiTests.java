@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.Week;
 import com.team202forever.sharemyweek.data.models.WeekCollection;
@@ -25,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.subethamail.wiser.Wiser;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 public class WeekApiTests extends AbstractApiTests {
@@ -69,7 +69,6 @@ public class WeekApiTests extends AbstractApiTests {
     @Test
     public void postWeekNegative() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         Week week = new Week();
         mockMvc.perform(post("/api/weeks")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -80,7 +79,6 @@ public class WeekApiTests extends AbstractApiTests {
     @Test
     public void postWeekPositive() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         Week week = new Week();
         WeekUser weekUser = new WeekUser();
         User user = new User();
@@ -135,7 +133,6 @@ public class WeekApiTests extends AbstractApiTests {
     @Test
     public void putWeekNegative() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
         //fake user test
         Week fake = new Week();
@@ -144,30 +141,42 @@ public class WeekApiTests extends AbstractApiTests {
         user.setEmail("fake@email.com");
         weekUser.setUserInfo(user);
         fake.getUsers().add(weekUser);
-        mockMvc.perform(put("/api/weeks/fakeId")
+        mockMvc.perform(put("/api/weeks/fakeId?userId=fakeUserId")
                 .content(objectMapper.writeValueAsString(fake))
                 .contentType(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        //missing content request
+        //missing user id
         List<Week> weeks = weekRepository.findAll();
         Week week = weeks.get(0);
-        mockMvc.perform(put("/api/weeks/" + week.getHashId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-
-        //empty email request
-        week.getUsers().iterator().next().getUserInfo().setEmail("");
         mockMvc.perform(put("/api/weeks/" + week.getHashId())
                 .content(objectMapper.writeValueAsString(week))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
+        //empty email request
+        Iterator<WeekUser> iter = week.getUsers().iterator();
+        user = iter.next().getUserInfo();
+        user.setEmail("");
+        mockMvc.perform(put("/api/weeks/" + week.getHashId() + "?userId=" + user.getHashId())
+                .content(objectMapper.writeValueAsString(week))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        //attempt to modify different user info
+        user.setEmail("fake@email.com");
+        user.setMaxBudget(0.0f);
+        mockMvc.perform(put("/api/weeks/" + week.getHashId() + "?userId=" + iter.next().getUserInfo().getHashId())
+                .content(objectMapper.writeValueAsString(week))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+
         //not allowed request
-        mockMvc.perform(put("/api/weeks/" + week.getHashId().toString())
+        mockMvc.perform(put("/api/weeks/" + week.getHashId().toString() + "?userId=" + user.getHashId())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .accept(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                 .andExpect(status().isUnsupportedMediaType());
@@ -176,11 +185,10 @@ public class WeekApiTests extends AbstractApiTests {
   	@Test
   	public void putWeekPositive() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         List<Week> weeks = weekRepository.findAll();
         Week week = weeks.get(0);
         int size = weeks.size();
-        mockMvc.perform(put("/api/weeks/" + week.getHashId())
+        mockMvc.perform(put("/api/weeks/" + week.getHashId() + "?userId=" + week.getUsers().iterator().next().getUserInfo().getHashId())
                 .content(objectMapper.writeValueAsString(week))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))

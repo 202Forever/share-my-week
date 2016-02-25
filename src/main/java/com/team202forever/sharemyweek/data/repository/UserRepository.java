@@ -1,8 +1,8 @@
 package com.team202forever.sharemyweek.data.repository;
 
 
+import com.team202forever.sharemyweek.data.models.HashId;
 import com.team202forever.sharemyweek.data.models.User;
-import com.team202forever.sharemyweek.data.models.ViewModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -11,14 +11,14 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.List;
 
-public interface UserRepository extends MongoRepository<User, ViewModel.HashId> {
+public interface UserRepository extends MongoRepository<User, HashId> {
 
     @RestResource(exported = false)
     User findByEmail(String email);
 
     @Override
     @RestResource(exported = false)
-    void delete(ViewModel.HashId id);
+    void delete(HashId id);
 
     @Override
     @RestResource(exported = false)

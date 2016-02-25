@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true, exclude = "creationDate")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Week extends ViewModel {
 

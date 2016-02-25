@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.UserCollection;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
@@ -42,7 +41,6 @@ public class UserApiTests extends AbstractApiTests {
                 .andExpect(status().isMethodNotAllowed());
 
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         mockMvc.perform(delete("/api/users")
                 .content(objectMapper.writeValueAsString(user))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -75,7 +73,6 @@ public class UserApiTests extends AbstractApiTests {
     @Test
     public void postUser() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         User user = new User();
         user.setEmail("test1@sharemyweek.com");
         mockMvc.perform(post("/api/users")
@@ -87,7 +84,6 @@ public class UserApiTests extends AbstractApiTests {
     @Test
     public void putUserPositive() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         User user = userRepository.findAll().get(0);
         mockMvc.perform(put("/api/users/" + user.getHashId())
                 .content(objectMapper.writeValueAsString(user))
@@ -99,7 +95,6 @@ public class UserApiTests extends AbstractApiTests {
     @Test
     public void putUserNegative() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         User user = userRepository.findAll().get(0);
         user.setEmail(null);
         mockMvc.perform(put("/api/users/" + user.getHashId())
