@@ -24,7 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.subethamail.wiser.Wiser;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WeekApiTests extends AbstractApiTests {
@@ -157,8 +157,8 @@ public class WeekApiTests extends AbstractApiTests {
                 .andExpect(status().isBadRequest());
 
         //empty email request
-        Iterator<WeekUser> iter = week.getUsers().iterator();
-        user = iter.next().getUserInfo();
+        List<WeekUser> users = new ArrayList<>(week.getUsers());
+        user = users.get(0).getUserInfo();
         user.setEmail("");
         mockMvc.perform(put("/api/weeks/" + week.getHashId() + "?userId=" + user.getHashId())
                 .content(objectMapper.writeValueAsString(week))
@@ -169,7 +169,7 @@ public class WeekApiTests extends AbstractApiTests {
         //attempt to modify different user info
         user.setEmail("fake@email.com");
         user.setMaxBudget(0.0f);
-        mockMvc.perform(put("/api/weeks/" + week.getHashId() + "?userId=" + iter.next().getUserInfo().getHashId())
+        mockMvc.perform(put("/api/weeks/" + week.getHashId() + "?userId=" + users.get(1).getUserInfo().getHashId())
                 .content(objectMapper.writeValueAsString(week))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
