@@ -167,9 +167,19 @@ public class WeekApiTests extends AbstractApiTests {
                 .andExpect(status().isBadRequest());
 
         //attempt to modify different user info
-        user.setEmail("fake@email.com");
-        user.setMaxBudget(0.0f);
-        mockMvc.perform(put("/api/weeks/" + week.getHashId() + "?userId=" + users.get(1).getUserInfo().getHashId())
+        for (Week weekModel : weeks) {
+            if (weekModel.getUsers().size() > 1) {
+                week = weekModel;
+                users = new ArrayList<>(week.getUsers());
+                user = users.get(1).getUserInfo();
+                user.setEmail("fake@email.com");
+                user.setMaxBudget(0.0f);
+                break;
+            }
+        }
+        user = users.get(0).getUserInfo();
+        user.setEmail("my@mail.com");
+        mockMvc.perform(put("/api/weeks/" + week.getHashId() + "?userId=" + user.getHashId())
                 .content(objectMapper.writeValueAsString(week))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
