@@ -38,14 +38,14 @@ public class User extends ViewModel {
         if (email == null && user.getEmail() != null) {
             return false;
         }
-        if (!email.equals(user.getEmail())) {
+        if (email != null && !email.equals(user.getEmail())) {
             return false;
         }
 
         if (name == null && user.getName() != null) {
             return false;
         }
-        if (!name.equals(user.getName())) {
+        if (name != null && !name.equals(user.getName())) {
             return false;
         }
 

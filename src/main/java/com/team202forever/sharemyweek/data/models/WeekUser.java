@@ -40,21 +40,21 @@ public class WeekUser {
         if (name == null && user.getName() != null) {
             return false;
         }
-        if (!name.equals(user.getName())) {
+        if (name != null && !name.equals(user.getName())) {
             return false;
         }
 
         if (userInfo == null && user.getUserInfo() != null) {
             return false;
         }
-        if (!userInfo.equalsUser(user.getUserInfo())) {
+        if (userInfo != null && !userInfo.equalsUser(user.getUserInfo())) {
             return false;
         }
 
         if (role == null && user.getRole() != null) {
             return false;
         }
-        if (role != user.getRole()) {
+        if (role != null && role != user.getRole()) {
             return false;
         }
 
