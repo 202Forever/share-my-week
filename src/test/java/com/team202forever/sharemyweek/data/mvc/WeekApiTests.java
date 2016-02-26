@@ -56,17 +56,10 @@ public class WeekApiTests extends AbstractApiTests {
 
     @Test
     public void fetchWeeks() throws Exception {
-        List<Week> weeks = weekRepository.findAll();
-        MockHttpServletResponse response = mockMvc.perform(get("/api/weeks")
+        mockMvc.perform(get("/api/weeks")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isMethodNotAllowed())
                 .andReturn().getResponse();
-        String json = response.getContentAsString();
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(json);
-        JsonNode embedded = jsonNode.get("_embedded");
-        WeekCollection weekCollection = readJson(WeekCollection.class, embedded.toString());
-        assertEquals(weeks.size(), weekCollection.getWeeks().size());
     }
 
     @Test
@@ -176,7 +169,7 @@ public class WeekApiTests extends AbstractApiTests {
                 .andExpect(status().isNotFound());
 
         //missing user id
-        List<Week> weeks = weekRepository.findAllByOrderByCreationDateAsc();
+        List<Week> weeks = weekRepository.findAll();
         Week week = weeks.get(0);
         mockMvc.perform(put("/api/weeks/" + week.getHashId())
                 .content(objectMapper.writeValueAsString(week))
