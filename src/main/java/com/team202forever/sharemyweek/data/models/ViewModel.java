@@ -5,6 +5,7 @@ import lombok.Data;
 
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -19,6 +20,7 @@ public abstract class ViewModel extends ResourceSupport {
 
     @Override
     @JsonIgnore
+    @Transient
     public List<Link> getLinks() {
         return super.getLinks();
     }

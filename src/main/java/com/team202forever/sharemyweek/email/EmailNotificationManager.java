@@ -3,6 +3,7 @@ package com.team202forever.sharemyweek.email;
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.Week;
 import com.team202forever.sharemyweek.data.models.WeekUser;
+import com.team202forever.sharemyweek.data.models.WeekUserRole;
 import com.team202forever.sharemyweek.data.processors.WeekProcessor;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
 import com.team202forever.sharemyweek.data.repository.WeekRepository;
@@ -63,6 +64,7 @@ public class EmailNotificationManager {
     private void sendNewEmail(Week week) throws EmailNotificationException, MessagingException, NoSuchMethodException, SecurityException {
         Collection<WeekUser> providedUsers = week.getUsers();
         Set<User> failedUsers = new LinkedHashSet<>();
+        boolean updateWeek = false;
         for (WeekUser weekUser : providedUsers) {
         	User user = weekUser.getUserInfo();
             MimeMessage mimeMessage = this.mailSender.createMimeMessage();
@@ -103,14 +105,20 @@ public class EmailNotificationManager {
                 this.mailSender.send(mimeMessage);
                 User stored = userRepository.findOne(user.getHashId());
                 if (stored != null) {
-                    stored.getWeeks().add(week);
                     user = stored;
                 }
-                userRepository.save(user);
+                user.getWeekIds().add(week.getHashId().toObjectId());
+                user = userRepository.save(user);
+                updateWeek = true;
+                weekUser.setRole(WeekUserRole.OWNER);
+                weekUser.setUserInfo(user);
             } catch (MailSendException e) {
                 logger.error(e.getMessage(), e);
                 failedUsers.add(user);
             }
+        }
+        if (updateWeek) {
+            weekRepository.save(week);
         }
         if (failedUsers.size() == providedUsers.size()) {
             throw new EmailNotificationException("Failed to send email to provided email addresses");

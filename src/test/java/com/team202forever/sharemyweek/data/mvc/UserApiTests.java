@@ -31,7 +31,7 @@ public class UserApiTests extends AbstractApiTests {
     @Before
     public void setup() throws IOException {
         mockMvc = webAppContextSetup(webApplicationContext).build();
-        userRepository.save(importJson(UserCollection.class, "user", "user.json").getUsers());
+        userRepository.insert(importJson(UserCollection.class, "user", "user.json").getUsers());
     }
 
     @Test

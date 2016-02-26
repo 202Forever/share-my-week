@@ -3,8 +3,8 @@ package com.team202forever.sharemyweek.data.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
-@EqualsAndHashCode(callSuper = true, doNotUseGetters = true, exclude = "creationDate")
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Week extends ViewModel {
 

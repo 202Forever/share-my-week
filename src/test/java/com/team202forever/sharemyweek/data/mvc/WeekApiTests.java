@@ -8,10 +8,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.team202forever.sharemyweek.data.models.User;
-import com.team202forever.sharemyweek.data.models.Week;
-import com.team202forever.sharemyweek.data.models.WeekCollection;
-import com.team202forever.sharemyweek.data.models.WeekUser;
+import com.team202forever.sharemyweek.data.models.*;
+import com.team202forever.sharemyweek.data.repository.UserRepository;
 import com.team202forever.sharemyweek.data.repository.WeekRepository;
 import org.junit.After;
 import org.junit.Before;
@@ -25,6 +23,7 @@ import org.subethamail.wiser.Wiser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class WeekApiTests extends AbstractApiTests {
@@ -38,12 +37,16 @@ public class WeekApiTests extends AbstractApiTests {
     @Autowired
     private WeekRepository weekRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Before
     public void setup() throws IOException {
         wiser = new Wiser(2525);
         wiser.start();
         mockMvc = webAppContextSetup(webApplicationContext).build();
-        weekRepository.save(importJson(WeekCollection.class, "week", "week.json").getWeeks());
+        weekRepository.insert(importJson(WeekCollection.class, "week", "week.json").getWeeks());
+        userRepository.insert(importJson(UserCollection.class, "user", "user.json").getUsers());
     }
 
     @After
@@ -80,11 +83,17 @@ public class WeekApiTests extends AbstractApiTests {
     public void postWeekPositive() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         Week week = new Week();
-        WeekUser weekUser = new WeekUser();
-        User user = new User();
-        user.setEmail("test3@sharemyweek.com");
-        weekUser.setUserInfo(user);
-        week.getUsers().add(weekUser);
+        WeekUser user = new WeekUser();
+        User userInfo = new User();
+        userInfo.setEmail("test3@sharemyweek.com");
+        user.setUserInfo(userInfo);
+        week.getUsers().add(user);
+        List<User> users = userRepository.findAll();
+        for (User stored : users) {
+            WeekUser storedUser = new WeekUser();
+            storedUser.setUserInfo(stored);
+            week.getUsers().add(storedUser);
+        }
 
         // post
         String json = objectMapper.writeValueAsString(week);
@@ -103,6 +112,25 @@ public class WeekApiTests extends AbstractApiTests {
         JsonNode href = link.get("href");
         mockMvc.perform(get(href.asText()))
                 .andExpect(status().isOk());
+
+        //test ownership
+        userInfo = userRepository.findByEmail(userInfo.getEmail());
+        assertTrue(!userInfo.getWeekIds().isEmpty());
+        week = weekRepository.findOne(new HashId(userInfo.getWeekIds().iterator().next()));
+        assertTrue(week.getUsers().size() > 1);
+        for (WeekUser weekUser : week.getUsers()) {
+            weekUser.setRole(WeekUserRole.USER);
+        }
+        weekRepository.save(week);
+        Iterator<WeekUser> iter = week.getUsers().iterator();
+        iter.next();
+        iter.remove();
+        userInfo = iter.next().getUserInfo();
+        mockMvc.perform(put("/api/weeks/" + week.getHashId() + "?userId=" + userInfo.getHashId())
+                .content(objectMapper.writeValueAsString(week))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
     }
 
     @Test

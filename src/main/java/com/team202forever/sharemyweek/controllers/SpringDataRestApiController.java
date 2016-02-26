@@ -1,6 +1,5 @@
 package com.team202forever.sharemyweek.controllers;
 
-import com.google.common.collect.Sets;
 import com.team202forever.sharemyweek.data.models.*;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
 import com.team202forever.sharemyweek.data.repository.WeekRepository;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ForbiddenException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RepositoryRestController
 public class SpringDataRestApiController {
@@ -46,12 +47,20 @@ public class SpringDataRestApiController {
             throw new ResourceNotFoundException();
         }
         week.setHashId(hashId);
-        if (!stored.getUsers().stream().anyMatch(weekUser -> weekUser.getUserInfo().getHashId().toString().equals(userId))) {
+        Map<String, WeekUser> userMap = new HashMap<>();
+        for (WeekUser weekUser : stored.getUsers()) {
+            userMap.put(weekUser.getUserInfo().getHashId().toString(), weekUser);
+        }
+        WeekUser user = userMap.get(userId);
+        if (user == null) {
             throw new ForbiddenException("The user is forbidden to update the week");
         }
-        Sets.SetView<WeekUser> difference = Sets.difference(week.getUsers(), stored.getUsers());
-        if (!difference.isEmpty()) {
-            if (difference.size() > 1 || !difference.iterator().next().getUserInfo().getHashId().equals(hashId)) {
+        if (userMap.size() > week.getUsers().size() && user.getRole() != WeekUserRole.OWNER) {
+            throw new ForbiddenException("Removing users is not allowed for non-owners");
+        }
+        for (WeekUser weekUser : week.getUsers()) {
+            WeekUser storedUser = userMap.get(weekUser.getUserInfo().getHashId().toString());
+            if (!storedUser.equalsUser(weekUser)) {
                 throw new ForbiddenException("It is forbidden to update other users");
             }
         }

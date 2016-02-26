@@ -1,16 +1,18 @@
 package com.team202forever.sharemyweek.data.models;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.validation.Valid;
 import java.util.*;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class User extends ViewModel {
 
     @Email
@@ -22,9 +24,40 @@ public class User extends ViewModel {
     private float maxBudget;
     
     @Valid
+    @Setter(AccessLevel.NONE)
     private Set<DateTimeRange> availDateTimeRanges = new HashSet<>();
-    
-    @DBRef
-    private Set<Week> weeks = new HashSet<>();
+
+    @JsonIgnore
+    private Set<ObjectId> weekIds = new HashSet<>();
+
+    public boolean equalsUser(User user) {
+        if (user == null) {
+            return true;
+        }
+
+        if (email == null && user.getEmail() != null) {
+            return false;
+        }
+        if (!email.equals(user.getEmail())) {
+            return false;
+        }
+
+        if (name == null && user.getName() != null) {
+            return false;
+        }
+        if (!name.equals(user.getName())) {
+            return false;
+        }
+
+        if (maxBudget != user.getMaxBudget()) {
+            return false;
+        }
+
+        if (!availDateTimeRanges.equals(user.getAvailDateTimeRanges())) {
+            return false;
+        }
+
+        return true;
+    }
 
 }
