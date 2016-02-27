@@ -43,6 +43,16 @@ export default {
                 status: null,
                 statusText: null
             }
+        },
+        colorMap : { // color to user
+            '#ffff00': null, //yellow
+            '#ff9900': null, //orange
+            pink: null,
+            red: null,
+            green: null,
+            blue : null,
+            purple: null,
+            brown: null
         }
     },
     form: {

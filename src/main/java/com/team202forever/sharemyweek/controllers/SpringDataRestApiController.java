@@ -51,10 +51,13 @@ public class SpringDataRestApiController {
         }
         week.setHashId(hashId);
         Map<String, WeekUser> userMap = new HashMap<>();
+        WeekUser user = null;
         for (WeekUser weekUser : stored.getUsers()) {
-            userMap.put(weekUser.getUserInfo().getHashId().toString(), weekUser);
+            userMap.put(weekUser.getUserInfo().getEmail(), weekUser);
+            if (weekUser.getUserInfo().getHashId().toString().equals(userId)) {
+                user = weekUser;
+            }
         }
-        WeekUser user = userMap.get(userId);
         if (user == null) {
             throw new ForbiddenException("The user is forbidden to update the week");
         }
@@ -62,10 +65,11 @@ public class SpringDataRestApiController {
             throw new ForbiddenException("Removing users is not allowed for non-owners");
         }
         for (WeekUser weekUser : week.getUsers()) {
-            WeekUser storedUser = userMap.get(weekUser.getUserInfo().getHashId().toString());
-            if (!storedUser.equalsUser(weekUser)) {
+            WeekUser storedUser = userMap.get(weekUser.getUserInfo().getEmail());
+            if (storedUser == null || !storedUser.equalsUser(weekUser) && !storedUser.getUserInfo().getHashId().toString().equals(userId)) {
                 throw new ForbiddenException("It is forbidden to update other users");
             }
+            weekUser.setUserInfo(storedUser.getUserInfo());
         }
         return resourceAssembler.toResource(weekRepository.save(week));
     }

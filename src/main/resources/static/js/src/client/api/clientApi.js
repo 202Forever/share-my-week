@@ -69,7 +69,7 @@ class ApiClient {
     }
 
     fetchEntity(entity) {
-        return this.api().then(() => Client.get(entity._links.self), this.onError);
+        return this.api().then(() => Client.get(entity._links.self.href), this.onError);
     }
 
     fetchEntityById(rel, id) {
@@ -80,12 +80,19 @@ class ApiClient {
         return this.api().then((apiLinks) => Client.get(apiLinks[rel].href), this.onError);
     }
 
-    updateEntity(entity) {
-        return this.api().then(() => Client.put(entity._links.self, entity), this.onError);
+    updateEntity(entity, userId) {
+        const href = this.appendUserIdParam(entity._links.self.href, userId);
+        return this.api().then(() => Client.put(href, entity), this.onError);
     }
 
-    removeEntity(entity) {
-        return this.api().then(() => Client.delete(entity._links.self, entity), this.onError);
+    removeEntity(entity, userId) {
+        const href = this.appendUserIdParam(entity._links.self.href, userId);
+        return this.api().then(() => Client.delete(href, entity), this.onError);
+    }
+
+    //It is bad practice, until user session is supported
+    appendUserIdParam(href, userId) {
+        return href + (href.indexOf('?{') > -1 ? '&userId=': '?userId=') + userId;
     }
 
     onError(message) {

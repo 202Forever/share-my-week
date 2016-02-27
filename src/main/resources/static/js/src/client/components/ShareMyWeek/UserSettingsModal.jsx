@@ -40,10 +40,10 @@ class Username extends Component {
 class Color extends Component {
 
     render() {
-        const {color} = this.props;
+        const {color, selected, onColorSelect} = this.props;
         return (
-            <Col md={1}>
-                <i className="fa fa-square color-tag button" style={{color}}/>
+            <Col md={1} sm={1} xs={1}>
+                <i className="fa fa-square color-tag button" selected={selected} onClick={() => onColorSelect(color)} style={{color}}/>
             </Col>
         )
     }
@@ -55,11 +55,21 @@ class UserSettingsModal extends Component {
         super(props, content);
         this.state = {
             show: true,
-            username: '',
+            update: false,
+            name: '',
             color: ''
         };
         this.onModalHide = this.onModalHide.bind(this);
         this.onConfirmName = this.onConfirmName.bind(this);
+        this.onColorSelect = this.onColorSelect.bind(this);
+    }
+
+    componentDidUpdate() {
+        if (this.state.update) {
+            const {onUserUpdate} = this.props;
+            onUserUpdate(this.getSettings());
+            this.setState({update: false});
+        }
     }
 
     onModalHide() {
@@ -67,56 +77,60 @@ class UserSettingsModal extends Component {
     }
 
     onConfirmName(username) {
-        this.setState({username});
+        this.setState({name: username});
+    }
+
+    onColorSelect(color) {
+        this.setState({color, update: true});
+    }
+
+    getSettings() {
+        const {user} = this.props;
+        return {
+            name : this.state.name || user.name,
+            color: this.state.color || user.color
+        };
     }
 
     render() {
-        const {userData} = this.props;
-        const user = userData.entity;
+        const {user, colors} = this.props;
         if (user) {
+            const show = this.state.show;
+            const settings = this.getSettings();
             let body;
-            if (this.state.username) {
+            if (settings.name) {
+                const colorSelection = colors.map((color) => {
+                    return (<Color key={color} color={color} selected={settings.color === color} onColorSelect={this.onColorSelect}/>);
+                });
                 body = (
                     <Modal.Body>
                         <Grid fluid={true}>
                             <row>
                                 <Col>Select your color tag:</Col>
                             </row>
-                            <row>
-                                <Color color="yellow"/>
-                                <Color color="orange"/>
-                                <Color color="pink"/>
-                                <Color color="red"/>
-                                <Color color="green"/>
-                                <Color color="blue"/>
-                                <Color color="purple"/>
-                                <Color color="brown"/>
-                            </row>
+                            <row>{colorSelection}</row>
                         </Grid>
                     </Modal.Body>
                 );
             }
-            return (
-                <Modal className="user-settings-dialog" show={this.state.show && (!user.color || !user.name)}>
-                    <Modal.Header closeButton={true} onHide={this.onModalHide}>
-                        <Grid fluid={true}>
-                            <row>
-                                <Col><h2 className="modal-title">Welcome</h2></Col>
-                            </row>
-                            <Username username={this.state.username} onConfirmName={this.onConfirmName} />
-                        </Grid>
-                    </Modal.Header>
-                    {body}
-                </Modal>
-            );
+            if (!user.name || !user.color) {
+                return (
+                    <Modal className="user-settings-dialog" show={show}>
+                        <Modal.Header closeButton={true} onHide={this.onModalHide}>
+                            <Grid fluid={true}>
+                                <row>
+                                    <Col><h2 className="modal-title">Welcome</h2></Col>
+                                </row>
+                                <Username username={settings.name} onConfirmName={this.onConfirmName}/>
+                            </Grid>
+                        </Modal.Header>
+                        {body}
+                    </Modal>
+                );
+            }
         }
         return (<span/>);
     }
 }
 
-function mapStateToProps(state) {
-    var {userData} = state.appData;
-    return {userData};
-}
-
-export default connect(mapStateToProps)(UserSettingsModal);
+export default UserSettingsModal;

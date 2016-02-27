@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Pager, PageItem, PageHeader } from 'react-bootstrap';
+import UserSettingsModal from '../../components/ShareMyWeek/UserSettingsModal.jsx';
 import WeekTable from '../../components/ShareMyWeek/WeekTable.jsx';
-import { getWeekById, getUserById } from '../../actions/serverActions';
+import { saveWeek, getWeekById, getUserById } from '../../actions/serverActions';
 import { goPrevious, goNext } from '../../actions/weekAppActions';
 import moment from 'moment';
 
@@ -12,12 +13,15 @@ class WeekApp extends Component {
         super(props, content);
         this.onPrevious = this.onPrevious.bind(this);
         this.onNext = this.onNext.bind(this);
+        this.onUpdateUser = this.onUpdateUser.bind(this);
     }
 
     componentDidMount() {
         const {params, dispatch, location} = this.props;
         dispatch(getWeekById(params.id));
-        dispatch(getUserById(location.query.userId));
+        if (location.query && location.query.userId) {
+            dispatch(getUserById(location.query.userId));
+        }
     }
 
     getDateRange(date) {
@@ -37,6 +41,23 @@ class WeekApp extends Component {
         return dateRange;
     }
 
+    getAvailableColors () {
+        const {colorMap} = this.props;
+        const weekUser = this.getWeekUser();
+        const colors = [];
+        Object.keys(colorMap).forEach((color) => {
+            if (!colorMap[color] || (weekUser && weekUser.color === color)) {
+                colors.push(color);
+            }
+        });
+        return colors;
+    }
+
+    getWeekUser () {
+        const {userData, weekData} = this.props;
+        return weekData.entity.users.find((user) => user.userInfo.email === userData.entity.email);
+    }
+
     onPrevious() {
         const { dispatch, weekData, location } = this.props;
         const query = location.query.timestamp ? location.query : Object.assign({}, location.query, {timestamp: weekData.timestamp});
@@ -49,10 +70,28 @@ class WeekApp extends Component {
         dispatch(goNext(dispatch, weekData.entity, query));
     }
 
+    onUpdateUser(settings) {
+        const { dispatch, weekData, location} = this.props;
+        const entity = Object.assign({}, weekData.entity, {
+            users: weekData.entity.users.map(function (user) {
+                return Object.assign({}, user, settings);
+            })
+        });
+        if (location.query && location.query.userId) {
+            dispatch(saveWeek(entity, location.query.userId));
+        }
+    }
+
     render() {
         const {weekData, location} = this.props;
-        const timestamp = location.query.timestamp ? location.query.timestamp : weekData.timestamp;
-        return (<Grid
+        let timestamp = weekData.timestamp;
+        if (location.query && location.query.timestamp) {
+            timestamp = location.query.timestamp;
+        }
+        return (
+            <div>
+                <UserSettingsModal user={this.getWeekUser()} colors={this.getAvailableColors()} onUserUpdate={this.onUpdateUser} />
+                <Grid
                       {...this.props}
                       fluid={ true }>
                     <Row>
@@ -102,14 +141,14 @@ class WeekApp extends Component {
                         </Col>
                     </Row>
                 </Grid>
-            );
+            </div>);
     }
 }
 
 function mapStateToProps(state) {
-    const {weekData} = state.appData;
+    const {weekData, userData, colorMap} = state.appData;
     const {location} = state.routing;
-    return {weekData, location};
+    return {weekData, userData, colorMap, location};
 }
 
 export default connect(mapStateToProps)(WeekApp);
