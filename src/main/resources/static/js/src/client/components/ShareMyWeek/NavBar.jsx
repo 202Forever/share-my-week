@@ -19,19 +19,24 @@ class NavBar extends Component {
         return (<Navbar
                         {...this.props}
                         staticTop={ true }>
-                    <NavbarBrand>
-                        <a href="#"><span>202Forever</span></a>
-                    </NavbarBrand>
-                    <Nav pullRight={ true }>
-                        <NavItem
-                                 href="#"
-                                 active={ true }>
-                            <span>Home</span>
-                        </NavItem>
-                        <NavItem href="#">
-                            <span>Contact Us</span>
-                        </NavItem>
-                    </Nav>
+                    <Navbar.Header>
+                        <NavbarBrand>
+                            <a href="#"><span>202Forever</span></a>
+                        </NavbarBrand>
+                        <Navbar.Toggle/>
+                    </Navbar.Header>
+                    <Navbar.Collapse>
+                        <Nav pullRight={ true }>
+                            <NavItem
+                                     href="#"
+                                     active={ true }>
+                                <span>Home</span>
+                            </NavItem>
+                            <NavItem href="#">
+                                <span>Contact Us</span>
+                            </NavItem>
+                        </Nav>
+                    </Navbar.Collapse>
                 </Navbar>
             );
     }
