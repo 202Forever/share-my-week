@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team202forever.sharemyweek.AbstractSpringTests;
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.UserCollection;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
@@ -18,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 
-public class UserApiTests extends AbstractApiTests {
+public class UserApiTests extends AbstractSpringTests {
 
     @Autowired
     private WebApplicationContext webApplicationContext;

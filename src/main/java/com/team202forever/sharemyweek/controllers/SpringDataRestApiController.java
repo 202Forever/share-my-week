@@ -38,6 +38,9 @@ public class SpringDataRestApiController {
             throw new BadRequestException("A user id must be specified to update the week");
         }
         ValidationUtils.invokeValidator(validator, week, bindingResult);
+        for (WeekUser weekUser : week.getUsers()) {
+            ValidationUtils.invokeValidator(validator, weekUser.getUserInfo(), bindingResult);
+        }
         if (bindingResult.hasErrors()) {
             throw new RepositoryConstraintViolationException(bindingResult);
         }

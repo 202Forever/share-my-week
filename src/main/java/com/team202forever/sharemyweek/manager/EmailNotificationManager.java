@@ -1,4 +1,4 @@
-package com.team202forever.sharemyweek.email;
+package com.team202forever.sharemyweek.manager;
 
 import com.team202forever.sharemyweek.data.models.User;
 import com.team202forever.sharemyweek.data.models.Week;

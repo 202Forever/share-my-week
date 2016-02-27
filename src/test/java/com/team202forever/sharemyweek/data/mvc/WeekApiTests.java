@@ -8,9 +8,12 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team202forever.sharemyweek.AbstractSpringTests;
 import com.team202forever.sharemyweek.data.models.*;
+import com.team202forever.sharemyweek.data.processors.WeekProcessor;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
 import com.team202forever.sharemyweek.data.repository.WeekRepository;
+import com.team202forever.sharemyweek.manager.EmailNotificationManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,12 +24,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import org.subethamail.wiser.Wiser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class WeekApiTests extends AbstractApiTests {
+public class WeekApiTests extends AbstractSpringTests {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -40,13 +42,25 @@ public class WeekApiTests extends AbstractApiTests {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private WeekProcessor weekProcessor;
+
+    @Autowired
+    private EmailNotificationManager emailNotificationManager;
+
     @Before
-    public void setup() throws IOException {
+    public void setup() throws Exception {
         wiser = new Wiser(2525);
         wiser.start();
         mockMvc = webAppContextSetup(webApplicationContext).build();
-        weekRepository.insert(importJson(WeekCollection.class, "week", "week.json").getWeeks());
         userRepository.insert(importJson(UserCollection.class, "user", "user.json").getUsers());
+        List<Week> weeks = importJson(WeekCollection.class, "week", "week.json").getWeeks();
+        weeks = weekRepository.insert(weeks);
+        for (Week week : weeks) {
+            weekProcessor.preprocess(week);
+            emailNotificationManager.testEmailServer(week);
+            emailNotificationManager.newWeekEmail(week);
+        }
     }
 
     @After

@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface UserRepository extends MongoRepository<User, HashId> {
 
     @RestResource(exported = false)

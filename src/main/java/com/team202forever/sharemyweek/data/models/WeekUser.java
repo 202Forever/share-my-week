@@ -1,25 +1,52 @@
 package com.team202forever.sharemyweek.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.team202forever.sharemyweek.data.repository.UserRepository;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.rest.core.annotation.RestResource;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 public class WeekUser {
 
+    public static UserRepository userRepository;
+
     private String name;
     
     private String color;
-    
-    @NotNull
-    @Valid
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @JsonIgnore
+    private ObjectId userId;
+
+    @Transient
     private User userInfo;
 
     @NotNull
     private WeekUserRole role = WeekUserRole.USER;
+
+    @RestResource(exported = false)
+    public User getUserInfo() {
+        if (userInfo == null && userId != null) {
+            userInfo = userRepository.findOne(new HashId(userId));
+        }
+        return userInfo;
+    }
+
+    public void setUserInfo(User user) {
+        User stored = userRepository.findOne(user.getHashId());
+        if (stored != null) {
+            userId = user.getHashId().toObjectId();
+        }
+        userInfo = user;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -28,7 +55,7 @@ public class WeekUser {
 
         WeekUser weekUser = (WeekUser) o;
 
-        return userInfo != null ? userInfo.equals(weekUser.userInfo) : weekUser.userInfo == null;
+        return userId != null ? userId.equals(weekUser.userId) : weekUser.userId == null;
 
     }
 

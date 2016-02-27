@@ -27,8 +27,9 @@ public class User extends ViewModel {
     @Setter(AccessLevel.NONE)
     private Set<DateTimeRange> availDateTimeRanges = new HashSet<>();
 
+    @Setter(AccessLevel.NONE)
     @JsonIgnore
-    private Set<ObjectId> weekIds = new HashSet<>();
+    private List<ObjectId> weekIds = new ArrayList<>();
 
     public boolean equalsUser(User user) {
         if (user == null) {

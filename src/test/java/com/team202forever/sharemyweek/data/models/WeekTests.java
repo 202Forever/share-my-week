@@ -2,10 +2,11 @@ package com.team202forever.sharemyweek.data.models;
 
 import static org.junit.Assert.*;
 
+import com.team202forever.sharemyweek.AbstractSpringTests;
 import org.junit.Before;
 import org.junit.Test;
 
-public class WeekTests {
+public class WeekTests extends AbstractSpringTests {
 
     private Week week;
     private WeekUser weekUser;
