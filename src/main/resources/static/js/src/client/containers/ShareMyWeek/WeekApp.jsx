@@ -55,7 +55,10 @@ class WeekApp extends Component {
 
     getWeekUser () {
         const {userData, weekData} = this.props;
-        return weekData.entity.users.find((user) => user.userInfo.email === userData.entity.email);
+        if (userData.entity) {
+            return weekData.entity.users.find((user) => user.userInfo.email === userData.entity.email);
+        }
+        return null;
     }
 
     onPrevious() {
