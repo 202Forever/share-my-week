@@ -14,11 +14,12 @@ class WeekTable extends Component {
             content.push(<WeekHourRow key={ key + '_full' } hour={ hours[key] } />);
             content.push(<WeekHalfHourRow key = { key + '_half' } />);
         }
-        return (<Table {...this.props}>
-                    <WeekTableHeader timestamp={ timestamp } />
-                    <tbody>{ content }</tbody>
-                </Table>
-            );
+        return (<div>
+                    <Table {...this.props} condensed hover={false}>
+                        <WeekTableHeader timestamp={ timestamp } />
+                        <tbody>{ content }</tbody>
+                    </Table>
+                </div>);
     }
 }
 

@@ -1,12 +1,61 @@
 /**
 * CSS/LESS goes after here
 */
+@gray-base : #000;
+@week-table-bg-color: lighten(@gray-base, 90.0%);
+@week-table-border-color: lighten(@gray-base, 80.0%);
+@week-table-min-width: 312px;
+@week-table-hours-col-width: 60px;
+@week-table-col-width: ~'calc((100% - 60px)/7)';
 
 .week-table {
+    background-color: @week-table-bg-color;
+    border-color: @week-table-border-color;
+    min-width: @week-table-min-width;
+    table-layout: fixed;
+
+    thead tr {
+        th {
+            border-color: @week-table-border-color;
+
+            &:first-child {
+                width: @week-table-hours-col-width;
+                min-width: @week-table-hours-col-width;
+            }
+
+            &:not(:first-child) {
+                width: @week-table-col-width;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+
     tbody {
-        td:first-child span {
-            display: inline-block;
-            height: 15px;
+        tr {
+            &:nth-of-type(odd) {
+                background-color: darken(@week-table-bg-color, 2.0%);
+            }
+
+            td {
+                border-top: none;
+                border-bottom: none;
+                border-color: @week-table-border-color;
+
+                &:first-child {
+                    width: @week-table-hours-col-width;
+                    min-width: @week-table-hours-col-width;
+
+                    span {
+                        display: inline-block;
+                        height: 15px;
+                    }
+                }
+
+                &:not(:first-child) {
+                    width: @week-table-col-width;
+                }
+            }
         }
     }
 }
