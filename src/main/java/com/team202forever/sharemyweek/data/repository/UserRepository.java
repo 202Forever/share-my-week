@@ -36,7 +36,7 @@ public interface UserRepository extends MongoRepository<User, HashId> {
 
     @Override
     @RestResource(exported = false)
-    Page<User> findAll(Pageable sort);
+    Page<User> findAll(Pageable pageable);
 
     @Override
     @RestResource(exported = false)

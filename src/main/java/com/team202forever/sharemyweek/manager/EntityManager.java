@@ -1,5 +1,6 @@
 package com.team202forever.sharemyweek.manager;
 
+import com.team202forever.sharemyweek.data.models.Event;
 import com.team202forever.sharemyweek.data.models.WeekUser;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ public class EntityManager {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
         WeekUser.userRepository = userRepository;
+        Event.userRepository = userRepository;
     }
 
     public UserRepository getUserRepository() {
