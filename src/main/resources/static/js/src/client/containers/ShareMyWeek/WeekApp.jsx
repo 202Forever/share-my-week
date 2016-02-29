@@ -134,7 +134,7 @@ class WeekApp extends Component {
                                 <li className="week-header">
                                     <h1 className="text-primary">
                                         <span>ShareMyWeek&nbsp;</span>
-                                        <small>Feburary 14 - 20, 2016</small>
+                                        <small>{this.getDateRange(timestamp)}</small>
                                     </h1>
                                 </li>
                                 <PageItem next onSelect={ this.onNext } href="#">
