@@ -5,7 +5,11 @@ export default function colorMapReducer(state = {}, action) {
         let users = state.weekData.entity.users;
         let colorMap = {};
         if (users) {
-            users.forEach((user) => {colorMap[user.color] = weekUserReducer(user)});
+            users.forEach((user) => {
+                if (user.color) {
+                    colorMap[user.color] = weekUserReducer(user);
+                }
+            });
         }
         return Object.assign({}, state, {
             colorMap: Object.assign({}, state.colorMap, colorMap)

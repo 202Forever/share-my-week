@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Pager, PageItem, PageHeader } from 'react-bootstrap';
+import EventModal from '../../components/ShareMyWeek/EventModal.jsx';
 import UserSettingsModal from '../../components/ShareMyWeek/UserSettingsModal.jsx';
 import WeekTable from '../../components/ShareMyWeek/WeekTable.jsx';
 import { saveWeek, getWeekById, getUserById } from '../../actions/serverActions';
@@ -11,9 +12,15 @@ class WeekApp extends Component {
 
     constructor(props, content) {
         super(props, content);
+        this.state = {
+            showEventModal: false,
+            selectedDateRange: {}
+        }
         this.onPrevious = this.onPrevious.bind(this);
         this.onNext = this.onNext.bind(this);
         this.onUpdateUser = this.onUpdateUser.bind(this);
+        this.onCellSelect = this.onCellSelect.bind(this);
+        this.onModalHide = this.onModalHide.bind(this);
     }
 
     componentDidMount() {
@@ -85,45 +92,53 @@ class WeekApp extends Component {
         }
     }
 
+    onCellSelect(start, end) {
+        this.setState({
+            showEventModal: true,
+            selectedDateRange: {
+                start,
+                end
+            }
+        });
+    }
+
+    onModalHide() {
+        this.setState({showEventModal: false});
+    }
+
     render() {
         const {weekData, location} = this.props;
+        const weekUser = this.getWeekUser();
         let timestamp = weekData.timestamp;
         if (location.query && location.query.timestamp) {
             timestamp = location.query.timestamp;
         }
         return (
             <div>
-                <UserSettingsModal user={this.getWeekUser()} colors={this.getAvailableColors()} onUserUpdate={this.onUpdateUser} />
+                <UserSettingsModal user={weekUser} colors={this.getAvailableColors()} onUserUpdate={this.onUpdateUser} />
+                <EventModal show={this.state.showEventModal} onModalHide={this.onModalHide}
+                            start={this.state.selectedDateRange.start} end={this.state.selectedDateRange.end} />
                 <Grid
                       {...this.props}
                       fluid={ true }>
                     <Row>
                         <Col
-                             xs={ 3 }
-                             md={ 3 }
-                             sm={ 3 }
-                             lg={ 3 } />
-                        <Col
-                             xs={ 6 }
-                             md={ 6 }
-                             sm={ 6 }
-                             lg={ 6 }>
-                            <PageHeader>
-                                <span>ShareMyWeek</span>
-                                <small>{ this.getDateRange(timestamp) }</small>
-                            </PageHeader>
-                        </Col>
-                        <Col
-                             xs={ 3 }
-                             md={ 3 }
-                             sm={ 3 }
-                             lg={ 3 }>
+                             xs={ 12 }
+                             md={ 12 }
+                             sm={ 12 }
+                             lg={ 12 }>
                             <Pager>
-                                <PageItem onSelect={ this.onPrevious } href="#">
-                                    <span>Previous</span>
+                                <PageItem previous onSelect={ this.onPrevious } href="#">
+                                    <span>&larr; Previous</span>
                                 </PageItem>
-                                <PageItem onSelect={ this.onNext } href="#">
-                                    <span>Next</span>
+                                <li className="week-header">
+                                    <h1 className="text-primary">
+                                        <span>ShareMyWeek&nbsp;</span>
+                                        <small>Feburary 14 - 20, 2016</small>
+                                    </h1>
+                                </li>
+                                <PageItem next onSelect={ this.onNext } href="#">
+                                    <span>Next &rarr;</span>
                                 </PageItem>
                             </Pager>
                         </Col>
@@ -140,6 +155,9 @@ class WeekApp extends Component {
                                        bordered={ true }
                                        condensed={ false }
                                        hover={ true }
+                                       onCellSelect={this.onCellSelect}
+                                       selectColor={weekUser ? weekUser.color: null}
+                                       focused={this.state.showEventModal}
                                        className="week-table" />
                         </Col>
                     </Row>

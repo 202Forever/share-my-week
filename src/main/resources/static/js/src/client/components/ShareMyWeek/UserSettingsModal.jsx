@@ -64,12 +64,14 @@ class UserSettingsModal extends Component {
         this.onColorSelect = this.onColorSelect.bind(this);
     }
 
-    componentDidUpdate() {
-        if (this.state.update) {
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextState.update) {
             const {onUserUpdate} = this.props;
-            onUserUpdate(this.getSettings());
+            onUserUpdate(this.getSettings(nextState));
             this.setState({update: false});
+            return false;
         }
+        return true;
     }
 
     onModalHide() {
@@ -84,11 +86,12 @@ class UserSettingsModal extends Component {
         this.setState({color, update: true});
     }
 
-    getSettings() {
+    getSettings(nextState) {
+        const state = nextState ? nextState : this.state;
         const {user} = this.props;
         return {
-            name : this.state.name || user.name,
-            color: this.state.color || user.color
+            name : state.name || user.name,
+            color: state.color || user.color
         };
     }
 
@@ -115,7 +118,7 @@ class UserSettingsModal extends Component {
             }
             if (!user.name || !user.color) {
                 return (
-                    <Modal className="user-settings-dialog" show={show}>
+                    <Modal dialogClassName="user-settings-dialog" show={show}>
                         <Modal.Header closeButton={true} onHide={this.onModalHide}>
                             <Grid fluid={true}>
                                 <row>

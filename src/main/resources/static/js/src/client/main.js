@@ -13,6 +13,7 @@ import numberLocalizer from 'react-widgets/lib/localizers/simple-number';
 numberLocalizer();
 
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import getRoutes from './routes/routes.js';
@@ -22,8 +23,10 @@ const routes = getRoutes();
 const store = storeManager();
 
 ReactDOM.render(
-    <Provider store={store}>
-        {routes}
-    </Provider>,
+    <IntlProvider locale="en-US">
+        <Provider store={store}>
+            {routes}
+        </Provider>
+    </IntlProvider>,
     document.getElementById('content')
 );

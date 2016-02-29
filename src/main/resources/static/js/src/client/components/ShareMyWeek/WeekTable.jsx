@@ -1,19 +1,22 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import WeekTableHeader from './WeekTableHeader.jsx';
-import WeekHourRow from './WeekHourRow.jsx';
-import WeekHalfHourRow from './WeekHalfHourRow.jsx';
+import WeekTableRow from './WeekTableRow.jsx';
+import moment from 'moment';
 
 class WeekTable extends Component {
 
     render() {
-        const {hours, weekData, timestamp} = this.props;
+        const {hours, timestamp} = this.props;
         let content = [];
-        for (var key in hours) {
-            content.push(<WeekHourRow key={ key + '_full' } hour={ hours[key] } />);
-            content.push(<WeekHalfHourRow key = { key + '_half' } />);
-        }
+        Object.keys(hours).forEach((hour) => {
+            const value = hours[hour];
+            const start = moment(timestamp).hour(value).minute(0);
+            const mid = moment(timestamp).hour(value).minute(30);
+            const end = moment(timestamp).hour(value + 1).minute(0);
+            content.push(<WeekTableRow key={ hour + '_start' } start={start} end={mid} {...this.props} format={{hour : '2-digit'}} />);
+            content.push(<WeekTableRow key={ hour + '_half' } start={mid} end={end} {...this.props} label={<span/>} />);
+        });
         return (<div>
                     <Table {...this.props} condensed hover={false}>
                         <WeekTableHeader timestamp={ timestamp } />
@@ -25,30 +28,30 @@ class WeekTable extends Component {
 
 WeekTable.defaultProps = {
     hours : {
-        '12am': "12 AM",
-        '1am': "1 AM",
-        '2am': "2 AM",
-        '3am': "3 AM",
-        '4am': "4 AM",
-        '5am': "5 AM",
-        '6am': "6 AM",
-        '7am': "7 AM",
-        '8am': "8 AM",
-        '9am': "9 AM",
-        '10am': "10 AM",
-        '11am': "11 AM",
-        '12pm': "12 PM",
-        '1pm': "1 PM",
-        '2pm': "2 PM",
-        '3pm': "3 PM",
-        '4pm': "4 PM",
-        '5pm': "5 PM",
-        '6pm': "6 PM",
-        '7pm': "7 PM",
-        '8pm': "8 PM",
-        '9pm': "9 PM",
-        '10pm': "10 PM",
-        '11pm': "11 PM",
+        '12am': 0,
+        '1am': 1,
+        '2am': 2,
+        '3am': 3,
+        '4am': 4,
+        '5am': 5,
+        '6am': 6,
+        '7am': 7,
+        '8am': 8,
+        '9am': 9,
+        '10am': 10,
+        '11am': 11,
+        '12pm': 12,
+        '1pm': 13,
+        '2pm': 14,
+        '3pm': 15,
+        '4pm': 16,
+        '5pm': 17,
+        '6pm': 18,
+        '7pm': 19,
+        '8pm': 20,
+        '9pm': 21,
+        '10pm': 22,
+        '11pm': 23
     }
 };
 
