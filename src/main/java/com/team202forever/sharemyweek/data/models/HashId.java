@@ -29,6 +29,9 @@ public class HashId implements Serializable {
     }
 
     public ObjectId toObjectId() {
+        if (hashId == null) {
+            return null;
+        }
         return new ObjectId(new Hashids().decodeHex(hashId));
     }
 

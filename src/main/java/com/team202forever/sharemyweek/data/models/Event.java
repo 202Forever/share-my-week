@@ -1,6 +1,7 @@
 package com.team202forever.sharemyweek.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Event extends ViewModel {
 
     public static UserRepository userRepository;
@@ -23,9 +25,9 @@ public class Event extends ViewModel {
 
     private String description;
 
-    private float maxBudget;
+    private Float maxBudget;
 
-    private float minBudget;
+    private Float minBudget;
 
     @Valid
     @NotNull
@@ -50,6 +52,9 @@ public class Event extends ViewModel {
     }
 
     public User getOwner() {
+        if (ownerId == null) {
+            return null;
+        }
         return userRepository.findOne(new HashId(ownerId));
     }
 
@@ -58,6 +63,9 @@ public class Event extends ViewModel {
     }
 
     public HashId getWeekId() {
+        if (weekId == null) {
+            return null;
+        }
         return new HashId(weekId);
     }
 }

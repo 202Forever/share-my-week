@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.ws.rs.WebApplicationException;
 import java.lang.reflect.InvocationTargetException;
@@ -39,6 +40,12 @@ public class ExceptionHandlers {
     ResponseEntity<GenericErrorMessage> handle(HttpMessageNotReadableException e) {
         logger.error(e.getMessage(), e);
         return new ResponseEntity<>(new GenericErrorMessage("Your request is invalid", HttpStatus.BAD_REQUEST), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpClientErrorException.class)
+    ResponseEntity<String> handle(HttpClientErrorException e) {
+        logger.error(e.getMessage(), e);
+        return new ResponseEntity<>(e.getResponseBodyAsString(), new HttpHeaders(), e.getStatusCode());
     }
 
     @ExceptionHandler({
