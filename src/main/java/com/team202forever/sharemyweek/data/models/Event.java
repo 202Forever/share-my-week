@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Transient;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,9 @@ public class Event extends ViewModel {
     private DateTimeRange dateTimeRange;
 
     private String eventUrl;
+
+    @Transient
+    private Image image;
 
     @NotNull
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

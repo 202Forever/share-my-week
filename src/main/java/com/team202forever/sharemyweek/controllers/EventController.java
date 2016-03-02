@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team202forever.sharemyweek.data.models.DateTimeRange;
 import com.team202forever.sharemyweek.data.models.Event;
+import com.team202forever.sharemyweek.data.models.Image;
 import com.team202forever.sharemyweek.data.thirdparty.eventbrite.EventbriteProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
@@ -98,7 +99,17 @@ public class EventController {
                 event.setDateTimeRange(dateTimeRange);
                 event.setDescription(eventNode.get("description").get("text").asText());
                 event.setEventUrl(eventNode.get("url").asText());
-                event.setOwnerId(null);
+                JsonNode logoNode = eventNode.get("logo");
+                if (logoNode != null) {
+                    JsonNode urlNode = logoNode.get("url");
+                    if (urlNode != null) {
+                        Image image = new Image();
+                        image.setUrl(urlNode.asText());
+                        image.setAspectRatio(logoNode.get("aspect_ratio").asDouble());
+                        event.setImage(image);
+                    }
+
+                }
                 events.add(event);
             }
         }
