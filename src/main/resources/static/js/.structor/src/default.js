@@ -3,6 +3,7 @@ require("babel-polyfill");
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { IntlProvider } from 'react-intl';
 import { createHistory, useBasename } from 'history';
 import { Router, Route, Link } from 'react-router';
 
@@ -47,9 +48,11 @@ window.__createPageDesk = function(model){
     ];
 
     ReactDOM.render(
-        <Provider store={store}>
-            <Router history={history} routes={routeConfig} />
-        </Provider>,
+    	<IntlProvider locale="en-US">
+	        <Provider store={store}>
+	            <Router history={history} routes={routeConfig} />
+	        </Provider>
+        </IntlProvider>,
         document.getElementById('content')
     );
 
