@@ -73,8 +73,7 @@ module.exports = {
         CreateWeekForm: require('../../src/client/containers/ShareMyWeek/CreateWeekForm.jsx'),
         NavBar: require('../../src/client/components/ShareMyWeek/NavBar.jsx'),
         WeekTableHeader: require('../../src/client/components/ShareMyWeek/WeekTableHeader.jsx'),
-        WeekHourRow: require('../../src/client/components/ShareMyWeek/WeekHourRow.jsx'),
-        WeekHalfHourRow: require('../../src/client/components/ShareMyWeek/WeekHalfHourRow.jsx'),
+        WeekTableRow: require('../../src/client/components/ShareMyWeek/WeekTableRow.jsx'),
         WeekTable: require('../../src/client/components/ShareMyWeek/WeekTable.jsx'),
         WeekApp: require('../../src/client/containers/ShareMyWeek/WeekApp.jsx'),
         UserSettingsModal: require('../../src/client/components/ShareMyWeek/UserSettingsModal.jsx')
