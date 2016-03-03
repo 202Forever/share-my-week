@@ -17,3 +17,7 @@ export function fetchWeekById(id) {
 export function fetchUserById(id) {
     return apiClient.fetchEntityById('users', id);
 }
+
+export function fetchEvents(query) {
+    return apiClient.fetchEntityList('events', query);
+}

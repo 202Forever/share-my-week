@@ -7,7 +7,7 @@ import com.team202forever.sharemyweek.data.models.Event;
 import com.team202forever.sharemyweek.data.models.Image;
 import com.team202forever.sharemyweek.data.thirdparty.eventbrite.EventbriteProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.ExposesResourceFor;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,19 +26,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@RestController
+@RepositoryRestController
 @RequestMapping("/events")
-@ExposesResourceFor(Event.class)
 public class EventController {
 
     @Autowired
     private EventbriteProperties eventbriteProperties;
 
     /**
+     * TODO
+     *
      * Gets a list of events from Eventbrite. In the future reactor to use multiple online sources.
      *
      * This service does basic operations with RestTemplate. In the future it is preferred to use Spring Social integration with OAuth
-     *
      */
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")

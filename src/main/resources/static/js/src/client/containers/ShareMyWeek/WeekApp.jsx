@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col, Pager, PageItem, PageHeader } from 'react-bootstrap';
-import EventModal from '../../components/ShareMyWeek/EventModal.jsx';
+import EventModal from './EventModal.jsx';
 import UserSettingsModal from '../../components/ShareMyWeek/UserSettingsModal.jsx';
 import WeekTable from '../../components/ShareMyWeek/WeekTable.jsx';
 import { saveWeek, getWeekById, getUserById } from '../../actions/serverActions';

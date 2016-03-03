@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RepositoryEventHandler
-public class WeekProcessor implements ResourceProcessor<Resource<? extends ViewModel>> {
+public class WeekProcessor implements ResourceProcessor<Resource<Week>> {
 
     @Autowired
     private UserRepository userRepository;
@@ -34,16 +34,13 @@ public class WeekProcessor implements ResourceProcessor<Resource<? extends ViewM
         }
     }
 
-
     @Override
-    public Resource<? extends ViewModel> process(Resource<? extends ViewModel> resource) {
-        ViewModel model = resource.getContent();
-        if (model instanceof Week) {
-            if (model.getLink("page") == null) {
-                resource.add(linkToWeek((Week) model, "page"));
-            }
+    public Resource<Week> process(Resource<Week> resource) {
+        Week week = resource.getContent();
+        if (week.getLink("page") == null) {
+            resource.add(linkToWeek(week, "page"));
         }
-        resource.getLinks().addAll(model.getLinks());
+        resource.getLinks().addAll(week.getLinks());
         return resource;
     }
     

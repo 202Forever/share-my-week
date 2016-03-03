@@ -53,6 +53,13 @@ export default {
             blue : null,
             purple: null,
             brown: null
+        },
+        eventsData : {
+            entities: null,
+            fetching: {
+                status: null,
+                statusText: null
+            }
         }
     },
     form: {

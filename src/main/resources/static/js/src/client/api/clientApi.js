@@ -20,8 +20,11 @@ export class Client {
     }
 
     static request(path, body, method) {
-        let uri = urlTemplate.parse(path);
-        return fetch(uri.expand(body || {}), {
+        const uri = urlTemplate.parse(path);
+        let url = uri.expand(body || {});
+        try {url = new URL(url);} catch (e) {}
+        body = method === 'get' ? null : body;
+        return fetch(url, {
             method: method,
             headers: {
                 'Accept': 'application/json',
@@ -76,8 +79,8 @@ class ApiClient {
         return this.api().then((apiLinks) => Client.get(apiLinks[rel].href + '/' + id), this.onError);
     }
 
-    fetchEntityList(rel) {
-        return this.api().then((apiLinks) => Client.get(apiLinks[rel].href), this.onError);
+    fetchEntityList(rel, query) {
+        return this.api().then((apiLinks) => Client.get(apiLinks[rel].href, query), this.onError);
     }
 
     updateEntity(entity, userId) {
