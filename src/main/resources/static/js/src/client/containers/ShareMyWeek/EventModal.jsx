@@ -15,12 +15,12 @@ class EventModal extends Component {
 
     onSearch() {
         const {dispatch, start, end} = this.props;
-        const {titleInput, locationInput, keywordsInput} = this.refs;
+        const {locationInput, keywordsInput} = this.refs;
         const locations = locationInput.value ? locationInput.value.split(',') : [];
         dispatch(getEvents({
             city: locations[0],
             country: locations[1],
-            keywords: titleInput +  + keywordsInput.value,
+            keywords: keywordsInput.value,
             start: start.toISOString(),
             end: end.toISOString()
         }));
