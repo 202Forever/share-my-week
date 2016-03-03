@@ -10,7 +10,7 @@ You'll need a version of [Maven] 3.1 for your IDE. You can install a IDE that co
 So far a good work environment consist of [Eclipse] EE for back-end and [Atom] for front-end. [Intellij] works well in both areas.
 Metadata directories have been added to .gitignore
 
-> The Project relies on Lombok in order to automatically generate sources from Java class with getters and setters. For Eclipse, you'll need to download and run [lombok.jar] to install the plugin.
+> The Project relies on Lombok in order to automatically generate sources from Java class with getters and setters. For Eclipse, you'll need to download and run [lombok.jar] to install the plugin. Make sure to have Eclipse closed. If you still see errors in your workspace, clean project and build.
 
 #### Email Design Guide
 
@@ -26,7 +26,7 @@ templates/(e.g mydesign-template.js). See for tips: [react-html-email]. Then add
 - View Design should be pushed in the $project_dir/design/ folder.
 - Consider using [Bootstrap] look and feel as default.
 - To start off designing, you may use the Bootstrap designer [pinguendo].
-- All templates should share the same stylesheet to uphold an consistent design
+- All templates should share the same stylesheet to uphold an consistent design. It's good practice to update/override existing html and styles.
 
 > Pinguendo uses the .less file. On saving the template, the file is compiled into .css. Therefore modification of style should go into the less file. [less] extends the css body language.
 
@@ -56,7 +56,6 @@ Please refer to Structor's Wiki to see how and where code is organized.
 #### Adding your own Styles
 
 Under resources/static/less directory, there is an app.less file for adding custom styles. This file gets appended last, so if you want to override an existing style you may.
-Unfortunately, Structor won't recognize changes until you restart it.
 
 
 #### Adding Front-end libraries
@@ -114,8 +113,10 @@ Then refresh the js/ directory to ensure it is reloaded by the Spring instance.
 
 #### Running the application
 
-The preferred way is setting up an launch configuration in the IDE, so you can enable debug mode. You'll need to install [MongoDB]. By default the application will access mongodb://localhost/test.
-Please follow the official documentation for an install and run guide. You can set it as a service, if you like.
+The preferred way is setting up an launch configuration in the IDE, so you can enable debug mode. 
+
+1. Configure third party tokens. The application requires tokens to access third part APIs. For instance pass program args in launch configuration: --sharemyweek.thirdparty.eventbrite.token=YOUR_TOKEN. Visit associated third parties for obtaining their API token.
+2. Install [MongoDB]. By default the application will access mongodb://localhost/test. Please follow the official documentation for an install and run guide. You can set it as a service, if you like.
 
 #### Debugging
 
