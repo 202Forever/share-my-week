@@ -70,7 +70,7 @@ public class EmailNotificationManager {
             MimeMessage mimeMessage = this.mailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "utf-8");
             try {
-                message.setFrom("team202forever@sharemyweek.com");
+                message.setFrom("noreply@sharemyweek.com");
             } catch (MessagingException e) {
                 logger.error("Unexpected error on setting message sender email");
                 throw e;
