@@ -6,10 +6,10 @@ import moment from 'moment';
 class WeekTableRow extends Component {
 
     render() {
-        const {start, end, selectColor, onCellSelect, format, label} = this.props;
+        const {start, end, selectColor, onCellSelect, format, label, focused} = this.props;
         let rowCells = [];
         for (var i = 0; i < 7; i++) {
-            rowCells.push(<WeekTableCell key={i} start={moment(start).day(i)} end={moment(end).day(i)} selectColor={selectColor} onCellSelect={onCellSelect} />)
+            rowCells.push(<WeekTableCell key={i} start={moment(start).day(i)} end={moment(end).day(i)} focused={focused} selectColor={selectColor} onCellSelect={onCellSelect} />)
         }
         return (<tr>
                     <td>

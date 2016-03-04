@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedDate } from 'react-intl';
-import { Modal, Button, Input, FormControls, Grid, Row, Col, Panel } from 'react-bootstrap';
+import { Modal, Button, Input, FormControls, Grid, Row, Col, Thumbnail } from 'react-bootstrap';
 import { getEvents } from '../../actions/serverActions';
 import TimeSelect from 'react-time-select';
 import moment from 'moment';
@@ -36,11 +36,12 @@ class EventModal extends Component {
                     let event = eventsData.entities._embedded.events[i];
                     events.push(
                         <Col key={i} md={4} sm={4} xs={12}>
-                            <Panel>
-                                <FormattedDate value={start} weekday="short" month="short" day="numeric" hour="numeric" minute="2-digit" />
-                                <div><b>{event.title}</b></div>
+                            <Thumbnail src={event.image ? event.image.url : '/images/eventbrite-logo.png'} responsive={true}>
+                                <FormattedDate value={event.dateTimeRange.start} weekday="short" month="short" day="numeric" hour="numeric" minute="2-digit" />
+                                - <FormattedDate value={event.dateTimeRange.end} weekday="short" month="short" day="numeric" hour="numeric" minute="2-digit" />
+                                <h5 className="title" title={event.title}>{event.title}</h5>
                                 <div><a target="_blank" href={event.eventUrl}>More details</a></div>
-                            </Panel>
+                            </Thumbnail>
                         </Col>
                     );
                 }
@@ -79,7 +80,7 @@ class EventModal extends Component {
                     <Grid fluid={true}>
                         <row>
                             <Col md={12} sm={12} xs={12}>
-                                <Input label="Events" help={eventsData.entities && eventsData.entities._embedded ? 'Select a event to prepopulate the event form.' : null} wrapperClassName="wrapper">
+                                <Input label="Events" wrapperClassName="wrapper">
                                     <Row>
                                         <Col md={4} sm={4} xs={12}>
                                             <input type="text" className="form-control" placeholder="City, Country" ref="locationInput" />
@@ -100,6 +101,9 @@ class EventModal extends Component {
                                     </Row>
                                 </Input>
                             </Col>
+                        </row>
+                        <row>
+                            {events && events.length ? <p className="center-block">Select a event to prepopulate the event form.</p> : <span/>}
                         </row>
                         <row>
                             {events}
