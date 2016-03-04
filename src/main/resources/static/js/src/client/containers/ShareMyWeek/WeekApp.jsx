@@ -14,7 +14,10 @@ class WeekApp extends Component {
         super(props, content);
         this.state = {
             showEventModal: false,
-            selectedDateRange: {}
+            selectedDateRange: {
+                start: moment(),
+                end: moment()
+            }
         }
         this.onPrevious = this.onPrevious.bind(this);
         this.onNext = this.onNext.bind(this);
@@ -117,7 +120,7 @@ class WeekApp extends Component {
             <div>
                 <UserSettingsModal user={weekUser} colors={this.getAvailableColors()} onUserUpdate={this.onUpdateUser} />
                 <EventModal show={this.state.showEventModal} onModalHide={this.onModalHide}
-                            start={this.state.selectedDateRange.start} end={this.state.selectedDateRange.end} />
+                            start={this.state.selectedDateRange.start.toDate()} end={this.state.selectedDateRange.end.toDate()} />
                 <Grid
                       {...this.props}
                       fluid={ true }>

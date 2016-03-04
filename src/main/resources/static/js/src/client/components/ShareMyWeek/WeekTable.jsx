@@ -11,9 +11,9 @@ class WeekTable extends Component {
         let content = [];
         Object.keys(hours).forEach((hour) => {
             const value = hours[hour];
-            const start = moment(timestamp).hour(value).minute(0);
-            const mid = moment(timestamp).hour(value).minute(30);
-            const end = moment(timestamp).hour(value + 1).minute(0);
+            const start = moment(timestamp).hour(value).minute(0).second(0).millisecond(0);
+            const mid = moment(timestamp).hour(value).minute(30).second(0).millisecond(0);
+            const end = moment(timestamp).hour(value + 1).minute(0).second(0).millisecond(0);
             content.push(<WeekTableRow key={ hour + '_start' } start={start} end={mid} {...this.props} format={{hour : '2-digit'}} />);
             content.push(<WeekTableRow key={ hour + '_half' } start={mid} end={end} {...this.props} label={<span/>} />);
         });

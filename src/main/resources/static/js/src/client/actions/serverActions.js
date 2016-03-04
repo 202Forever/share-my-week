@@ -24,7 +24,12 @@ export const getUserById = createAction(GET_USER, (id) => {
 });
 
 export const getEvents = createAction(GET_EVENTS, (query) => {
-    return fetchEvents(query);
+    return fetchEvents(query).then((json) => {
+        return {
+            response : json,
+            query
+        };
+    });
 });
 
 /**
@@ -203,7 +208,8 @@ export default handleActions({
     [GET_EVENTS]: {
         start(state, action) {
             const eventsData = Object.assign({}, state.eventsData, {
-                entities: null,
+                entities: {},
+                query: {},
                 fetching: {
                     status: 'loading',
                     errorText: '',
@@ -215,7 +221,8 @@ export default handleActions({
         },
         next(state, action) {
             const eventsData = Object.assign({}, state.eventsData, {
-                entities: action.payload,
+                entities: action.payload.response,
+                query: action.payload.query,
                 fetching: {
                     status: 'done',
                     errorText: '',
@@ -227,7 +234,8 @@ export default handleActions({
         },
         throw(state, action) {
             const eventsData = Object.assign({}, state.eventsData, {
-                entities: null,
+                entities: {},
+                query: {},
                 fetching: {
                     status: 'done',
                     errorText: action.payload.message ? action.payload.message : 'Error: no message',

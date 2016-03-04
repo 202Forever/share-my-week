@@ -55,7 +55,8 @@ export default {
             brown: null
         },
         eventsData : {
-            entities: null,
+            entities: {},
+            query: {},
             fetching: {
                 status: null,
                 statusText: null
