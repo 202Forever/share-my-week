@@ -1,4 +1,4 @@
-import { createWeek, updateWeek, fetchWeekById, fetchWeekEvents, fetchUserById, fetchEvents } from '../api';
+import * as api from '../api';
 import { createAction, handleActions } from './reduxActionsSequence';
 
 const ADD_WEEK = 'ADD_WEEK';
@@ -12,39 +12,39 @@ const DELETE_EVENT = 'DELETE_EVENT';
 const GET_EVENTS = 'GET_EVENTS';
 
 export const addWeek = createAction(ADD_WEEK, (entity) => {
-   return createWeek(entity);
+   return api.createWeek(entity);
 });
 
 export const saveWeek = createAction(SAVE_WEEK, (entity, userId) => {
-   return  updateWeek(entity, userId);
+   return  api.updateWeek(entity, userId);
 });
 
 export const getWeekById = createAction(GET_WEEK, (id) => {
-    return fetchWeekById(id);
+    return api.fetchWeekById(id);
 });
 
 export const getWeekEvents = createAction(GET_WEEK_EVENTS, (entity) => {
-    return fetchWeekEvents(entity);
+    return api.fetchWeekEvents(entity);
 })
 
 export const getUserById = createAction(GET_USER, (id) => {
-    return fetchUserById(id);
+    return api.fetchUserById(id);
 });
 
 export const addEvent = createAction(ADD_EVENT, (entity) => {
-    return createEvent(entity);
+    return api.createEvent(entity);
 });
 
 export const saveEvent = createAction(SAVE_EVENT, (entity, userId) => {
-    return updateEvent(entity);
+    return api.updateEvent(entity);
 });
 
 export const removeEvent = createAction(DELETE_EVENT, (entity) => {
-   return deleteEvent(entity);
+   return api.deleteEvent(entity);
 });
 
 export const getEvents = createAction(GET_EVENTS, (query) => {
-    return fetchEvents(query).then((json) => {
+    return api.fetchEvents(query).then((json) => {
         return {
             response : json,
             query
@@ -190,7 +190,6 @@ export default handleActions({
         start(state, action) {
             const weekData = Object.assign({}, state.weekData, {
                 eventsData : {
-                    entities: {},
                     fetching: {
                         status: 'loading',
                         errorText: '',
@@ -204,7 +203,7 @@ export default handleActions({
         next(state, action) {
             const weekData = Object.assign({}, state.weekData, {
                 eventsData: {
-                    entity: action.payload,
+                    entities: action.payload,
                     fetching: {
                         status: 'done',
                         errorText: '',
@@ -218,9 +217,6 @@ export default handleActions({
         throw(state, action) {
             const weekData = Object.assign({}, state.weekData, {
                 eventsData: {
-                    entity: {
-                        users: []
-                    },
                     fetching: {
                         status: 'done',
                         errorText: action.payload.message ? action.payload.message : 'Error: no message',
@@ -316,41 +312,45 @@ export default handleActions({
 
     [ADD_EVENT]: {
         start(state, action) {
-            const eventData = Object.assign({}, state.eventData, {
-                entity: {
-                    users: []
-                },
-                fetching: {
-                    status: 'loading',
-                    errorText: '',
-                    error: false
-                }
+            const weekData = Object.assign({}, state.weekData, {
+                eventsData : Object.assign({}, state.weekData.eventsData, {
+                    fetching: {
+                        status: 'loading',
+                        errorText: '',
+                        error: false
+                    }
+                })
             });
             state = Object.assign({}, state, {weekData});
             return state;
         },
         next(state, action) {
             const weekData = Object.assign({}, state.weekData, {
-                entity: action.payload,
-                fetching: {
-                    status: 'done',
-                    errorText: '',
-                    error: false
-                }
+                eventsData : Object.assign({}, state.weekData.eventsData, {
+                    entities : {
+                        _embedded: {
+                            events: [...(state.weekData.eventsData.entities._embedded.events || []), action.payload]
+                        }
+                    },
+                    fetching: {
+                        status: 'done',
+                        errorText: '',
+                        error: false
+                    }
+                })
             });
             state = Object.assign({}, state, {weekData});
             return state;
         },
         throw(state, action) {
             const weekData = Object.assign({}, state.weekData, {
-                entity: {
-                    users: []
-                },
-                fetching: {
-                    status: 'done',
-                    errorText: action.payload.message ? action.payload.message : 'Error: no message',
-                    error: true
-                }
+                eventsData : Object.assign({}, state.weekData.eventsData, {
+                    fetching: {
+                        status: 'done',
+                        errorText: action.payload.message ? action.payload.message : 'Error: no message',
+                        error: true
+                    }
+                })
             });
             state = Object.assign({}, state, {weekData});
             return state;

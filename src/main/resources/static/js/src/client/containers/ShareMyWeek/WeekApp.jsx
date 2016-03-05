@@ -4,7 +4,7 @@ import { Grid, Row, Col, Pager, PageItem, PageHeader } from 'react-bootstrap';
 import EventModal from './EventModal.jsx';
 import UserSettingsModal from '../../components/ShareMyWeek/UserSettingsModal.jsx';
 import WeekTable from '../../components/ShareMyWeek/WeekTable.jsx';
-import { saveWeek, getWeekById, getWeekEvents, getUserById } from '../../actions/serverActions';
+import { saveWeek, addEvent, getWeekById, getWeekEvents, getUserById } from '../../actions/serverActions';
 import { goPrevious, goNext } from '../../actions/weekAppActions';
 import moment from 'moment';
 
@@ -14,6 +14,7 @@ class WeekApp extends Component {
         super(props, content);
         this.state = {
             showEventModal: false,
+            savingEvent: false,
             selectedDateRange: {
                 start: moment(),
                 end: moment()
@@ -22,6 +23,7 @@ class WeekApp extends Component {
         this.onPrevious = this.onPrevious.bind(this);
         this.onNext = this.onNext.bind(this);
         this.onUpdateUser = this.onUpdateUser.bind(this);
+        this.onAddEvent = this.onAddEvent.bind(this);
         this.onCellSelect = this.onCellSelect.bind(this);
         this.onModalHide = this.onModalHide.bind(this);
     }
@@ -97,6 +99,22 @@ class WeekApp extends Component {
         }
     }
 
+    onAddEvent(event) {
+        const {dispatch, params, location} = this.props;
+        this.setState({savingEvent: true});
+        const action = addEvent(Object.assign({}, event, {
+            weekId: params.id,
+            ownerId: location.query.userId
+        }));
+        action.payload.then(() => {
+            this.setState({
+                savingEvent: false,
+                showEventModal: false
+            });
+        });
+        dispatch(action);
+    }
+
     onCellSelect(start, end) {
         this.setState({
             showEventModal: true,
@@ -112,7 +130,7 @@ class WeekApp extends Component {
     }
 
     render() {
-        const {weekData, location} = this.props;
+        const {weekData, params, location} = this.props;
         const weekUser = this.getWeekUser();
         let timestamp = weekData.timestamp;
         if (location.query && location.query.timestamp) {
@@ -121,7 +139,7 @@ class WeekApp extends Component {
         return (
             <div>
                 <UserSettingsModal user={weekUser} colors={this.getAvailableColors()} onUserUpdate={this.onUpdateUser} />
-                <EventModal show={this.state.showEventModal} onModalHide={this.onModalHide}
+                <EventModal show={this.state.showEventModal} onModalHide={this.onModalHide} onConfirm={this.onAddEvent} saving={this.state.savingEvent}
                             start={this.state.selectedDateRange.start.toDate()} end={this.state.selectedDateRange.end.toDate()} />
                 <Grid
                       {...this.props}
@@ -173,8 +191,8 @@ class WeekApp extends Component {
 
 function mapStateToProps(state) {
     const {weekData, userData, colorMap} = state.appData;
-    const {location} = state.routing;
-    return {weekData, userData, colorMap, location};
+    const {locationBeforeTransitions} = state.routing;
+    return {weekData, userData, colorMap, location: locationBeforeTransitions || {}}
 }
 
 export default connect(mapStateToProps)(WeekApp);

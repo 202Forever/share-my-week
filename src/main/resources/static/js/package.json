@@ -32,7 +32,7 @@
     "react-intl": "^2.0.0-pr-3",
     "react-redux": "^4.0.6",
     "react-router": "^2.0.0-rc6",
-    "react-router-redux": "^3.0.0",
+    "react-router-redux": "^4.0.0",
     "react-time-select": "^2.0.0",
     "react-widgets": "^3.1.7",
     "reduce-reducers": "^0.1.1",

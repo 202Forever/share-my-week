@@ -22,6 +22,10 @@ export function fetchUserById(id) {
     return apiClient.fetchEntityById('users', id);
 }
 
+export function createEvent(entity) {
+    return apiClient.createEntity('events', entity);
+}
+
 export function fetchEvents(query) {
     return apiClient.fetchEntityList('events', query);
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedDate } from 'react-intl';
 import { Modal, Button, Input, FormControls, Grid, Row, Col, Thumbnail } from 'react-bootstrap';
-import { getEvents, createEvent } from '../../actions/serverActions';
+import { getEvents } from '../../actions/serverActions';
 import TimeSelect from 'react-time-select';
 import moment from 'moment';
 
@@ -105,6 +105,8 @@ class EventModal extends Component {
             end: props.end
         };
         this.onModalHide = this.onModalHide.bind(this);
+        this.onTitleChange = this.onTitleChange.bind(this);
+        this.onDescriptionChange = this.onDescriptionChange.bind(this);
         this.onStartTimeChange = this.onStartTimeChange.bind(this);
         this.onEndTimeChange = this.onEndTimeChange.bind(this);
         this.onSearch = this.onSearch.bind(this);
@@ -134,9 +136,19 @@ class EventModal extends Component {
     }
 
     onModalHide() {
-        const {onModalHide} = this.props;
-        this.setState({visible: false});
-        onModalHide();
+        const {onModalHide, saving} = this.props;
+        if (!saving) {
+            this.setState({visible: false});
+            onModalHide();
+        }
+    }
+
+    onTitleChange(e) {
+        this.setState({title: e.target.value});
+    }
+
+    onDescriptionChange(e) {
+        this.setState({description: e.target.value});
     }
 
     onStartTimeChange(start) {
@@ -160,13 +172,19 @@ class EventModal extends Component {
     }
 
     onConfirm() {
-        const {dispatch} = this.props;
-        dispatch(createEvent({
-
-        }));
+        const {onConfirm} = this.props;
+        onConfirm({
+            title: this.state.title,
+            description: this.state.description,
+            dateTimeRange: {
+                start: this.state.start.toISOString(),
+                end: this.state.end.toISOString()
+            }
+        });
     }
 
     render() {
+        const {saving} = this.props;
         return (
             <Modal dialogClassName="event-dialog" bsSize="lg" show={this.state.visible}>
                 <Modal.Header closeButton={true} onHide={this.onModalHide} />
@@ -185,20 +203,22 @@ class EventModal extends Component {
                         </row>
                         <row>
                             <Col md={6} mdPull={6} sm={6} smPull={6} xs={9}>
-                                <Input type="text" label="What" />
+                                <Input type="text" label="What" onChange={this.onTitleChange} />
                             </Col>
                             <Col md={6} sm={6} xs={3}><span/></Col>
                         </row>
                         <row>
                             <Col md={12} sm={12} xs={12}>
-                                <Input type="textarea" label="Description" rows="3" />
+                                <Input type="textarea" label="Description" rows="3" onChange={this.onDescriptionChange} />
                             </Col>
                         </row>
                     </Grid>
                     <EventSearch newSearch={this.state.newSearch} {...this.props} onSearch={this.onSearch} />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.onConfirm}><span>Confirm&nbsp;</span><i className="fa fa-check"/></Button>
+                    <Button onClick={this.onConfirm} disabled={saving}>
+                            <span>{saving ? 'Wait...' : 'Confirm'}&nbsp;</span><i className={saving ? "fa fa-cog fa-spin fa-lg" : "fa fa-check"} />
+                    </Button>
                 </Modal.Footer>
             </Modal>
         );
@@ -206,12 +226,13 @@ class EventModal extends Component {
 }
 
 EventModal.defaultProps = {
+    saving: false,
     events: [],
     start: moment().hour(0).minute(0).second(0).millisecond(0).toDate(),
     end: moment().hour(0).minute(30).second(0).millisecond(0).toDate()
 };
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
     const {entities, query, fetching} = state.appData.eventsData;
     return {
         events: entities._embedded ? entities._embedded.events : undefined,

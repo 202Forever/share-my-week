@@ -16,11 +16,14 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux'
 import getRoutes from './routes/routes.js';
 import storeManager from './store/storeManager.js';
 
-const routes = getRoutes();
 const store = storeManager();
+const history = syncHistoryWithStore(browserHistory, store)
+const routes = getRoutes(history);
 
 ReactDOM.render(
     <IntlProvider locale="en-US">

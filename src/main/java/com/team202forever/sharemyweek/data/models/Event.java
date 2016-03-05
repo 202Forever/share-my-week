@@ -40,6 +40,8 @@ public class Event extends ViewModel {
 
     private String eventUrl;
 
+    private int priority;
+
     @Transient
     private Image image;
 
