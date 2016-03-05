@@ -8,7 +8,8 @@
           "variantName": "default",
           "type": "NavBar",
           "props": {
-            "staticTop": true
+            "staticTop": true,
+            "data-umyid": "2"
           },
           "children": []
         },
@@ -16,39 +17,47 @@
           "variantName": "Unsaved variant",
           "type": "div",
           "props": {
-            "className": "section "
+            "className": "section ",
+            "data-umyid": "3"
           },
           "children": [
             {
               "variantName": "Unsaved variant",
               "type": "div",
               "props": {
-                "className": "container"
+                "className": "container",
+                "data-umyid": "4"
               },
               "children": [
                 {
                   "variantName": "Unsaved variant",
                   "type": "div",
                   "props": {
-                    "className": "row"
+                    "className": "row",
+                    "data-umyid": "5"
                   },
                   "children": [
                     {
                       "variantName": "Unsaved variant",
                       "type": "div",
                       "props": {
-                        "className": "col-md-12 text-center"
+                        "className": "col-md-12 text-center",
+                        "data-umyid": "6"
                       },
                       "children": [
                         {
                           "variantName": "Unsaved variant",
                           "type": "h1",
-                          "props": {},
+                          "props": {
+                            "data-umyid": "7"
+                          },
                           "children": [
                             {
                               "variantName": "Unsaved variant",
                               "type": "small",
-                              "props": {},
+                              "props": {
+                                "data-umyid": "8"
+                              },
                               "text": "Start planning your week with others."
                             }
                           ]
@@ -57,13 +66,16 @@
                           "variantName": "Unsaved variant",
                           "type": "h1",
                           "props": {
-                            "className": "text-center text-primary"
+                            "className": "text-center text-primary",
+                            "data-umyid": "9"
                           },
                           "children": [
                             {
                               "type": "span",
                               "text": "ShareMyWeek",
-                              "props": {}
+                              "props": {
+                                "data-umyid": "10"
+                              }
                             }
                           ]
                         }
@@ -79,28 +91,32 @@
           "variantName": "Unsaved variant",
           "type": "div",
           "props": {
-            "className": "section"
+            "className": "section",
+            "data-umyid": "11"
           },
           "children": [
             {
               "variantName": "Unsaved variant",
               "type": "div",
               "props": {
-                "className": "container"
+                "className": "container",
+                "data-umyid": "12"
               },
               "children": [
                 {
                   "variantName": "Unsaved variant",
                   "type": "div",
                   "props": {
-                    "className": "row"
+                    "className": "row",
+                    "data-umyid": "13"
                   },
                   "children": [
                     {
                       "variantName": "Unsaved variant",
                       "type": "div",
                       "props": {
-                        "className": "col-md-6"
+                        "className": "col-md-6",
+                        "data-umyid": "14"
                       },
                       "children": [
                         {
@@ -108,7 +124,8 @@
                           "type": "img",
                           "props": {
                             "src": "http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png",
-                            "className": "hidden-sm hidden-xs img-responsive"
+                            "className": "hidden-sm hidden-xs img-responsive",
+                            "data-umyid": "15"
                           }
                         }
                       ]
@@ -117,14 +134,16 @@
                       "variantName": "Unsaved variant",
                       "type": "div",
                       "props": {
-                        "className": "col-md-6"
+                        "className": "col-md-6",
+                        "data-umyid": "16"
                       },
                       "children": [
                         {
                           "variantName": "Unsaved variant",
                           "type": "FeatureList",
                           "props": {
-                            "className": "media-list"
+                            "className": "media-list",
+                            "data-umyid": "17"
                           },
                           "children": []
                         }
@@ -140,47 +159,56 @@
           "variantName": "Unsaved variant",
           "type": "div",
           "props": {
-            "className": "section"
+            "className": "section",
+            "data-umyid": "18"
           },
           "children": [
             {
               "variantName": "Unsaved variant",
               "type": "div",
               "props": {
-                "className": "container"
+                "className": "container",
+                "data-umyid": "19"
               },
               "children": [
                 {
                   "variantName": "Unsaved variant",
                   "type": "div",
                   "props": {
-                    "className": "row"
+                    "className": "row",
+                    "data-umyid": "20"
                   },
                   "children": [
                     {
                       "variantName": "Unsaved variant",
                       "type": "div",
                       "props": {
-                        "className": "col-md-offset-3 col-md-6"
+                        "className": "col-md-offset-3 col-md-6",
+                        "data-umyid": "21"
                       },
                       "children": [
                         {
                           "variantName": "Unsaved variant",
                           "type": "h4",
                           "props": {
-                            "className": "text-center"
+                            "className": "text-center",
+                            "data-umyid": "22"
                           },
                           "children": [
                             {
                               "type": "span",
                               "text": "Get a Week planner for you and your friends.",
-                              "props": {}
+                              "props": {
+                                "data-umyid": "23"
+                              }
                             }
                           ]
                         },
                         {
                           "type": "CreateWeekForm",
-                          "props": {}
+                          "props": {
+                            "data-umyid": "24"
+                          }
                         }
                       ]
                     }
@@ -191,7 +219,9 @@
           ]
         }
       ],
-      "props": {},
+      "props": {
+        "data-umyid": "1"
+      },
       "pageTitle": "UnnamedPage",
       "pageProps": [],
       "pageScript": ""
@@ -204,7 +234,8 @@
           "variantName": "default",
           "type": "NavBar",
           "props": {
-            "staticTop": true
+            "staticTop": true,
+            "data-umyid": "26"
           },
           "children": []
         },
@@ -213,12 +244,15 @@
           "type": "WeekApp",
           "props": {
             "fluid": true,
-            "className": ""
+            "className": "",
+            "data-umyid": "27"
           },
           "children": []
         }
       ],
-      "props": {},
+      "props": {
+        "data-umyid": "25"
+      },
       "pageTitle": "UnnamedPage1",
       "pageProps": [],
       "pageScript": ""

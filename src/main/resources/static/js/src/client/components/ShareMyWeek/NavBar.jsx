@@ -32,7 +32,7 @@ class NavBar extends Component {
                                      active={ true }>
                                 <span>Home</span>
                             </NavItem>
-                            <NavItem href="#">
+                            <NavItem href="http://cs580.yusun.io/teams-winter2016/202Forever/index.html">
                                 <span>Contact Us</span>
                             </NavItem>
                         </Nav>
