@@ -64,13 +64,23 @@ class EventModal extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {show, query, start, end} = nextProps;
-        this.setState({
-            newSearch: moment(query.start).day() !== moment(start).day() || moment(query.end).day() !== moment(end).day(),
-            visible: show,
-            start,
-            end
-        });
+        const {show, query, fetching} = nextProps;
+        if (fetching.status !== 'loading') {
+            let {start, end} = nextProps;
+            const newSearch = moment(query.start).day() !== moment(start).day() || moment(query.end).day() !== moment(end).day();
+            if (!newSearch && this.state.start.toISOString() === query.start) {
+                start = this.state.start;
+            }
+            if (!newSearch && this.state.end.toISOString() === query.end) {
+                end = this.state.end;
+            }
+            this.setState({
+                newSearch,
+                visible: show,
+                start,
+                end
+            });
+        }
     }
 
     onModalHide() {
@@ -175,8 +185,8 @@ class EventModal extends Component {
 
 EventModal.defaultProps = {
     events: [],
-    start: moment().hour(0).minute(0).second(0).millisecond(0),
-    end: moment().hour(0).minute(30).second(0).millisecond(0)
+    start: moment().hour(0).minute(0).second(0).millisecond(0).toDate(),
+    end: moment().hour(0).minute(30).second(0).millisecond(0).toDate()
 };
 
 function mapStateToProps(state, props) {
