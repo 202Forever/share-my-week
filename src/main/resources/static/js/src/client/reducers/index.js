@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import { routeReducer } from 'react-router-redux'
+import { routerReducer } from 'react-router-redux'
 import reduceReducers from 'reduce-reducers';
 import serverReducer from '../actions/serverActions';
 import weekAppReducer from '../actions/weekAppActions';
@@ -18,7 +18,7 @@ const rootReducer = combineReducers({
         colorMapReducer
     ),
     form: formReducer,
-    routing: routeReducer
+    routing: routerReducer
 });
 
 export default rootReducer;

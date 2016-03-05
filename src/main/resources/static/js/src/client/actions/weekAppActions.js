@@ -1,5 +1,5 @@
 import { createAction, handleActions } from './reduxActionsSequence';
-import { routeActions } from 'react-router-redux'
+import { push } from 'react-router-redux'
 import { getEntityPath } from '../util/helpers'
 import moment from 'moment';
 
@@ -11,7 +11,7 @@ export const goPrevious = createAction(PREV_WEEK, (dispatch, entity, query) => {
         pathname: getEntityPath(entity, 'page'),
         query: Object.assign({}, query, {timestamp: moment(query.timestamp).day(-7).toISOString()})
     };
-    dispatch(routeActions.push(location));
+    dispatch(push(location));
     return location;
 });
 
@@ -20,7 +20,7 @@ export const goNext = createAction(NEXT_WEEK, (dispatch, entity, query) => {
         pathname: getEntityPath(entity, 'page'),
         query: Object.assign({}, query, {timestamp: moment(query.timestamp).day(7).toISOString()})
     };
-    dispatch(routeActions.push(location));
+    dispatch(push(location));
     return location;
 });
 

@@ -1,11 +1,7 @@
 import deepFreeze from 'deep-freeze';
 
 export default {
-    routing: {
-        location: {
-            pathname: '/'
-        }
-    },
+    routing: {},
     appData: {
         featureListData: deepFreeze({
             items: [
@@ -27,13 +23,18 @@ export default {
             ]
         }),
         weekData: {
+            weekId: null,
             timestamp: new Date().toISOString(),
             entity: {
                 users: [],
                 createdOn: new Date().toISOString()
             },
             eventsData : {
-                entities: null,
+                entities: {
+                    _embedded : {
+                        events: []
+                    }
+                },
                 fetching: {
                     status: null,
                     statusText: null
@@ -45,6 +46,7 @@ export default {
             }
         },
         userData: {
+            userId: null,
             entity: null,
             fetching: {
                 status: null,
@@ -62,7 +64,11 @@ export default {
             brown: null
         },
         eventsData : {
-            entities: {},
+            entities: {
+                _embedded : {
+                    events: []
+                }
+            },
             query: {},
             fetching: {
                 status: null,
