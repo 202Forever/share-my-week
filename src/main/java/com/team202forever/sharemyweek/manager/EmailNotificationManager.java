@@ -41,6 +41,9 @@ public class EmailNotificationManager {
     private WeekRepository weekRepository;
 
     @Autowired
+    private WeekProcessor weekProcessor;
+
+    @Autowired
     private UserRepository userRepository;
     
     @Autowired
@@ -88,8 +91,8 @@ public class EmailNotificationManager {
                 throw e;
             }
             Context ctx = new Context();
-            ctx.setVariable("publicLink", WeekProcessor.linkToWeek(week, "page").getHref());
-            Link link = WeekProcessor.linkToWeek(week, user, "page");
+            ctx.setVariable("publicLink", weekProcessor.linkToWeek(week, "page").getHref());
+            Link link = weekProcessor.linkToWeek(week, user, "page");
             if (providedUsers.size() == 1) {
                 week.getLinks().add(link);
             }

@@ -71,12 +71,12 @@ class ApiClient {
         return this.api().then((apiLinks) => Client.post(apiLinks[rel].href, entity), this.onError);
     }
 
-    fetchEntity(entity) {
-        return this.api().then(() => Client.get(entity._links.self.href), this.onError);
+    fetchEntity(entity, rel) {
+        return this.api().then(() => Client.get(entity._links[rel].href), this.onError);
     }
 
     fetchEntityById(rel, id) {
-        return this.api().then((apiLinks) => Client.get(apiLinks[rel].href + '/' + id), this.onError);
+        return this.api().then((apiLinks) => Client.get(apiLinks[rel].href, {id}), this.onError);
     }
 
     fetchEntityList(rel, query) {

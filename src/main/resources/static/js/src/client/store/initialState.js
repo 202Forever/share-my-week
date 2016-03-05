@@ -32,6 +32,13 @@ export default {
                 users: [],
                 createdOn: new Date().toISOString()
             },
+            eventsData : {
+                entities: null,
+                fetching: {
+                    status: null,
+                    statusText: null
+                }
+            },
             fetching: {
                 status: null,
                 statusText: null

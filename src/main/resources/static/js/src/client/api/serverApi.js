@@ -14,6 +14,10 @@ export function fetchWeekById(id) {
     return apiClient.fetchEntityById('weeks', id);
 }
 
+export function fetchWeekEvents(entity) {
+    return apiClient.fetchEntity(entity, 'events');
+}
+
 export function fetchUserById(id) {
     return apiClient.fetchEntityById('users', id);
 }

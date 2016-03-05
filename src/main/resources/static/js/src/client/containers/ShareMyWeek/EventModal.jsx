@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedDate } from 'react-intl';
 import { Modal, Button, Input, FormControls, Grid, Row, Col, Thumbnail } from 'react-bootstrap';
-import { getEvents } from '../../actions/serverActions';
+import { getEvents, createEvent } from '../../actions/serverActions';
 import TimeSelect from 'react-time-select';
 import moment from 'moment';
 
@@ -48,6 +48,53 @@ class SearchStatus extends Component {
     }
 }
 
+class EventSearch extends Component {
+
+    render() {
+        const {events, fetching, newSearch, onSearch} = this.props;
+        let status = fetching.status;
+        if (fetching.status !== 'loading' && newSearch) {
+            status = '';
+        } if (fetching.status === 'done' && !events.length) {
+            status = 'No Results';
+        }
+        return (<Grid fluid={true}>
+            <row>
+                <Col md={12} sm={12} xs={12}>
+                    <Input label="Events" wrapperClassName="wrapper">
+                        <Row>
+                            <Col md={4} sm={4} xs={12}>
+                                <input type="text" className="form-control" placeholder="City, Country" ref="locationInput" />
+                            </Col>
+                            <Col md={8} sm={8} xs={12}>
+                                <div className="input-group">
+                                    <input type="text" className="form-control" placeholder="Keywords" ref="keywordsInput" />
+                                                <span className="input-group-btn">
+                                                    <button className="btn btn-default"
+                                                            type="button"
+                                                            onClick={() => {
+                                                                const {locationInput, keywordsInput} = this.refs;
+                                                                onSearch(locationInput.value, keywordsInput.value)
+                                                            }}
+                                                            disabled={fetching.status === 'loading'}>
+                                                            {fetching.status === 'loading' ?
+                                                                <i className="fa fa-cog fa-spin fa-lg" />
+                                                                : <i className="fa fa-search" />
+                                                            }
+                                                    </button>
+                                                </span>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Input>
+                </Col>
+            </row>
+            <SearchStatus status={status} />
+            {status !== 'done' ? null : <Events events = {events} />}
+        </Grid>);
+    }
+}
+
 class EventModal extends Component {
 
     constructor(props, content) {
@@ -61,6 +108,7 @@ class EventModal extends Component {
         this.onStartTimeChange = this.onStartTimeChange.bind(this);
         this.onEndTimeChange = this.onEndTimeChange.bind(this);
         this.onSearch = this.onSearch.bind(this);
+        this.onConfirm = this.onConfirm.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -99,27 +147,26 @@ class EventModal extends Component {
         this.setState({end});
     }
 
-    onSearch() {
+    onSearch(location, keywords) {
         const {dispatch} = this.props;
-        const {locationInput, keywordsInput} = this.refs;
-        const locations = locationInput.value ? locationInput.value.split(',') : [];
+        const locations = location ? location.split(',') : [];
         dispatch(getEvents({
             city: locations[0],
             country: locations[1],
-            keywords: keywordsInput.value,
+            keywords,
             start: this.state.start.toISOString(),
             end: this.state.end.toISOString()
         }));
     }
 
+    onConfirm() {
+        const {dispatch} = this.props;
+        dispatch(createEvent({
+
+        }));
+    }
+
     render() {
-        const {events, fetching} = this.props;
-        let status = fetching.status;
-        if (fetching.status !== 'loading' && this.state.newSearch) {
-            status = '';
-        } if (fetching.status === 'done' && !events.length) {
-            status = 'No Results';
-        }
         return (
             <Modal dialogClassName="event-dialog" bsSize="lg" show={this.state.visible}>
                 <Modal.Header closeButton={true} onHide={this.onModalHide} />
@@ -148,37 +195,10 @@ class EventModal extends Component {
                             </Col>
                         </row>
                     </Grid>
-                    <Grid fluid={true}>
-                        <row>
-                            <Col md={12} sm={12} xs={12}>
-                                <Input label="Events" wrapperClassName="wrapper">
-                                    <Row>
-                                        <Col md={4} sm={4} xs={12}>
-                                            <input type="text" className="form-control" placeholder="City, Country" ref="locationInput" />
-                                        </Col>
-                                        <Col md={8} sm={8} xs={12}>
-                                            <div className="input-group">
-                                                <input type="text" className="form-control" placeholder="Keywords" ref="keywordsInput" />
-                                                <span className="input-group-btn">
-                                                    <button className="btn btn-default" type="button" onClick={this.onSearch} disabled={fetching.status === 'loading'}>
-                                                        {fetching.status === 'loading' ?
-                                                            <i className="fa fa-cog fa-spin fa-lg" />
-                                                            : <i className="fa fa-search" />
-                                                        }
-                                                    </button>
-                                                </span>
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                </Input>
-                            </Col>
-                        </row>
-                        <SearchStatus status={status} />
-                        {status !== 'done' ? null : <Events events = {events} />}
-                    </Grid>
+                    <EventSearch newSearch={this.state.newSearch} {...this.props} onSearch={this.onSearch} />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button><span>Confirm&nbsp;</span><i className="fa fa-check"/></Button>
+                    <Button onClick={this.onConfirm}><span>Confirm&nbsp;</span><i className="fa fa-check"/></Button>
                 </Modal.Footer>
             </Modal>
         );

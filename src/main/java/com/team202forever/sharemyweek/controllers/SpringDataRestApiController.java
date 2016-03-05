@@ -1,6 +1,7 @@
 package com.team202forever.sharemyweek.controllers;
 
 import com.team202forever.sharemyweek.data.models.*;
+import com.team202forever.sharemyweek.data.repository.EventRepository;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
 import com.team202forever.sharemyweek.data.repository.WeekRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.data.rest.webmvc.PersistentEntityResource;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.SmartValidator;
@@ -31,6 +35,9 @@ public class SpringDataRestApiController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @ResponseBody
     @RequestMapping(value = {"/weeks/{id}", "/weeks/{id}?userId={userId}"}, method = RequestMethod.PUT)
@@ -96,6 +103,12 @@ public class SpringDataRestApiController {
             throw new ForbiddenException("The user is forbidden to update the event");
         }
         weekRepository.delete(stored.getHashId());
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/weeks/{id}/events", method = RequestMethod.GET)
+    public Resources<Resource<Event>> getEvents(@PathVariable("id") String id) {
+        return PagedResources.wrap(eventRepository.findByWeekIdOrderByDateTimeRangeStartAsc(new HashId(id).toObjectId()));
     }
 
     @ResponseBody

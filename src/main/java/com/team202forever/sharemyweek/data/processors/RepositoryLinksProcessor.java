@@ -2,6 +2,7 @@ package com.team202forever.sharemyweek.data.processors;
 
 import com.team202forever.sharemyweek.controllers.EventController;
 import com.team202forever.sharemyweek.controllers.SpringDataRestApiController;
+import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 @Component
 @ConfigurationProperties("spring.data.rest")
+@Getter
 @Setter
 public class RepositoryLinksProcessor implements ResourceProcessor<RepositoryLinksResource> {
 

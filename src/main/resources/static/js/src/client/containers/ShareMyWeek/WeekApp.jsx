@@ -4,7 +4,7 @@ import { Grid, Row, Col, Pager, PageItem, PageHeader } from 'react-bootstrap';
 import EventModal from './EventModal.jsx';
 import UserSettingsModal from '../../components/ShareMyWeek/UserSettingsModal.jsx';
 import WeekTable from '../../components/ShareMyWeek/WeekTable.jsx';
-import { saveWeek, getWeekById, getUserById } from '../../actions/serverActions';
+import { saveWeek, getWeekById, getWeekEvents, getUserById } from '../../actions/serverActions';
 import { goPrevious, goNext } from '../../actions/weekAppActions';
 import moment from 'moment';
 
@@ -28,7 +28,9 @@ class WeekApp extends Component {
 
     componentDidMount() {
         const {params, dispatch, location} = this.props;
-        dispatch(getWeekById(params.id));
+        const action = getWeekById(params.id);
+        action.payload.then((week) => dispatch(getWeekEvents(week)));
+        dispatch(action);
         if (location.query && location.query.userId) {
             dispatch(getUserById(location.query.userId));
         }
