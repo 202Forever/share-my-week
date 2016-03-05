@@ -2,21 +2,31 @@ package com.team202forever.sharemyweek.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.team202forever.sharemyweek.data.models.DateTimeRange;
-import com.team202forever.sharemyweek.data.models.Event;
-import com.team202forever.sharemyweek.data.models.Image;
+import com.team202forever.sharemyweek.data.models.*;
+import com.team202forever.sharemyweek.data.repository.EventRepository;
+import com.team202forever.sharemyweek.data.repository.UserRepository;
+import com.team202forever.sharemyweek.data.repository.WeekRepository;
 import com.team202forever.sharemyweek.data.thirdparty.eventbrite.EventbriteProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.RepositoryConstraintViolationException;
+import org.springframework.data.rest.webmvc.PersistentEntityResource;
+import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.SmartValidator;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.ForbiddenException;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.time.ZonedDateTime;
@@ -32,6 +42,70 @@ public class EventController {
 
     @Autowired
     private EventbriteProperties eventbriteProperties;
+
+    @Autowired
+    private WeekRepository weekRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
+
+    @Autowired
+    private SmartValidator validator;
+
+    @ResponseBody
+    @RequestMapping(value = {"/{id}", "/{id}?userId={userId}"}, method = RequestMethod.PUT)
+    public PersistentEntityResource saveEvent(@PathVariable(value = "id") String id, @RequestParam(value = "userId", required = true) String userId, @RequestBody Event event, BindingResult bindingResult, PersistentEntityResourceAssembler resourceAssembler) {
+        if (userId == null) {
+            throw new BadRequestException("A user id must be specified to update the event");
+        }
+        Event stored = eventRepository.findOne(new HashId(id));
+        if (stored == null) {
+            throw new ResourceNotFoundException();
+        }
+        User user = null;
+        for (WeekUser weekUser : stored.getWeek().getUsers()) {
+            if (weekUser.getUserInfo().getHashId().toString().equals(userId)) {
+                user = weekUser.getUserInfo();
+                break;
+            }
+        }
+        if (user == null) {
+            throw new ForbiddenException("The user is forbidden to update the event");
+        }
+        ValidationUtils.invokeValidator(validator, event, bindingResult);
+        if (bindingResult.hasErrors()) {
+            throw new RepositoryConstraintViolationException(bindingResult);
+        }
+        event.setOwnerId(stored.getOwnerId().toString());
+        event.setWeekId(stored.getWeekId().toString());
+        return resourceAssembler.toResource(eventRepository.save(event));
+    }
+
+    @RequestMapping(value = {"/{id}", "/{id}?userId={userId}"}, method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteEvent(@PathVariable(value = "id") String id, @RequestParam(value = "userId", required = true) String userId) {
+        if (userId == null) {
+            throw new BadRequestException("A user id must be specified to update the event");
+        }
+        Event stored = eventRepository.findOne(new HashId(id));
+        if (stored == null) {
+            throw new ResourceNotFoundException();
+        }
+        User user = null;
+        for (WeekUser weekUser : stored.getWeek().getUsers()) {
+            if (weekUser.getUserInfo().getHashId().toString().equals(userId)) {
+                user = weekUser.getUserInfo();
+                break;
+            }
+        }
+        if (user == null) {
+            throw new ForbiddenException("The user is forbidden to update the event");
+        }
+        eventRepository.delete(stored.getHashId());
+    }
 
     /**
      * TODO

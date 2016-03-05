@@ -9,6 +9,7 @@ import org.springframework.data.rest.webmvc.PersistentEntityResource;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.SmartValidator;
 import org.springframework.validation.ValidationUtils;
@@ -72,6 +73,29 @@ public class SpringDataRestApiController {
             weekUser.setUserInfo(storedUser.getUserInfo());
         }
         return resourceAssembler.toResource(weekRepository.save(week));
+    }
+
+    @RequestMapping(value = {"/weeks/{id}", "/weeks/{id}?userId={userId}"}, method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteWeek(@PathVariable(value = "id") String id, @RequestParam(value = "userId", required = true) String userId) {
+        if (userId == null) {
+            throw new BadRequestException("A user id must be specified to update the event");
+        }
+        Week stored = weekRepository.findOne(new HashId(id));
+        if (stored == null) {
+            throw new ResourceNotFoundException();
+        }
+        User user = null;
+        for (WeekUser weekUser : stored.getUsers()) {
+            if (weekUser.getUserInfo().getHashId().toString().equals(userId)) {
+                user = weekUser.getUserInfo();
+                break;
+            }
+        }
+        if (user == null) {
+            throw new ForbiddenException("The user is forbidden to update the event");
+        }
+        weekRepository.delete(stored.getHashId());
     }
 
     @ResponseBody

@@ -84,6 +84,31 @@ public class EventApiTests extends AbstractSpringTests {
     }
 
     @Test
+    public void postNegative() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Week week = weeks.get(0);
+        EventWrapper event = new EventWrapper();
+        event.setTitle("Event");
+        DateTimeRange dateTimeRange = new DateTimeRange();
+        dateTimeRange.setStart(new Date());
+        dateTimeRange.setEnd(new Date());
+        event.setDateTimeRange(dateTimeRange);
+        event.setWeekId(week.getHashId().toString());
+        mockMvc.perform(post("/api/events")
+                .content(objectMapper.writeValueAsString(event))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        event.setWeekId(null);
+        mockMvc.perform(post("/api/events")
+                .content(objectMapper.writeValueAsString(event))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void postPositive() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         Week week = weeks.get(0);
@@ -96,11 +121,86 @@ public class EventApiTests extends AbstractSpringTests {
         event.setDateTimeRange(dateTimeRange);
         event.setWeekId(week.getHashId().toString());
         event.setOwnerId(user.getUserInfo().getHashId().toString());
-        mockMvc.perform(post("/api/events")
+        mockMvc.perform(post("/api/events?userId=" + user.getUserInfo().getHashId())
                 .content(objectMapper.writeValueAsString(event))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void putNegative() throws Exception {
+        Event stored = events.get(0);
+        EventWrapper event = new EventWrapper();
+        event.setTitle("Modified Event");
+        DateTimeRange dateTimeRange = new DateTimeRange();
+        dateTimeRange.setStart(new Date());
+        dateTimeRange.setEnd(new Date());
+        event.setDateTimeRange(dateTimeRange);
+        event.setWeekId(stored.getWeekId().toString());
+        event.setOwnerId(stored.getOwnerId().toString());
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        mockMvc.perform(put("/api/events")
+                .content(objectMapper.writeValueAsString(event))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isMethodNotAllowed());
+
+        // fakeId
+        mockMvc.perform(put("/api/events/fakeId?userId=fakeUserId")
+                .content(objectMapper.writeValueAsString(event))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        // no user id
+        mockMvc.perform(put("/api/events/" + stored.getHashId())
+                .content(objectMapper.writeValueAsString(event))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        // fake user id
+        mockMvc.perform(put("/api/events/" + stored.getHashId() + "?userId=fakeId")
+                .content(objectMapper.writeValueAsString(event))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void putPositive() throws Exception {
+        Event stored = events.get(0);
+        EventWrapper event = new EventWrapper();
+        event.setTitle("Modified Event");
+        DateTimeRange dateTimeRange = new DateTimeRange();
+        dateTimeRange.setStart(new Date());
+        dateTimeRange.setEnd(new Date());
+        event.setDateTimeRange(dateTimeRange);
+        event.setWeekId(stored.getWeekId().toString());
+        event.setOwnerId(stored.getOwnerId().toString());
+        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(put("/api/events/" + stored.getHashId() + "?userId=" + stored.getOwnerId())
+                .content(objectMapper.writeValueAsString(event))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteNegative() throws Exception {
+        Event event = events.get(0);
+        // no user id
+        mockMvc.perform(delete("/api/events/" + event.getHashId()))
+                .andExpect(status().isBadRequest());
+
+        // fake user id
+        mockMvc.perform(delete("/api/events/" + event.getHashId() + "?userId=fakeId"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void deletePositive() throws Exception {
+        Event event = events.get(0);
+        mockMvc.perform(delete("/api/events/" + event.getHashId() + "?userId=" + event.getOwnerId()))
+                .andExpect(status().isNoContent());
     }
 
     @Data

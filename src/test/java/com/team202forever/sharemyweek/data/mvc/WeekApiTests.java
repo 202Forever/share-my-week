@@ -148,9 +148,15 @@ public class WeekApiTests extends AbstractSpringTests {
 
     @Test
     public void deleteWeekNegative() throws Exception {
-        mockMvc.perform(delete("/api/weeks/fakeId")
+        mockMvc.perform(delete("/api/weeks/fakeId?userId=fakeId")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+
+        List<Week> weeks = weekRepository.findAll();
+        Week week = weeks.get(0);
+        mockMvc.perform(delete("/api/weeks/" + week.getHashId() + "?userId=fakeId")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -158,8 +164,7 @@ public class WeekApiTests extends AbstractSpringTests {
          List<Week> weeks = weekRepository.findAll();
          Week week = weeks.get(0);
          int size = weeks.size();
-         mockMvc.perform(delete("/api/weeks/" + week.getHashId())
-                .accept(MediaType.APPLICATION_JSON))
+         mockMvc.perform(delete("/api/weeks/" + week.getHashId() + "?userId=" + week.getUsers().iterator().next().getUserInfo().getHashId()))
         		.andExpect(status().isNoContent());
          weeks = weekRepository.findAll();
          assertEquals(size - 1, weeks.size());

@@ -1,9 +1,11 @@
 package com.team202forever.sharemyweek.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.team202forever.sharemyweek.data.repository.UserRepository;
+import com.team202forever.sharemyweek.data.repository.WeekRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
@@ -18,6 +20,8 @@ import javax.validation.constraints.NotNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Event extends ViewModel {
+
+    public static WeekRepository weekRepository;
 
     public static UserRepository userRepository;
 
@@ -39,11 +43,11 @@ public class Event extends ViewModel {
     @Transient
     private Image image;
 
-    @NotNull
+    @NotNull(message = "Week id must be valid")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ObjectId weekId;
 
-    @NotNull
+    @NotNull(message = "Owner id must be valid")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ObjectId ownerId;
 
@@ -52,6 +56,9 @@ public class Event extends ViewModel {
     }
 
     public HashId getOwnerId() {
+        if (ownerId == null) {
+            return null;
+        }
         return new HashId(ownerId);
     }
 
@@ -59,7 +66,7 @@ public class Event extends ViewModel {
         if (ownerId == null) {
             return null;
         }
-        return userRepository.findOne(new HashId(ownerId));
+        return userRepository.findOne(getOwnerId());
     }
 
     public void setWeekId(String weekId) {
@@ -71,5 +78,13 @@ public class Event extends ViewModel {
             return null;
         }
         return new HashId(weekId);
+    }
+
+    @JsonIgnore
+    public Week getWeek() {
+        if (weekId == null) {
+            return null;
+        }
+        return weekRepository.findOne(getWeekId());
     }
 }
