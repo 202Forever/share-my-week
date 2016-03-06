@@ -30,11 +30,7 @@ export default {
                 createdOn: new Date().toISOString()
             },
             eventsData : {
-                entities: {
-                    _embedded : {
-                        events: []
-                    }
-                },
+                map: {},
                 fetching: {
                     status: null,
                     statusText: null

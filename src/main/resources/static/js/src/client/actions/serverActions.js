@@ -36,7 +36,7 @@ export const addEvent = createAction(ADD_EVENT, (entity) => {
 });
 
 export const saveEvent = createAction(SAVE_EVENT, (entity, userId) => {
-    return api.updateEvent(entity);
+    return api.updateEvent(entity, userId);
 });
 
 export const removeEvent = createAction(DELETE_EVENT, (entity) => {
@@ -201,9 +201,18 @@ export default handleActions({
             return state;
         },
         next(state, action) {
+            let map = {};
+            if (action.payload._embedded) {
+                action.payload._embedded.events.forEach((event) => {
+                    const start = new Date(event.dateTimeRange.start).toISOString();
+                    map = Object.assign({}, map, {
+                        [start] : [...(map[start] || []), event]
+                    });
+                });
+            }
             const weekData = Object.assign({}, state.weekData, {
                 eventsData: {
-                    entities: action.payload,
+                    map,
                     fetching: {
                         status: 'done',
                         errorText: '',
@@ -311,51 +320,11 @@ export default handleActions({
     },
 
     [ADD_EVENT]: {
-        start(state, action) {
-            const weekData = Object.assign({}, state.weekData, {
-                eventsData : Object.assign({}, state.weekData.eventsData, {
-                    fetching: {
-                        status: 'loading',
-                        errorText: '',
-                        error: false
-                    }
-                })
-            });
-            state = Object.assign({}, state, {weekData});
-            return state;
-        },
-        next(state, action) {
-            const events = state.weekData.eventsData.entities._embedded ? state.weekData.eventsData.entities._embedded.events : [];
-            const weekData = Object.assign({}, state.weekData, {
-                eventsData : Object.assign({}, state.weekData.eventsData, {
-                    entities : {
-                        _embedded: {
-                            events: [...events, action.payload]
-                        }
-                    },
-                    fetching: {
-                        status: 'done',
-                        errorText: '',
-                        error: false
-                    }
-                })
-            });
-            state = Object.assign({}, state, {weekData});
-            return state;
-        },
-        throw(state, action) {
-            const weekData = Object.assign({}, state.weekData, {
-                eventsData : Object.assign({}, state.weekData.eventsData, {
-                    fetching: {
-                        status: 'done',
-                        errorText: action.payload.message ? action.payload.message : 'Error: no message',
-                        error: true
-                    }
-                })
-            });
-            state = Object.assign({}, state, {weekData});
-            return state;
-        }
+
+    },
+
+    [SAVE_EVENT]: {
+
     }
 
 }, {});

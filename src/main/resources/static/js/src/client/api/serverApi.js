@@ -26,6 +26,10 @@ export function createEvent(entity) {
     return apiClient.createEntity('events', entity);
 }
 
+export function updateEvent(entity, userId) {
+    return apiClient.updateEntity(entity, userId);
+}
+
 export function fetchEvents(query) {
     return apiClient.fetchEntityList('events', query);
 }

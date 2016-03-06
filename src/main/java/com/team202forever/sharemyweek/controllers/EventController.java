@@ -75,12 +75,13 @@ public class EventController {
         if (user == null) {
             throw new ForbiddenException("The user is forbidden to update the event");
         }
+        event.setHashId(stored.getHashId());
+        event.setOwnerId(stored.getOwnerId().toString());
+        event.setWeekId(stored.getWeekId().toString());
         ValidationUtils.invokeValidator(validator, event, bindingResult);
         if (bindingResult.hasErrors()) {
             throw new RepositoryConstraintViolationException(bindingResult);
         }
-        event.setOwnerId(stored.getOwnerId().toString());
-        event.setWeekId(stored.getWeekId().toString());
         return resourceAssembler.toResource(eventRepository.save(event));
     }
 

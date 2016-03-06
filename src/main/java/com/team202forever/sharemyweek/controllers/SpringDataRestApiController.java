@@ -11,8 +11,6 @@ import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.ExposesResourceFor;
-import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -22,9 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ForbiddenException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -113,7 +109,7 @@ public class SpringDataRestApiController {
     @ResponseBody
     @RequestMapping(value = "/weeks/{id}/events", method = RequestMethod.GET)
     public Resources<PersistentEntityResource> getEvents(@PathVariable("id") String id, PersistentEntityResourceAssembler resourceAssembler) {
-        return new Resources<>(eventRepository.findByWeekIdOrderByDateTimeRangeStartAsc(new HashId(id).toObjectId()).stream().map(resourceAssembler::toResource).collect(Collectors.toList()));
+        return new Resources<>(eventRepository.findByWeekIdOrderByDateTimeRangeStartAscPriorityDesc(new HashId(id).toObjectId()).stream().map(resourceAssembler::toResource).collect(Collectors.toList()));
     }
 
     @ResponseBody

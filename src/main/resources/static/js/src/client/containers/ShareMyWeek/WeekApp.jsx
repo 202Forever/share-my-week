@@ -4,7 +4,7 @@ import { Grid, Row, Col, Pager, PageItem, PageHeader } from 'react-bootstrap';
 import EventModal from './EventModal.jsx';
 import UserSettingsModal from '../../components/ShareMyWeek/UserSettingsModal.jsx';
 import WeekTable from '../../components/ShareMyWeek/WeekTable.jsx';
-import { saveWeek, addEvent, getWeekById, getWeekEvents, getUserById } from '../../actions/serverActions';
+import { saveWeek, addEvent, saveEvent, deleteEvent, getWeekById, getWeekEvents, getUserById } from '../../actions/serverActions';
 import { goPrevious, goNext } from '../../actions/weekAppActions';
 import moment from 'moment';
 
@@ -19,12 +19,14 @@ class WeekApp extends Component {
                 start: moment(),
                 end: moment()
             }
-        }
+        };
         this.onPrevious = this.onPrevious.bind(this);
         this.onNext = this.onNext.bind(this);
         this.onUpdateUser = this.onUpdateUser.bind(this);
+        this.onEventSave = this.onEventSave.bind(this);
         this.onAddEvent = this.onAddEvent.bind(this);
         this.onCellSelect = this.onCellSelect.bind(this);
+        this.onEventSelect = this.onEventSelect.bind(this);
         this.onModalHide = this.onModalHide.bind(this);
     }
 
@@ -115,6 +117,19 @@ class WeekApp extends Component {
         dispatch(action);
     }
 
+    onEventSave(event) {
+        const {dispatch, location} = this.props;
+        this.setState({savingEvent: true});
+        const action = saveEvent(Object.assign({}, this.state.selectedEvent, event), location.query.userId);
+        action.payload.then(() => {
+            this.setState({
+                savingEvent: false,
+                showEventModal: false
+            });
+        });
+        dispatch(action);
+    }
+
     onCellSelect(start, end) {
         this.setState({
             showEventModal: true,
@@ -125,8 +140,22 @@ class WeekApp extends Component {
         });
     }
 
+    onEventSelect(event) {
+        this.setState({
+            showEventModal: true,
+            selectedEvent: event,
+            selectedDateRange: {
+                start: moment(event.dateTimeRange.start),
+                end: moment(event.dateTimeRange.end)
+            }
+        })
+    }
+
     onModalHide() {
-        this.setState({showEventModal: false});
+        this.setState({
+            showEventModal: false,
+            selectedEvent: null
+        });
     }
 
     render() {
@@ -139,7 +168,8 @@ class WeekApp extends Component {
         return (
             <div>
                 <UserSettingsModal user={weekUser} colors={this.getAvailableColors()} onUserUpdate={this.onUpdateUser} />
-                <EventModal show={this.state.showEventModal} onModalHide={this.onModalHide} onConfirm={this.onAddEvent} saving={this.state.savingEvent}
+                <EventModal show={this.state.showEventModal} onModalHide={this.onModalHide} onConfirm={this.onAddEvent} onSave={this.onEventSave}
+                            saving={this.state.savingEvent} selectedEvent={this.state.selectedEvent}
                             start={this.state.selectedDateRange.start.toDate()} end={this.state.selectedDateRange.end.toDate()} />
                 <Grid
                       {...this.props}
@@ -179,6 +209,7 @@ class WeekApp extends Component {
                                        condensed={ false }
                                        hover={ true }
                                        onCellSelect={this.onCellSelect}
+                                       onEventSelect={this.onEventSelect}
                                        selectColor={weekUser ? weekUser.color: null}
                                        focused={this.state.showEventModal}
                                        className="week-table" />

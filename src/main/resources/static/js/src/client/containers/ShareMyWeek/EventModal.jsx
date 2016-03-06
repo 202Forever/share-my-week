@@ -113,10 +113,12 @@ class EventModal extends Component {
         this.onTypeSelect = this.onTypeSelect.bind(this);
         this.onSearch = this.onSearch.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
+        this.onSave = this.onSave.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        const {show, query, fetching, events} = nextProps;
+        const {show, query, fetching, events, selectedEvent} = nextProps;
+        let nextState = {};
         if (fetching.status !== 'loading') {
             let {start, end} = nextProps;
             const newSearch = moment(query.start).day() !== moment(start).day() || moment(query.end).day() !== moment(end).day();
@@ -128,19 +130,29 @@ class EventModal extends Component {
                     end = this.state.end;
                 }
             }
-            this.setState({
+            nextState = Object.assign({}, nextState, {
                 newSearch,
                 visible: show,
                 start,
                 end
             });
         }
+        if (selectedEvent) {
+            nextState = Object.assign({}, nextState, {
+                title: selectedEvent.title,
+                description: selectedEvent.description,
+                priority: selectedEvent.priority,
+                start: new Date(selectedEvent.dateTimeRange.start),
+                end: new Date(selectedEvent.dateTimeRange.end)
+            });
+        }
+        this.setState(nextState);
     }
 
     onModalHide() {
         const {onModalHide, saving} = this.props;
         if (!saving) {
-            this.setState({visible: false});
+            this.setState(EventModal.defaultProps);
             onModalHide();
         }
     }
@@ -177,9 +189,18 @@ class EventModal extends Component {
         }));
     }
 
+    onSave() {
+        const {onSave} = this.props;
+        onSave(this.getEventData());
+    }
+
     onConfirm() {
         const {onConfirm} = this.props;
-        onConfirm({
+        onConfirm(this.getEventData());
+    }
+
+    getEventData() {
+        return {
             title: this.state.title,
             description: this.state.description,
             priority: this.state.priority,
@@ -187,11 +208,11 @@ class EventModal extends Component {
                 start: this.state.start.toISOString(),
                 end: this.state.end.toISOString()
             }
-        });
+        };
     }
 
     render() {
-        const {saving} = this.props;
+        const {saving, selectedEvent} = this.props;
         return (
             <Modal dialogClassName="event-dialog" bsSize="lg" show={this.state.visible}>
                 <Modal.Header closeButton={true} onHide={this.onModalHide} />
@@ -211,7 +232,7 @@ class EventModal extends Component {
                         <row>&nbsp;</row>
                         <row>
                             <Col md={6} sm={6} xs={9}>
-                                <Input type="text" label="What" onChange={this.onTitleChange} />
+                                <Input type="text" label="What" value={this.state.title} onChange={this.onTitleChange} />
                             </Col>
                             <Col md={6} sm={6} xs={9}>
                                 <Input label="Type">
@@ -228,15 +249,26 @@ class EventModal extends Component {
                         </row>
                         <row>
                             <Col md={12} sm={12} xs={12}>
-                                <Input type="textarea" label="Description" rows="3" onChange={this.onDescriptionChange} />
+                                <Input type="textarea" label="Description" rows="3" value={this.state.description} onChange={this.onDescriptionChange} />
                             </Col>
                         </row>
                     </Grid>
                     {this.state.priority != 1 ? <span /> : <EventSearch newSearch={this.state.newSearch} {...this.props} onSearch={this.onSearch} />}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.onConfirm} disabled={saving}>
-                            <span>{saving ? 'Wait...' : 'Confirm'}&nbsp;</span><i className={saving ? "fa fa-cog fa-spin fa-lg" : "fa fa-check"} />
+                    <Button onClick={selectedEvent ? this.onSave : this.onConfirm} disabled={!this.state.title || saving}>
+                            <span>
+                                {(() => {
+                                    if (saving) {
+                                        return 'Wait... ';
+                                    }
+                                    if (selectedEvent) {
+                                        return 'Save ';
+                                    }
+                                    return 'Confirm '
+                                })()}
+                            </span>
+                            <i className={saving ? "fa fa-cog fa-spin fa-lg" : (this.state.title ? "fa fa-check": "")} />
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -246,7 +278,11 @@ class EventModal extends Component {
 
 EventModal.defaultProps = {
     saving: false,
+    visible: false,
     events: [],
+    title: '',
+    description: '',
+    priority: 0,
     start: moment().hour(0).minute(0).second(0).millisecond(0).toDate(),
     end: moment().hour(0).minute(30).second(0).millisecond(0).toDate()
 };

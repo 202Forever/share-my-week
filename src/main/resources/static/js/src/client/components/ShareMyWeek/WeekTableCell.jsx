@@ -1,5 +1,27 @@
 import React, { Component } from 'react';
 
+function getOwnerColor(colorMap, owner) {
+    return Object.keys(colorMap).find((color) => {
+        const user = colorMap[color];
+        if (user) {
+            return user.userInfo.email === owner.email;
+        }
+        return false;
+    });
+}
+
+class Event extends Component {
+
+    render () {
+        const {style, event, onClick} = this.props;
+        return (<div className="tag" style={style} onClick={() => onClick(event)}>{event.title}</div>);
+    }
+}
+
+Event.defaultProps = {
+    style: {}
+};
+
 class WeekTableCell extends Component {
 
     constructor(props, content) {
@@ -29,12 +51,26 @@ class WeekTableCell extends Component {
     }
 
     render() {
+        const {events, colorMap, onEventSelect} = this.props;
+        const tags = events.map((event, index) => {
+            return (<Event key={index} event={event} onClick={onEventSelect} style={{
+                width: (100 / events.length) + '%',
+                height: (new Date(event.dateTimeRange.end) - new Date(event.dateTimeRange.start)) / 1800000 * 100 + '%',
+                left: 100 - (100 / (index + 1)) + '%',
+                backgroundColor: getOwnerColor(colorMap, event.owner)
+            }} />);
+        });
         return (
-            <td onClick={this.onCellSelect}>
-                <div className={this.state.selected ? 'selected' : ''} style={this.getStyle()}></div>
+            <td>
+                <div onClick={this.onCellSelect} className={this.state.selected ? 'selected' : ''} style={this.getStyle()} />
+                {tags}
             </td>
         );
     }
 }
+
+WeekTableCell.defaultProps = {
+    events: []
+};
 
 export default WeekTableCell;

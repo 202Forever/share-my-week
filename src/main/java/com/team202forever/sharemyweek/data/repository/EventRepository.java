@@ -18,7 +18,7 @@ public interface EventRepository extends MongoRepository<Event, HashId> {
     List<Event> findAll();
 
     @RestResource(exported = false)
-    List<Event> findByWeekIdOrderByDateTimeRangeStartAsc(ObjectId weekId);
+    List<Event> findByWeekIdOrderByDateTimeRangeStartAscPriorityDesc(ObjectId weekId);
 
     @Override
     @RestResource(exported = false)

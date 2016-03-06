@@ -69,6 +69,17 @@
                     position: absolute;
                     top: 0;
                     left: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    padding: 4px;
+
+                    &.tag {
+                        color: white;
+                        border: 1px solid black;
+                        background-color: darken(@week-table-bg-color, 25.0%);
+                        z-index: 1;
+                    }
 
                     &.selected {
                         background-color: darken(@week-table-bg-color, 15.0%);
