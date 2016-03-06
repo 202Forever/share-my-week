@@ -325,11 +325,12 @@ export default handleActions({
             return state;
         },
         next(state, action) {
+            const events = state.weekData.eventsData.entities._embedded ? state.weekData.eventsData.entities._embedded.events : [];
             const weekData = Object.assign({}, state.weekData, {
                 eventsData : Object.assign({}, state.weekData.eventsData, {
                     entities : {
                         _embedded: {
-                            events: [...(state.weekData.eventsData.entities._embedded.events || []), action.payload]
+                            events: [...events, action.payload]
                         }
                     },
                     fetching: {

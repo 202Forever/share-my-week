@@ -102,13 +102,15 @@ class EventModal extends Component {
         this.state = {
             visible: false,
             start: props.start,
-            end: props.end
+            end: props.end,
+            priority: 0
         };
         this.onModalHide = this.onModalHide.bind(this);
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onDescriptionChange = this.onDescriptionChange.bind(this);
         this.onStartTimeChange = this.onStartTimeChange.bind(this);
         this.onEndTimeChange = this.onEndTimeChange.bind(this);
+        this.onTypeSelect = this.onTypeSelect.bind(this);
         this.onSearch = this.onSearch.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
     }
@@ -159,6 +161,10 @@ class EventModal extends Component {
         this.setState({end});
     }
 
+    onTypeSelect(e) {
+        this.setState({priority: e.target.value});
+    }
+
     onSearch(location, keywords) {
         const {dispatch} = this.props;
         const locations = location ? location.split(',') : [];
@@ -176,6 +182,7 @@ class EventModal extends Component {
         onConfirm({
             title: this.state.title,
             description: this.state.description,
+            priority: this.state.priority,
             dateTimeRange: {
                 start: this.state.start.toISOString(),
                 end: this.state.end.toISOString()
@@ -201,11 +208,23 @@ class EventModal extends Component {
                                 <TimeSelect label="End time" value={this.state.end} end={2359} locale="en-US" onChange={this.onEndTimeChange} />
                             </Col>
                         </row>
+                        <row>&nbsp;</row>
                         <row>
-                            <Col md={6} mdPull={6} sm={6} smPull={6} xs={9}>
+                            <Col md={6} sm={6} xs={9}>
                                 <Input type="text" label="What" onChange={this.onTitleChange} />
                             </Col>
-                            <Col md={6} sm={6} xs={3}><span/></Col>
+                            <Col md={6} sm={6} xs={9}>
+                                <Input label="Type">
+                                    <div>
+                                        <label className="radio-inline">
+                                            <input type="radio" checked={this.state.priority != 1} onChange={this.onTypeSelect} value={0} />Availability
+                                        </label>
+                                        <label className="radio-inline">
+                                            <input type="radio" checked={this.state.priority == 1} onChange={this.onTypeSelect} value={1} />Event
+                                        </label>
+                                    </div>
+                                </Input>
+                            </Col>
                         </row>
                         <row>
                             <Col md={12} sm={12} xs={12}>
@@ -213,7 +232,7 @@ class EventModal extends Component {
                             </Col>
                         </row>
                     </Grid>
-                    <EventSearch newSearch={this.state.newSearch} {...this.props} onSearch={this.onSearch} />
+                    {this.state.priority != 1 ? <span /> : <EventSearch newSearch={this.state.newSearch} {...this.props} onSearch={this.onSearch} />}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.onConfirm} disabled={saving}>
