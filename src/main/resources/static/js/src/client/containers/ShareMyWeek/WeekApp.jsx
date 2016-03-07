@@ -36,6 +36,7 @@ class WeekApp extends Component {
         const action = getWeekById(params.id);
         action.payload.then((week) => {
             dispatch(getWeekEvents(week));
+            stompClient('weeks', [{route: '/topic/refreshWeeks', callback: () => dispatch(getWeekById(params.id))}]);
             stompClient('events', [{route: '/topic/refreshEvents', callback: () => dispatch(getWeekEvents(week))}]);
         });
         dispatch(action);
@@ -94,10 +95,13 @@ class WeekApp extends Component {
     }
 
     onUpdateUser(settings) {
-        const { dispatch, weekData, location} = this.props;
+        const { dispatch, weekData, userData, location} = this.props;
         const entity = Object.assign({}, weekData.entity, {
             users: weekData.entity.users.map(function (user) {
-                return Object.assign({}, user, settings);
+                if (user.userInfo.email === userData.entity.email) {
+                    return Object.assign({}, user, settings);
+                }
+                return user;
             })
         });
         if (location.query && location.query.userId) {

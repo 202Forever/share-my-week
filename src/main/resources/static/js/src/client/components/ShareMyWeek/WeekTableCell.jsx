@@ -54,10 +54,12 @@ class WeekTableCell extends Component {
         const {events, colorMap, onEventSelect} = this.props;
         const tags = events.map((event, index) => {
             return (<Event key={index} event={event} onClick={onEventSelect} style={{
-                width: (100 / events.length) + '%',
+                width: event.priority === 1 ? '100%' : ((100 / events.length) + '%'),
                 height: (new Date(event.dateTimeRange.end) - new Date(event.dateTimeRange.start)) / 1800000 * 100 + '%',
                 left: 100 - (100 / (index + 1)) + '%',
-                backgroundColor: getOwnerColor(colorMap, event.owner)
+                color: event.priority === 1 ? 'black' : null,
+                backgroundColor: event.priority === 1 ? 'white' : getOwnerColor(colorMap, event.owner),
+                zIndex: event.priority === 1 ? 2 : 1
             }} />);
         });
         return (

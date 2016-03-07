@@ -191,6 +191,24 @@
             "className": ""
           },
           "children": []
+        },
+        {
+          "type": "ShareComponents",
+          "props": {}
+        },
+        {
+          "variantName": "2 colums",
+          "type": "Grid",
+          "props": {
+            "fluid": true
+          },
+          "children": [
+            {
+              "type": "Row",
+              "children": [],
+              "props": {}
+            }
+          ]
         }
       ],
       "props": {},

@@ -128,4 +128,60 @@ public class EmailNotificationManager {
         }
     }
 
+    public void sendInvite(Week week) throws EmailNotificationException, MessagingException, NoSuchMethodException, SecurityException {
+        Collection<WeekUser> providedUsers = week.getUsers();
+        Set<User> failedUsers = new LinkedHashSet<>();
+        for (WeekUser weekUser : providedUsers) {
+            User user = weekUser.getUserInfo();
+            if (user.getWeekIds().contains(week.getHashId().toObjectId())) {
+                continue;
+            }
+            MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "utf-8");
+            try {
+                message.setFrom("noreply@sharemyweek.com");
+            } catch (MessagingException e) {
+                logger.error("Unexpected error on setting message sender email");
+                throw e;
+            }
+            try {
+                message.setTo(user.getEmail());
+            } catch (MessagingException e) {
+                logger.error("Failed to set the message recipient {}", user.getEmail());
+                throw e;
+            }
+            try {
+                message.setSubject("ShareMyWeek: Some shared you their week!");
+            } catch (MessagingException e) {
+                logger.error("Unexpected error on setting email subject");
+                throw e;
+            }
+            Context ctx = new Context();
+            ctx.setVariable("publicLink", weekProcessor.linkToWeek(week, "page").getHref());
+            Link link = weekProcessor.linkToWeek(week, user, "page");
+            if (providedUsers.size() == 1) {
+                week.getLinks().add(link);
+            }
+            ctx.setVariable("privateLink", link.getHref());
+            String html = templateEngine.process("mail/shared-week", ctx);
+            try {
+                message.setText(html, true);
+            } catch (MessagingException e) {
+                logger.error("Unexpected error on setting email body");
+                throw e;
+            }
+            try {
+                this.mailSender.send(mimeMessage);
+                user.getWeekIds().add(week.getHashId().toObjectId());
+                userRepository.save(user);
+            } catch (MailSendException e) {
+                logger.error(e.getMessage(), e);
+                failedUsers.add(user);
+            }
+        }
+        if (failedUsers.size() == providedUsers.size()) {
+            throw new EmailNotificationException("Failed to send email to provided email addresses");
+        }
+    }
+
 }

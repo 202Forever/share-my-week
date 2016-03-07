@@ -27,6 +27,7 @@
     "react": "^0.14.6",
     "react-addons-update": "^0.14.6",
     "react-bootstrap": "^0.28.2",
+    "react-clipboard.js": "^0.1.7",
     "react-dom": "^0.14.6",
     "react-formal": "^0.15.2",
     "react-intl": "^2.0.0-pr-3",
