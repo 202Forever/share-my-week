@@ -3,10 +3,6 @@
   "plugins": [
         "transform-runtime",
         "transform-export-extensions",
-        "add-module-exports",
-        ["react-intl", {
-            "messagesDir": "./built/client/messages/",
-            "enforceDescriptions": true
-        }]
+        "add-module-exports"
     ]
 }

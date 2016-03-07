@@ -110,7 +110,6 @@ Then refresh the js/ directory to ensure it is reloaded by the Spring instance.
 
 > This build command can stop compiling issues it finds.
 
-
 #### Running the application
 
 The preferred way is setting up an launch configuration in the IDE, so you can enable debug mode. 
@@ -120,7 +119,13 @@ The preferred way is setting up an launch configuration in the IDE, so you can e
 
 #### Debugging
 
-Soon.
+You can debug JavaScript from Chrome dev tools. Run the dev watcher:
+
+```sh
+npm run build-client-dev
+```
+
+> With the command above you don't need to ```npm run build-client``` each time you make a change. The dev watcher will look for any changes you made in JavaScript and LESS files. It will recompile those sources. Make sure to refresh your Eclipse workspace so the Spring application can reload the resources.
 
 #### Testing Email
 

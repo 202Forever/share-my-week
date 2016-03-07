@@ -27,7 +27,7 @@ class WeekTableRow extends Component {
                     <td>
                         {label ?
                             label
-                            : <span><FormattedTime value={start} {...format} /></span>
+                            : <span><FormattedTime value={start} {...format} hour="numeric" /></span>
                         }
                     </td>
                     {rowCells}

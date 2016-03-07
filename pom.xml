@@ -130,6 +130,7 @@
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
+                        <phase>process-resources</phase>
                         <configuration>
                             <nodeVersion>v5.4.1</nodeVersion>
                             <npmVersion>3.5.3</npmVersion>
@@ -140,6 +141,7 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
+                        <phase>process-resources</phase>
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
@@ -149,7 +151,7 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <phase>generate-resources</phase>
+                        <phase>process-resources</phase>
                         <configuration>
                             <arguments>run --production build-client-maven</arguments>
                         </configuration>

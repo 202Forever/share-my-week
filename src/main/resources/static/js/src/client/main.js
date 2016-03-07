@@ -26,11 +26,24 @@ const store = storeManager();
 const history = syncHistoryWithStore(browserHistory, store)
 const routes = getRoutes(history);
 
-ReactDOM.render(
-    <IntlProvider locale="en-US">
-        <Provider store={store}>
-            {routes}
-        </Provider>
-    </IntlProvider>,
-    document.getElementById('content')
-);
+
+function app() {
+    ReactDOM.render(
+        <IntlProvider locale="en-US">
+            <Provider store={store}>
+                {routes}
+            </Provider>
+        </IntlProvider>,
+        document.getElementById('content')
+    );
+}
+
+if (!global.Intl) {
+    require.ensure(['intl', 'intl/locale-data/jsonp/en.js'], function (require) {
+        require('intl');
+        require('intl/locale-data/jsonp/en.js');
+        app();
+    });
+} else {
+    app();
+}

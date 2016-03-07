@@ -9,7 +9,8 @@ module.exports = [
         },
         output: {
             path: './built/client',
-            filename: 'bundle.js'
+            filename: 'bundle.js',
+            publicPath: '/js/built/client/'
         },
         module: {
             loaders: [
