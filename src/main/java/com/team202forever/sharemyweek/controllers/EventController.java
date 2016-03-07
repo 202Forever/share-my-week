@@ -60,18 +60,6 @@ public class EventController {
     private SmartValidator validator;
 
     @ResponseBody
-    @RequestMapping(value = "/id", method = RequestMethod.POST)
-    public PersistentEntityResource addEvent(@RequestBody Event event, BindingResult bindingResult, PersistentEntityResourceAssembler resourceAssembler) {
-        ValidationUtils.invokeValidator(validator, event, bindingResult);
-        if (bindingResult.hasErrors()) {
-            throw new RepositoryConstraintViolationException(bindingResult);
-        }
-        event = eventRepository.insert(event);
-        sendEvents();
-        return resourceAssembler.toResource(event);
-    }
-
-    @ResponseBody
     @RequestMapping(value = {"/{id}", "/{id}?userId={userId}"}, method = RequestMethod.PUT)
     public PersistentEntityResource saveEvent(@PathVariable("id") String id, @RequestParam(value = "userId", required = true) String userId, @RequestBody Event event, BindingResult bindingResult, PersistentEntityResourceAssembler resourceAssembler) {
         if (userId == null) {
