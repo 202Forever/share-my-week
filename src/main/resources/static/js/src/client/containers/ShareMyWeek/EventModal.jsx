@@ -137,7 +137,7 @@ class EventModal extends Component {
                 end
             });
         }
-        if (selectedEvent) {
+        if (selectedEvent && show != this.state.visible) {
             nextState = Object.assign({}, nextState, {
                 title: selectedEvent.title,
                 description: selectedEvent.description,

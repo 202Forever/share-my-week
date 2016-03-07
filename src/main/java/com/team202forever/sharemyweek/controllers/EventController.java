@@ -16,6 +16,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
@@ -53,11 +54,26 @@ public class EventController {
     private EventRepository eventRepository;
 
     @Autowired
+    private SimpMessagingTemplate template;
+
+    @Autowired
     private SmartValidator validator;
 
     @ResponseBody
+    @RequestMapping(value = "/id", method = RequestMethod.POST)
+    public PersistentEntityResource addEvent(@RequestBody Event event, BindingResult bindingResult, PersistentEntityResourceAssembler resourceAssembler) {
+        ValidationUtils.invokeValidator(validator, event, bindingResult);
+        if (bindingResult.hasErrors()) {
+            throw new RepositoryConstraintViolationException(bindingResult);
+        }
+        event = eventRepository.insert(event);
+        sendEvents();
+        return resourceAssembler.toResource(event);
+    }
+
+    @ResponseBody
     @RequestMapping(value = {"/{id}", "/{id}?userId={userId}"}, method = RequestMethod.PUT)
-    public PersistentEntityResource saveEvent(@PathVariable(value = "id") String id, @RequestParam(value = "userId", required = true) String userId, @RequestBody Event event, BindingResult bindingResult, PersistentEntityResourceAssembler resourceAssembler) {
+    public PersistentEntityResource saveEvent(@PathVariable("id") String id, @RequestParam(value = "userId", required = true) String userId, @RequestBody Event event, BindingResult bindingResult, PersistentEntityResourceAssembler resourceAssembler) {
         if (userId == null) {
             throw new BadRequestException("A user id must be specified to update the event");
         }
@@ -82,12 +98,14 @@ public class EventController {
         if (bindingResult.hasErrors()) {
             throw new RepositoryConstraintViolationException(bindingResult);
         }
-        return resourceAssembler.toResource(eventRepository.save(event));
+        event = eventRepository.save(event);
+        sendEvents();
+        return resourceAssembler.toResource(event);
     }
 
     @RequestMapping(value = {"/{id}", "/{id}?userId={userId}"}, method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteEvent(@PathVariable(value = "id") String id, @RequestParam(value = "userId", required = true) String userId) {
+    public void deleteEvent(@PathVariable( "id") String id, @RequestParam(value = "userId", required = true) String userId, PersistentEntityResourceAssembler resourceAssembler) {
         if (userId == null) {
             throw new BadRequestException("A user id must be specified to update the event");
         }
@@ -106,6 +124,7 @@ public class EventController {
             throw new ForbiddenException("The user is forbidden to update the event");
         }
         eventRepository.delete(stored.getHashId());
+        sendEvents();
     }
 
     /**
@@ -191,4 +210,7 @@ public class EventController {
         return ResponseEntity.ok(new PagedResources<>(events, new PagedResources.PageMetadata(pageSize, pageNumber, total, pageCount)));
     }
 
+    private void sendEvents() {
+        template.convertAndSend("/topic/refreshEvents", "");
+    }
 }

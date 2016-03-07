@@ -1,6 +1,7 @@
 package com.team202forever.sharemyweek.data.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import java.util.List;
 public abstract class ViewModel extends ResourceSupport {
 
     @Id
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected HashId hashId = new HashId();
 
     @Override

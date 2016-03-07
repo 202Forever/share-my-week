@@ -1,5 +1,6 @@
 import { apiPath } from './serverApi';
 import urlTemplate from 'url-template';
+import SockJS from 'sockjs-client';
 
 export class Client {
 
@@ -44,6 +45,16 @@ export class Client {
         .then(response => response.json())
         .catch(error => error.response.json().then(json => Promise.reject({_error: json.message})));
     }
+}
+
+export function stompClient(rel, registrations) {
+    var socket = SockJS('/socket/' + rel);
+    var stompClient = Stomp.over(socket);
+    stompClient.connect({}, () => {
+        registrations.forEach((registration) => {
+            stompClient.subscribe(registration.route, registration.callback);
+        });
+    });
 }
 
 class ApiClient {

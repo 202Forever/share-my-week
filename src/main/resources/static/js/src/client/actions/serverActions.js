@@ -189,13 +189,13 @@ export default handleActions({
     [GET_WEEK_EVENTS] : {
         start(state, action) {
             const weekData = Object.assign({}, state.weekData, {
-                eventsData : {
+                eventsData : Object.assign({}, state.weekData.eventsData, {
                     fetching: {
                         status: 'loading',
                         errorText: '',
                         error: false
                     }
-                }
+                })
             });
             state = Object.assign({}, state, {weekData});
             return state;
@@ -225,13 +225,13 @@ export default handleActions({
         },
         throw(state, action) {
             const weekData = Object.assign({}, state.weekData, {
-                eventsData: {
+                eventsData: Object.assign({}, state.weekData.eventsData, {
                     fetching: {
                         status: 'done',
                         errorText: action.payload.message ? action.payload.message : 'Error: no message',
                         error: true
                     }
-                }
+                })
             });
             state = Object.assign({}, state, {weekData});
             return state;

@@ -6,6 +6,7 @@ import UserSettingsModal from '../../components/ShareMyWeek/UserSettingsModal.js
 import WeekTable from '../../components/ShareMyWeek/WeekTable.jsx';
 import { saveWeek, addEvent, saveEvent, deleteEvent, getWeekById, getWeekEvents, getUserById } from '../../actions/serverActions';
 import { goPrevious, goNext } from '../../actions/weekAppActions';
+import { stompClient } from '../../api/clientApi';
 import moment from 'moment';
 
 class WeekApp extends Component {
@@ -33,7 +34,10 @@ class WeekApp extends Component {
     componentDidMount() {
         const {params, dispatch, location} = this.props;
         const action = getWeekById(params.id);
-        action.payload.then((week) => dispatch(getWeekEvents(week)));
+        action.payload.then((week) => {
+            dispatch(getWeekEvents(week));
+            stompClient('events', [{route: '/topic/refreshEvents', callback: () => dispatch(getWeekEvents(week))}]);
+        });
         dispatch(action);
         if (location.query && location.query.userId) {
             dispatch(getUserById(location.query.userId));

@@ -5,6 +5,7 @@ import './assets/css/font-awesome.css';
 import './assets/css/app.css';
 import '../../../less/app.less';
 import './assets/js/bootstrap.js';
+import 'stompjs/lib/stomp';
 
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
