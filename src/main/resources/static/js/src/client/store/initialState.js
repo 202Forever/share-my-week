@@ -75,7 +75,7 @@ export default {
     form: {
         createWeekForm: {
             email: null,
-            placeholder: "Enter your email"
+            placeholder: "Enter your email address"
         }
     }
 };

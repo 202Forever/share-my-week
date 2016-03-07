@@ -1,8 +1,9 @@
 import { routeActions } from 'react-router-redux'
 import urlTemplate from 'url-template';
+import { push } from 'react-router-redux';
 
 export function dispatchRoute(dispatch, entity) {
-    dispatch(routeActions.push(getEntityPath(entity, 'page')));
+    dispatch(push(getEntityPath(entity, 'page')));
 }
 
 export function getEntityPath(entity, rel) {

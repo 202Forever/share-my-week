@@ -28,7 +28,7 @@ class NavBar extends Component {
                     <Navbar.Collapse>
                         <Nav pullRight={ true }>
                             <NavItem
-                                     href="#"
+                                     href="/"
                                      active={ true }>
                                 <span>Home</span>
                             </NavItem>

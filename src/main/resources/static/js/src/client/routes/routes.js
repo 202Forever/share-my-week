@@ -7,7 +7,7 @@ import Week from './Week.js';
 
 export default function(history) {
     return (
-        <Router history={history}>
+        <Router history={ history }>
             <Route path="/" component="div">
                 <IndexRoute component={ App } />
                 <Route path="/" component={ App } />

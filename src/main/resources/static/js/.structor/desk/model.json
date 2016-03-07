@@ -5,223 +5,168 @@
       "pagePath": "/",
       "children": [
         {
-          "variantName": "default",
-          "type": "NavBar",
-          "props": {
-            "staticTop": true,
-            "data-umyid": "2"
-          },
-          "children": []
-        },
-        {
           "variantName": "Unsaved variant",
           "type": "div",
           "props": {
-            "className": "section ",
-            "data-umyid": "3"
+            "className": "cover"
           },
           "children": [
             {
               "variantName": "Unsaved variant",
               "type": "div",
               "props": {
-                "className": "container",
-                "data-umyid": "4"
+                "className": "navbar"
               },
               "children": [
                 {
-                  "variantName": "Unsaved variant",
-                  "type": "div",
-                  "props": {
-                    "className": "row",
-                    "data-umyid": "5"
-                  },
+                  "variantName": "2 colums",
+                  "type": "Grid",
+                  "props": {},
                   "children": [
                     {
                       "variantName": "Unsaved variant",
                       "type": "div",
                       "props": {
-                        "className": "col-md-12 text-center",
-                        "data-umyid": "6"
-                      },
-                      "children": [
-                        {
-                          "variantName": "Unsaved variant",
-                          "type": "h1",
-                          "props": {
-                            "data-umyid": "7"
-                          },
-                          "children": [
-                            {
-                              "variantName": "Unsaved variant",
-                              "type": "small",
-                              "props": {
-                                "data-umyid": "8"
-                              },
-                              "text": "Start planning your week with others."
-                            }
-                          ]
-                        },
-                        {
-                          "variantName": "Unsaved variant",
-                          "type": "h1",
-                          "props": {
-                            "className": "text-center text-primary",
-                            "data-umyid": "9"
-                          },
-                          "children": [
-                            {
-                              "type": "span",
-                              "text": "ShareMyWeek",
-                              "props": {
-                                "data-umyid": "10"
-                              }
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "variantName": "Unsaved variant",
-          "type": "div",
-          "props": {
-            "className": "section",
-            "data-umyid": "11"
-          },
-          "children": [
-            {
-              "variantName": "Unsaved variant",
-              "type": "div",
-              "props": {
-                "className": "container",
-                "data-umyid": "12"
-              },
-              "children": [
-                {
-                  "variantName": "Unsaved variant",
-                  "type": "div",
-                  "props": {
-                    "className": "row",
-                    "data-umyid": "13"
-                  },
-                  "children": [
-                    {
-                      "variantName": "Unsaved variant",
-                      "type": "div",
-                      "props": {
-                        "className": "col-md-6",
-                        "data-umyid": "14"
+                        "className": "logo"
                       },
                       "children": [
                         {
                           "variantName": "Unsaved variant",
                           "type": "img",
                           "props": {
-                            "src": "http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png",
-                            "className": "hidden-sm hidden-xs img-responsive",
-                            "data-umyid": "15"
+                            "src": "/images/sharemyweek-logo.png",
+                            "width": 280,
+                            "height": 180,
+                            "className": "center-block"
                           }
-                        }
-                      ]
-                    },
-                    {
-                      "variantName": "Unsaved variant",
-                      "type": "div",
-                      "props": {
-                        "className": "col-md-6",
-                        "data-umyid": "16"
-                      },
-                      "children": [
-                        {
-                          "variantName": "Unsaved variant",
-                          "type": "FeatureList",
-                          "props": {
-                            "className": "media-list",
-                            "data-umyid": "17"
-                          },
-                          "children": []
                         }
                       ]
                     }
                   ]
                 }
               ]
-            }
-          ]
-        },
-        {
-          "variantName": "Unsaved variant",
-          "type": "div",
-          "props": {
-            "className": "section",
-            "data-umyid": "18"
-          },
-          "children": [
+            },
             {
               "variantName": "Unsaved variant",
               "type": "div",
               "props": {
-                "className": "container",
-                "data-umyid": "19"
+                "className": "cover-image",
+                "style": {
+                  "backgroundImage": "url(/images/landing-bg.jpg)"
+                }
               },
               "children": [
                 {
                   "variantName": "Unsaved variant",
-                  "type": "div",
-                  "props": {
-                    "className": "row",
-                    "data-umyid": "20"
-                  },
+                  "type": "span",
+                  "props": {},
+                  "text": " "
+                }
+              ]
+            },
+            {
+              "variantName": "2 colums",
+              "type": "Grid",
+              "props": {},
+              "children": [
+                {
+                  "type": "Row",
                   "children": [
                     {
-                      "variantName": "Unsaved variant",
-                      "type": "div",
+                      "type": "Col",
                       "props": {
-                        "className": "col-md-offset-3 col-md-6",
-                        "data-umyid": "21"
+                        "xs": 12,
+                        "md": 12,
+                        "sm": 12,
+                        "className": "text-center"
                       },
                       "children": [
                         {
                           "variantName": "Unsaved variant",
-                          "type": "h4",
+                          "type": "h2",
                           "props": {
-                            "className": "text-center",
-                            "data-umyid": "22"
+                            "className": "text-inverse"
                           },
                           "children": [
                             {
                               "type": "span",
-                              "text": "Get a Week planner for you and your friends.",
-                              "props": {
-                                "data-umyid": "23"
-                              }
+                              "text": "Share your availability with your friends instantly!",
+                              "props": {}
                             }
                           ]
-                        },
-                        {
-                          "type": "CreateWeekForm",
-                          "props": {
-                            "data-umyid": "24"
-                          }
                         }
                       ]
                     }
-                  ]
+                  ],
+                  "props": {}
+                },
+                {
+                  "type": "Row",
+                  "children": [
+                    {
+                      "variantName": "empty col size 3",
+                      "type": "Col",
+                      "props": {
+                        "xsHidden": true,
+                        "smHidden": true,
+                        "xs": 3,
+                        "md": 3,
+                        "sm": 3,
+                        "lg": 3
+                      },
+                      "children": [
+                        {
+                          "variantName": "Unsaved variant",
+                          "type": "span",
+                          "props": {},
+                          "text": " "
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Col",
+                      "props": {
+                        "xs": 12,
+                        "md": 6,
+                        "sm": 12,
+                        "lg": 6
+                      },
+                      "children": [
+                        {
+                          "type": "CreateWeekForm",
+                          "props": {}
+                        }
+                      ]
+                    },
+                    {
+                      "variantName": "empty col size 3",
+                      "type": "Col",
+                      "props": {
+                        "xsHidden": true,
+                        "smHidden": true,
+                        "xs": 3,
+                        "md": 3,
+                        "sm": 3,
+                        "lg": 3
+                      },
+                      "children": [
+                        {
+                          "variantName": "Unsaved variant",
+                          "type": "span",
+                          "props": {},
+                          "text": " "
+                        }
+                      ]
+                    }
+                  ],
+                  "props": {}
                 }
               ]
             }
           ]
         }
       ],
-      "props": {
-        "data-umyid": "1"
-      },
+      "props": {},
       "pageTitle": "UnnamedPage",
       "pageProps": [],
       "pageScript": ""
@@ -234,8 +179,7 @@
           "variantName": "default",
           "type": "NavBar",
           "props": {
-            "staticTop": true,
-            "data-umyid": "26"
+            "staticTop": true
           },
           "children": []
         },
@@ -244,15 +188,12 @@
           "type": "WeekApp",
           "props": {
             "fluid": true,
-            "className": "",
-            "data-umyid": "27"
+            "className": ""
           },
           "children": []
         }
       ],
-      "props": {
-        "data-umyid": "25"
-      },
+      "props": {},
       "pageTitle": "UnnamedPage1",
       "pageProps": [],
       "pageScript": ""
