@@ -53,6 +53,7 @@ public class SpringDataRestApiController {
     @ResponseBody
     @RequestMapping(value = {"/weeks/{id}", "/weeks/{id}?userId={userId}"}, method = RequestMethod.PUT)
     public PersistentEntityResource saveWeek(@PathVariable("id") String id, @RequestParam(value = "userId", required = true) String userId, @RequestBody Week week, BindingResult bindingResult, PersistentEntityResourceAssembler resourceAssembler) throws NoSuchMethodException, MessagingException {
+        emailNotificationManager.testEmailServer(week);
         if (userId == null) {
             throw new BadRequestException("A user id must be specified to update the week");
         }
