@@ -9,13 +9,14 @@ import moment from 'moment';
 class Events extends Component {
 
     render() {
-        const {events} = this.props;
+        const {onClick, events} = this.props;
         let cols = [];
         for (var i = 0; i < events.length && i < 3; i++) {
             let event = events[i];
             cols.push(
                 <Col key={i} md={4} sm={4} xs={12}>
-                    <Thumbnail src={event.image ? event.image.url : '/images/eventbrite-logo.png'} responsive={true}>
+                    <Thumbnail onClick={() => onClick(event)}
+                        src={event.image ? event.image.url : '/images/eventbrite-logo.png'} responsive={true}>
                         <FormattedDate value={event.dateTimeRange.start} weekday="short" month="short" day="numeric" hour="numeric" minute="2-digit" />
                         - <FormattedDate value={event.dateTimeRange.end} weekday="short" month="short" day="numeric" hour="numeric" minute="2-digit" />
                         <h5 className="title" title={event.title}>{event.title}</h5>
@@ -51,7 +52,7 @@ class SearchStatus extends Component {
 class EventSearch extends Component {
 
     render() {
-        const {events, fetching, newSearch, onSearch} = this.props;
+        const {events, fetching, newSearch, onSearch, onEventSelect} = this.props;
         let status = fetching.status;
         if (fetching.status !== 'loading' && newSearch) {
             status = '';
@@ -90,7 +91,7 @@ class EventSearch extends Component {
                 </Col>
             </row>
             <SearchStatus status={status} />
-            {status !== 'done' ? null : <Events events = {events} />}
+            {status !== 'done' ? null : <Events events = {events} onClick={onEventSelect} />}
         </Grid>);
     }
 }
@@ -112,6 +113,7 @@ class EventModal extends Component {
         this.onEndTimeChange = this.onEndTimeChange.bind(this);
         this.onTypeSelect = this.onTypeSelect.bind(this);
         this.onSearch = this.onSearch.bind(this);
+        this.onEventSelect = this.onEventSelect.bind(this);
         this.onConfirm = this.onConfirm.bind(this);
         this.onSave = this.onSave.bind(this);
     }
@@ -189,6 +191,16 @@ class EventModal extends Component {
         }));
     }
 
+    onEventSelect(event) {
+        this.setState({
+            start: new Date(event.dateTimeRange.start),
+            end: new Date(event.dateTimeRange.end),
+            priority: 1,
+            title: event.title,
+            description: event.description
+        });
+    }
+
     onSave() {
         const {onSave} = this.props;
         onSave(this.getEventData());
@@ -253,7 +265,7 @@ class EventModal extends Component {
                             </Col>
                         </row>
                     </Grid>
-                    {this.state.priority != 1 ? <span /> : <EventSearch newSearch={this.state.newSearch} {...this.props} onSearch={this.onSearch} />}
+                    {this.state.priority != 1 ? <span /> : <EventSearch onEventSelect={this.onEventSelect} newSearch={this.state.newSearch} {...this.props} onSearch={this.onSearch} />}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={selectedEvent ? this.onSave : this.onConfirm} disabled={!this.state.title || saving}>
