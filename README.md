@@ -1,5 +1,3 @@
-# ShareMyWeek
-
 ![alt tag](https://github.com/202Forever/share-my-week/blob/master/src/main/resources/static/images/sharemyweek-logo.png)
 
 An friendly web app for picking events based on everyone's availability and budget
