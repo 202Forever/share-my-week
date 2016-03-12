@@ -124,7 +124,7 @@ class EventModal extends Component {
         if (fetching.status !== 'loading') {
             let {start, end} = nextProps;
             const newSearch = moment(query.start).day() !== moment(start).day() || moment(query.end).day() !== moment(end).day();
-            if (!newSearch && events.length) {
+            if (this.state.visible || !newSearch && events.length) {
                 if (this.props.start.getTime() === nextProps.start.getTime()) {
                     start = this.state.start;
                 }
