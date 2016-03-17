@@ -135,6 +135,7 @@
                         <phase>process-resources</phase>
                         <configuration>
                             <arguments>config set cache ${project.basedir}/.npm</arguments>
+                            <installDirectory>src/main/resources/static/js</installDirectory>
                         </configuration>
                     </execution>
                     <execution>
