@@ -145,6 +145,7 @@
                         <phase>process-resources</phase>
                         <configuration>
                             <arguments>install</arguments>
+                            <installDirectory>src/main/resources/static/js</installDirectory>
                         </configuration>
                     </execution>
                     <execution>
@@ -155,6 +156,7 @@
                         <phase>process-resources</phase>
                         <configuration>
                             <arguments>run --production build-client-maven</arguments>
+                            <installDirectory>src/main/resources/static/js</installDirectory>
                         </configuration>
                     </execution>
                 </executions>
