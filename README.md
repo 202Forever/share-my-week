@@ -8,7 +8,7 @@ Official page: http://www.sharemyweek.com
 
 Trello board: https://trello.com/b/azX77YV0/sharemyweekapp
 
-## Development
+## Development [![Build Status](https://travis-ci.org/202Forever/share-my-week.svg?branch=master)](https://travis-ci.org/202Forever/share-my-week)
 
 Note: Development on this app is inactive. Please send problems and requests to our GitHub issues tracker.
 
