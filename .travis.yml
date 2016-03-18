@@ -1,3 +1,9 @@
 jdk:
   - oraclejdk8
 script: mvn clean package
+deploy:
+  provider: <%= ENV['DEPLOY_PROVIDER'] %>
+  user: <%= ENV['DEPLOY_USER'] %>
+  password: <%= ENV['DEPLOY_PASSWORD'] %>
+  domain: <%= ENV['DEPLOY_DOMAIN'] %>
+  app: <%= ENV['DEPLOY_APP'] %>
