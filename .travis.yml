@@ -1,9 +1,11 @@
 jdk:
   - oraclejdk8
 script: mvn package
+before_deploy: "cp ./target/ShareMyWeek-*.jar ./build/ShareMyWeek.jar"
 deploy:
-  provider: $DEPLOY_PROVIDER
+  provider: $DEPLOY_PROVIDERrelative
   user: $DEPLOY_USER
   password: $DEPLOY_PASSWORD
   domain: $DEPLOY_DOMAIN
   app: $DEPLOY_APP
+  skip_cleanup: true
