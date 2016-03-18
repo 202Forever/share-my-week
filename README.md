@@ -6,6 +6,8 @@ The app is under closed testing. To request sign-up permission, please email us 
 
 Official page: http://www.sharemyweek.com
 
+Public API: http://www.sharemyweek.com/api
+
 Trello board: https://trello.com/b/azX77YV0/sharemyweekapp
 
 ## Development [![Build Status](https://travis-ci.org/202Forever/share-my-week.svg?branch=master)](https://travis-ci.org/202Forever/share-my-week)
