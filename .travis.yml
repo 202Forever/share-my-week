@@ -10,7 +10,7 @@ after_success:
  - "git config user.name $DEPLOY_DOMAIN"
  - "git commit --amend --no-edit"
  - "git checkout master"
- - "git merge deploy"
+ - "git merge -m 'deploy packaged jar' deploy"
 deploy:
   provider: $DEPLOY_PROVIDER
   user: $DEPLOY_USER
