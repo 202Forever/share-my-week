@@ -136,7 +136,7 @@
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
-                        <phase>process-resources</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <nodeVersion>v5.4.1</nodeVersion>
                             <npmVersion>3.5.3</npmVersion>
@@ -147,7 +147,7 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <phase>process-resources</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <arguments>config set cache ${project.basedir}/.npm</arguments>
                             <installDirectory>src/main/resources/static/js</installDirectory>
@@ -158,7 +158,7 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <phase>process-resources</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <arguments>install</arguments>
                             <installDirectory>src/main/resources/static/js</installDirectory>
@@ -169,7 +169,7 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <phase>process-resources</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <arguments>run --production build-client-maven</arguments>
                             <installDirectory>src/main/resources/static/js</installDirectory>
