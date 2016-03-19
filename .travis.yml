@@ -1,7 +1,11 @@
 jdk:
   - oraclejdk8
 script: mvn package
-before_deploy: "cp ./target/ShareMyWeek-*.jar ./build"
+before_deploy:
+ - "mkdir build"
+ - "cp ./target/ShareMyWeek-*.jar ./build/ShareMyWeek.jar"
+ - "git add ."
+ - "git commit --amend --no-edit"
 deploy:
   provider: $DEPLOY_PROVIDER
   user: $DEPLOY_USER
