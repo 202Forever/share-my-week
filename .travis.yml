@@ -6,6 +6,7 @@ before_deploy:
  - "cp ./target/ShareMyWeek-*.jar ./build/ShareMyWeek.jar"
  - "git add ."
  - "git config user.email $DEPLOY_USER"
+ - "git config user.name $DEPLOY_DOMAIN"
  - "git commit --amend --no-edit"
 deploy:
   provider: $DEPLOY_PROVIDER
