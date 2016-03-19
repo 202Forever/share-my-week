@@ -5,7 +5,7 @@ before_deploy:
  - "mkdir build"
  - "cp ./target/ShareMyWeek-*.jar ./build/ShareMyWeek.jar"
  - "git add ."
- - "git --global user.email $DEPLOY_USER"
+ - "git config user.email $DEPLOY_USER"
  - "git commit --amend --no-edit"
 deploy:
   provider: $DEPLOY_PROVIDER
