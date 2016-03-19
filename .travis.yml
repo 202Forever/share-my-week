@@ -9,11 +9,12 @@ after_success:
  - "git config user.email $DEPLOY_USER"
  - "git config user.name $DEPLOY_DOMAIN"
  - "git commit --amend --no-edit"
+ - "git checkout master"
+ - "git merge deploy"
 deploy:
   provider: $DEPLOY_PROVIDER
   user: $DEPLOY_USER
   password: $DEPLOY_PASSWORD
   domain: $DEPLOY_DOMAIN
-  app:
-    deploy: $DEPLOY_APP
+  app: $DEPLOY_APP
   skip_cleanup: true
