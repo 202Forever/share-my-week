@@ -2,11 +2,11 @@
 
 An friendly web app for picking events based on everyone's availability and budget. 
 
-The app is under closed testing. To request sign-up permission, please email us at support@sharemyweek.com. We will reply as soon as we can.
+The app is under testing. Therefore, data will be wiped when our databases reach capacity.
 
-Official page: http://www.sharemyweek.com
+Demo page: http://demo.sharemyweek.com/
 
-Public API: http://www.sharemyweek.com/api
+Public API: http://demo.sharemyweek.com/api
 
 Trello board: https://trello.com/b/azX77YV0/sharemyweekapp
 
