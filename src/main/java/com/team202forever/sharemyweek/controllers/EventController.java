@@ -154,8 +154,8 @@ public class EventController {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("token", eventbriteProperties.getToken());
         params.add("q", keywords);
-        params.add("venue.city", city);
-        params.add("venue.country", country);
+        params.add("location.address", city + ", " + country);
+        params.add("location.within", "5mi");
         params.add("price", budget == null ? null : budget.toString());
         params.add("start_date.range_start", startTime == null ? null : startTime.format(formatter));
         params.add("start_date.range_end", end == null ? null : endTime.format(formatter));
